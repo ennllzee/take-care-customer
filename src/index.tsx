@@ -1,14 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Router } from "react-router-dom";
+import { history } from "./helper/history";
+
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { BatchHttpLink } from "@apollo/client/link/batch-http";
+
+const link = new BatchHttpLink({
+  uri: "http://localhost:4000/graphql",
+  batchMax: 5, // No more than 5 operations per batch
+  batchInterval: 20, // Wait no more than 20ms after first batched operation
+});
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache(),
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </ApolloProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

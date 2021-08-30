@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#C785EB",
     },
     posCustomer: {
-      backgroundColor: "#508F7F",
+      backgroundColor: "#7C5D92",
       top: "auto",
       bottom: 0,
     }

@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
     },
     customer: {
-      backgroundColor: "#508F7F",
+      backgroundColor: "#7C5D92",
     }
   })
 );

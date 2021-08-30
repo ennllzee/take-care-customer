@@ -2,12 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { Grid, IconButton } from "@material-ui/core";
-import {
-  Event,
-  Help,
-  History,
-  Person,
-} from "@material-ui/icons";
+import { Business, Event, Help, History, Person } from "@material-ui/icons";
 import { history } from "../../helper/history";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#7C5D92",
       top: "auto",
       bottom: 0,
-    }
+    },
   })
 );
 
@@ -44,44 +39,44 @@ interface BottomBarProps {
 }
 
 function BottomBar({ page }: BottomBarProps) {
-
   const classes = useStyles();
   const accessToken = localStorage.getItem("accessToken");
 
   return (
     <div className={classes.root}>
-      <AppBar
-        position="fixed"
-        className={classes.posCustomer}
-      >
+      <AppBar position="fixed" className={classes.posCustomer}>
         <Toolbar className={classes.bar}>
           <Grid container direction="row" justify="space-around">
-              <IconButton
-                color="inherit"
-                onClick={() => history.push(`/profile&=${accessToken}`)}
-              >
-                <Person />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                onClick={() => history.push(`/appointment&=${accessToken}`)}
-              >
-                <Event />
-              </IconButton>
-                <IconButton
-                  color="inherit"
-                  onClick={() => history.push(`/history&=${accessToken}`)}
-                >
-                  <History />
-                </IconButton>
-                <IconButton
-                  color="inherit"
-                  onClick={() =>
-                    history.push(`/customer&service&=${accessToken}`)
-                  }
-                >
-                  <Help />
-                </IconButton>
+            <IconButton
+              color="inherit"
+              onClick={() => history.push(`/profile&=${accessToken}`)}
+            >
+              <Person />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              onClick={() => history.push(`/appointment&=${accessToken}`)}
+            >
+              <Event />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              onClick={() => history.push(`/history&=${accessToken}`)}
+            >
+              <History />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              onClick={() => history.push(`/hospital&information&=${accessToken}`)}
+            >
+              <Business />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              onClick={() => history.push(`/customer&service&=${accessToken}`)}
+            >
+              <Help />
+            </IconButton>
           </Grid>
         </Toolbar>
       </AppBar>

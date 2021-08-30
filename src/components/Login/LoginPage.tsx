@@ -17,7 +17,7 @@ import {
     createStyles({
       root: {
         minHeight: "100vh",
-        backgroundColor: "#7DC4B2",
+        backgroundColor: "#C3A3DB",
       },
       paper: {
         background: "white",

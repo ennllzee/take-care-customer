@@ -179,7 +179,7 @@ function AppointmentPage() {
                     // <Alert severity="success" onClose={() => setSuccess(false)}>
                     //   เพิ่มการนัดหมายสำเร็จ
                     // </Alert>
-                    <Alert closeAlert={() => setSuccess(false)} alert={success} title="เพิ่มนัดหมายสำเร็จ" text="กรุณารอการตอบกลับจากไกด์"/>
+                    <Alert closeAlert={() => setSuccess(false)} alert={success} title="เพิ่มนัดหมายสำเร็จ" text="กรุณารอการตอบกลับจากไกด์" buttonText="ปิดหน้าต่าง"/>
                   )}
                 </Grid>
               </Grid>

@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
 
 const useCustomerApi = () => {
-  const getSinglePatient = gql`
-    query Query($getPatientId: ID!) {
-      getPatient(_id: $getPatientId) {
+  const getSingleCustomer = gql`
+    query Query($getCustomerId: ID!) {
+      getCustomer(_id: $getCustomerId) {
         _id
         FirstName
         LastName
@@ -22,9 +22,9 @@ const useCustomerApi = () => {
     }
   `;
 
-  const signInPatient = gql`
-    mutation Mutation($createdPatientInput: PatientSigninInput!) {
-      createdPatient(input: $createdPatientInput) {
+  const signInCustomer = gql`
+    mutation Mutation($createdCustomerInput: CustomerSigninInput!) {
+      createdCustomer(input: $createdCustomerInput) {
         _id
         FirstName
         LastName
@@ -43,12 +43,12 @@ const useCustomerApi = () => {
     }
   `;
 
-  const updatePatient = gql`
+  const updateCustomer = gql`
     mutation Mutation(
-      $updatePatientId: ID!
-      $updatePatientInput: PatienUpdateInput!
+      $updateCustomerId: ID!
+      $updateCustomerInput: PatienUpdateInput!
     ) {
-      updatePatient(_id: $updatePatientId, input: $updatePatientInput) {
+      updateCustomer(_id: $updateCustomerId, input: $updateCustomerInput) {
         _id
         FirstName
         LastName
@@ -67,9 +67,9 @@ const useCustomerApi = () => {
     }
   `;
 
-  const deletePatient = gql`
-    mutation Mutation($deletePatientId: ID!) {
-      deletePatient(_id: $deletePatientId) {
+  const deleteCustomer = gql`
+    mutation Mutation($deleteCustomerId: ID!) {
+      deleteCustomer(_id: $deleteCustomerId) {
         _id
         FirstName
         LastName
@@ -109,11 +109,13 @@ const useCustomerApi = () => {
     }
   `;
 
+  const getCustomerAppointment = gql``;
+
   return {
-    getSinglePatient,
-    signInPatient,
-    updatePatient,
-    deletePatient,
+    getSingleCustomer,
+    signInCustomer,
+    updateCustomer,
+    deleteCustomer,
     loginCustomer,
   };
 };

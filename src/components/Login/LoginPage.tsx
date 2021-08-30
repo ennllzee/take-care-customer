@@ -9,6 +9,9 @@ import {
   import { useEffect, useState } from "react";
   import { history } from "../../helper/history";
   import GoogleLogin from "react-google-login";
+  import { gql, useQuery } from '@apollo/client';
+
+  import useCustomerApi from '../../hooks/customerhooks'
   
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -51,29 +54,29 @@ import {
     const [res, setRes] = useState<any>();
     const [token, setToken] = useState<string>();
   
-    // const { loginPatient } = usePatientApi();
+    const { loginCustomer } = useCustomerApi();
   
-    // const { loading, error, data } = useQuery(loginPatient, {
-    //   variables: { loginPatientToken: token },
-    //   fetchPolicy: "network-only"
-    // });
+    const { loading, error, data } = useQuery(loginCustomer, {
+      variables: { loginCustomerToken: token },
+      fetchPolicy: "network-only"
+    });
   
-    // useEffect(() => {
-    //   if (!loading && res !== undefined && token !== undefined) {
-    //     console.log(data.loginPatient);
-    //     if (data.loginPatient !== null) {
-    //       localStorage.setItem("_id", data.loginPatient._id);
-    //       localStorage.setItem("role", data.loginPatient.Role);
-    //       localStorage.setItem("accessToken", res.accessToken);
-    //       history.push(`/profile&=${localStorage.getItem("accessToken")}`);
-    //     } else {
-    //       localStorage.setItem("token", res.tokenId);
-    //       localStorage.setItem("role", "customer");
-    //       localStorage.setItem("gmail", res.profileObj.email);
-    //       history.push("/register");
-    //     }
-    //   }
-    // }, [loading]);
+    useEffect(() => {
+      if (!loading && res !== undefined && token !== undefined) {
+        console.log(data.loginCustomer);
+        if (data.loginCustomer !== null) {
+          localStorage.setItem("_id", data.loginCustomer._id);
+          localStorage.setItem("role", data.loginCustomer.Role);
+          localStorage.setItem("accessToken", res.accessToken);
+          history.push(`/profile&=${localStorage.getItem("accessToken")}`);
+        } else {
+          localStorage.setItem("token", res.tokenId);
+          localStorage.setItem("role", "customer");
+          localStorage.setItem("gmail", res.profileObj.email);
+          history.push("/register");
+        }
+      }
+    }, [loading]);
   
     const responseGoogle = async (response: any) => {
       console.log(response);
@@ -128,5 +131,6 @@ import {
       </Grid>
     );
   }
+
   export default LoginPage;
   

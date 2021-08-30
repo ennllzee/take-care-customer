@@ -41,7 +41,7 @@ function HospitalInformationPage() {
     
     return (
         <Grid>
-            <TopBar page="ข้อมลโรงพยาบาล"/>
+            <TopBar page="ข้อมูลโรงพยาบาล"/>
             <Grid container direction="column" alignItems="center" justify="space-between" className={classes.root}>
                 <Grid item className={classes.sub}>
 

@@ -28,7 +28,6 @@ import {
   }: AlertProps) {
     return (
       <Dialog
-        //   onClose={closeSubmit}
         aria-describedby="alert-dialog-description"
         aria-labelledby="alert-dialog-title"
         open={submit}

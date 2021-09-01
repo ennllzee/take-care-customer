@@ -66,12 +66,10 @@ import {
         console.log(data.loginCustomer);
         if (data.loginCustomer !== null) {
           localStorage.setItem("_id", data.loginCustomer._id);
-          localStorage.setItem("role", data.loginCustomer.Role);
           localStorage.setItem("accessToken", res.accessToken);
           history.push(`/profile&=${localStorage.getItem("accessToken")}`);
         } else {
           localStorage.setItem("token", res.tokenId);
-          localStorage.setItem("role", "customer");
           localStorage.setItem("gmail", res.profileObj.email);
           history.push("/register");
         }
@@ -79,7 +77,6 @@ import {
     }, [loading]);
   
     const responseGoogle = async (response: any) => {
-      console.log(response);
       setRes(response);
       setToken(response.tokenId);
     };

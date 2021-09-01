@@ -232,13 +232,13 @@ const [appointment, setAppointment] = useState<Appointment[]>([]);
                                 </Typography>
                                 <Divider />
                                 <Typography>
-                                  Hospital: {a.Hospital.Name}
+                                  โรงพยาบาล: {a.Hospital.Name}
                                 </Typography>
                                 <Typography>
-                                  Department: {a.Department.Name}
+                                  แผนก: {a.Department.Name}
                                 </Typography>
                                 <Typography>
-                                  Time:{" "}
+                                  เวลานัดหมาย:{" "}
                                   {moment(new Date(a.AppointTime)).format(
                                     "HH:mm"
                                   )}
@@ -252,7 +252,7 @@ const [appointment, setAppointment] = useState<Appointment[]>([]);
                           variant="subtitle1"
                           color="textSecondary"
                         >
-                          No Appointment
+                          ไม่มีการนัดหมาย
                         </Typography>
                       )}
                     </Paper>
@@ -263,7 +263,7 @@ const [appointment, setAppointment] = useState<Appointment[]>([]);
                 <ViewList />
               </IconButton>
             </>
-          ) : page === "Register" ? (
+          ) : page === "ลงทะเบียน" ? (
             <GoogleLogout
               clientId="907374215732-b5mgla300uqrmlvkq4gstaq0de9osef7.apps.googleusercontent.com"
               buttonText="Login"
@@ -273,7 +273,7 @@ const [appointment, setAppointment] = useState<Appointment[]>([]);
                   onClick={renderProps.onClick}
                   className={classes.icon}
                 >
-                  login
+                  ลงชื่อเข้าระบบ
                 </Button>
               )}
               onLogoutSuccess={logout}

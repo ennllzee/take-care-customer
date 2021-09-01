@@ -31,7 +31,7 @@ import {
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={closeAlert} color="primary">
-            OK
+            {buttonText}
           </Button>
         </DialogActions>
       </Dialog>

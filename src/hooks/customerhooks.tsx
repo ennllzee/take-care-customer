@@ -109,7 +109,7 @@ const useCustomerApi = () => {
     }
   `;
 
-  const getCustomerAppointment = gql``;
+  // const getCustomerAppointment = gql``;
 
   return {
     getSingleCustomer,

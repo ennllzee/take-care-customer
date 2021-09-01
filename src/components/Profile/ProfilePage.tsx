@@ -37,6 +37,7 @@ function ProfilePage() {
   const accessToken = localStorage.getItem("accessToken");
   const id = localStorage.getItem("_id");
 
+
   //   const QUERY_ALL_USERS = gql`
   //   query Queary ($getPatientId: ID!, $getGuideId: ID!, $getAdminId: ID!) {
   //     getPatient(_id: $getPatientId) {

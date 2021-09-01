@@ -2,6 +2,7 @@ import {
   Button,
   CardMedia,
   createStyles,
+  Fab,
   FormControl,
   Grid,
   InputLabel,
@@ -123,7 +124,55 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
   return (
     <Grid>
       <form className={classes.form}>
-        <Typography variant="h4">ข้อมูลส่วนตัว</Typography>
+        <Grid
+          container
+          direction="row"
+          alignItems="center"
+          justify="space-between"
+        >
+          <Grid item xs={7}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Fab
+                  variant="extended"
+                  style={{ background: "#AC86C7", color: "white" }}
+                  disabled={true}
+                >
+                  1
+                </Fab>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="h4">Profile</Typography>
+                <Typography variant="subtitle2" color="textSecondary">
+                  ข้อมูลส่วนตัว
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography align="center">
+              <Fab
+                variant="extended"
+                style={{ background: "#C3A3DB" }}
+                disabled={true}
+              >
+                2
+              </Fab>
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography align="center">
+              <Fab
+                variant="extended"
+                style={{ background: "#C3A3DB" }}
+                disabled={true}
+              >
+                3
+              </Fab>
+            </Typography>
+          </Grid>
+        </Grid>
+        {/* <Typography variant="h4">ข้อมูลส่วนตัว</Typography> */}
         <div className={classes.margin}>
           <Grid
             container
@@ -224,7 +273,11 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
                 id="date"
                 label="Birthday"
                 type="date"
-                defaultValue={dob === undefined ? undefined : moment(dob).format("YYYY-MM-DD")}
+                defaultValue={
+                  dob === undefined
+                    ? undefined
+                    : moment(dob).format("YYYY-MM-DD")
+                }
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -253,7 +306,13 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
           </Grid>
         </div>
 
-        <Grid container direction="row" justify="flex-end" alignItems="center" className={classes.button}>
+        <Grid
+          container
+          direction="row"
+          justify="flex-end"
+          alignItems="center"
+          className={classes.button}
+        >
           <Grid item xs={4} md={3} lg={2}>
             <Button
               fullWidth={true}

@@ -2,6 +2,7 @@ import {
   Button,
   CardMedia,
   createStyles,
+  Fab,
   FormControl,
   Grid,
   InputLabel,
@@ -92,7 +93,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
   };
 
   const next = () => {
-    if(phoneNum !== undefined && email !== undefined){
+    if (phoneNum !== undefined && email !== undefined) {
       setUser({
         ...user,
         PhoneNumber: phoneNum,
@@ -106,7 +107,53 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
   return (
     <Grid>
       <form className={classes.form}>
-        <Typography variant="h4">ช่องทางการติดต่อ</Typography>
+        <Grid
+          container
+          direction="row"
+          alignItems="center"
+          justify="space-between"
+        >
+          <Grid item xs={2}>
+            <Typography align="center">
+              <Fab
+                variant="extended"
+                style={{ background: "#AC86C7", color: "white" }}
+                disabled={true}
+              >
+                1
+              </Fab>
+            </Typography>
+          </Grid>
+          <Grid item xs={7}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Fab
+                  variant="extended"
+                  style={{ background: "#AC86C7", color: "white" }}
+                  disabled={true}
+                >
+                  2
+                </Fab>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="h4">Contact</Typography>
+                <Typography variant="subtitle2" color="textSecondary">ช่องทางการติดต่อ</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography align="center">
+              <Fab
+                variant="extended"
+                style={{ background: "#C3A3DB" }}
+                disabled={true}
+              >
+                3
+              </Fab>
+            </Typography>
+          </Grid>
+        </Grid>
+        {/* <Typography variant="h4">ช่องทางการติดต่อ</Typography> */}
         <div className={classes.margin}>
           <Grid container spacing={2} justify="center" alignItems="flex-end">
             <Grid item>

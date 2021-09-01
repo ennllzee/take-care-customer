@@ -123,7 +123,7 @@ function RegisterPage() {
         container
         direction="column"
         alignItems="center"
-        justify="space-between"
+        justify="flex-start"
         className={classes.root}
       >
         <Grid item className={classes.sub}></Grid>

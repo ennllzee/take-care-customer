@@ -2,6 +2,7 @@ import {
   Button,
   CardMedia,
   createStyles,
+  Fab,
   FormControl,
   Grid,
   InputLabel,
@@ -90,7 +91,56 @@ function RegisterSubmit({
   return (
     <Grid>
       <form className={classes.form}>
-      <Typography variant="h4">ยืนยันการลงทะเบียน</Typography>
+        <Grid
+          container
+          direction="row"
+          alignItems="center"
+          justify="space-between"
+        >
+          <Grid item xs={2}>
+            <Typography align="center">
+              <Fab
+                variant="extended"
+                style={{ background: "#AC86C7", color: "white" }}
+                disabled={true}
+              >
+                1
+              </Fab>
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography align="center">
+              <Fab
+                variant="extended"
+                style={{ background: "#AC86C7", color: "white" }}
+                disabled={true}
+              >
+                2
+              </Fab>
+            </Typography>
+          </Grid>
+          <Grid item xs={7}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Fab
+                  variant="extended"
+                  style={{ background: "#AC86C7", color: "white" }}
+                  disabled={true}
+                >
+                  3
+                </Fab>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="h4">Submit</Typography>
+                <Typography variant="subtitle2" color="textSecondary">
+                  ยืนยันการลงทะเบียน
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          
+        </Grid>
+        {/* <Typography variant="h4">ยืนยันการลงทะเบียน</Typography> */}
         <div className={classes.margin}>
           <Grid
             container
@@ -199,7 +249,11 @@ function RegisterSubmit({
                 id="input-with-icon-grid"
                 label="Congenital disorder"
                 fullWidth={true}
-                value={user.CongenitalDisorders !== undefined ? user.CongenitalDisorders : "-"}
+                value={
+                  user.CongenitalDisorders !== undefined
+                    ? user.CongenitalDisorders
+                    : "-"
+                }
                 type="text"
                 required
                 inputProps={{
@@ -259,7 +313,9 @@ function RegisterSubmit({
                 id="input-with-icon-grid"
                 label="เบอร์ติดต่อกรณีฉุกเฉิน"
                 fullWidth={true}
-                value={user.EmergencyTel !== undefined ? user.EmergencyTel : "-"}
+                value={
+                  user.EmergencyTel !== undefined ? user.EmergencyTel : "-"
+                }
                 type="text"
                 inputProps={{
                   readOnly: true,
@@ -299,7 +355,6 @@ function RegisterSubmit({
           </Grid>
         </Grid>
       </form>
-      
     </Grid>
   );
 }

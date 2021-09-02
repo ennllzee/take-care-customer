@@ -103,11 +103,14 @@ function RegisterPage() {
     if (gmail === null) {
       history.push("/");
     }
+
   }, [accessToken, gmail]);
 
   const [submit, setSubmit] = useState<boolean>(false)
 
+  //NEEDED BACKEND
   const onSubmit = () => {
+    console.log(user);
     signOut()
   };
 

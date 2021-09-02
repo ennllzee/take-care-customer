@@ -184,7 +184,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
                 fullWidth={true}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                type="text"
+                type="email"
                 required
               />
             </Grid>

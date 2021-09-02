@@ -63,7 +63,7 @@ import {
   
     useEffect(() => {
       if (!loading && res !== undefined && token !== undefined) {
-        if (data) {
+        if (data.loginCustomer) {
           localStorage.setItem("_id", data.loginCustomer._id);
           localStorage.setItem("accessToken", res.accessToken);
           history.push(`/profile&=${localStorage.getItem("accessToken")}`);

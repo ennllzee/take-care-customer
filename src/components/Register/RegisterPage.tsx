@@ -13,6 +13,7 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
+
 import {
   Person,
   Wc,
@@ -34,6 +35,9 @@ import TopBar from "../TopBar/TopBar";
 import ContactForm from "./ContactForm";
 import ProfileForm from "./ProfileForm";
 import RegisterSubmit from "./RegisterSubmit";
+
+import { gql, useMutation } from '@apollo/client';
+import useCustomerApi from '../../hooks/customerhooks'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -108,9 +112,15 @@ function RegisterPage() {
 
   const [submit, setSubmit] = useState<boolean>(false)
 
+  const { SIGNUP_CUSTOMER } = useCustomerApi();
+
+  const [createCustomer, { data: mutationData, loading: mutationLoading, error: mutationError } ] = useMutation(SIGNUP_CUSTOMER);
+
   //NEEDED BACKEND
-  const onSubmit = () => {
+  const onSubmit = async () => {
     console.log(user);
+    await createCustomer({ variables: { createdCustomerInput:{...user} } });
+    console.log(mutationData);
     signOut()
   };
 

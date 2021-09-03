@@ -54,9 +54,9 @@ import {
     const [res, setRes] = useState<any>();
     const [token, setToken] = useState<string>();
   
-    const { loginCustomer } = useCustomerApi();
+    const { LOGIN_CUSTOMER } = useCustomerApi();
   
-    const { loading, error, data } = useQuery(loginCustomer, {
+    const { loading, error, data } = useQuery(LOGIN_CUSTOMER, {
       variables: { loginCustomerToken: token },
       fetchPolicy: "network-only"
     });

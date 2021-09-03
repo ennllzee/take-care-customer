@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const useCustomerApi = () => {
-  const getSingleCustomer = gql`
+  const GET_SINGLE_CUSTOMER = gql`
     query Query($getCustomerId: ID!) {
       getCustomer(_id: $getCustomerId) {
         _id
@@ -22,8 +22,8 @@ const useCustomerApi = () => {
     }
   `;
 
-  const signInCustomer = gql`
-    mutation Mutation($createdCustomerInput: CustomerSigninInput!) {
+  const SIGNUP_CUSTOMER = gql`
+    mutation CREAT_USER($createdCustomerInput: CustomerSigninInput!) {
       createdCustomer(input: $createdCustomerInput) {
         _id
         FirstName
@@ -33,7 +33,6 @@ const useCustomerApi = () => {
         PhoneNumber
         Email
         EmergencyTel
-        GoogleId
         Avatar
         CongenitalDisorders
         Role
@@ -43,7 +42,7 @@ const useCustomerApi = () => {
     }
   `;
 
-  const updateCustomer = gql`
+  const UPDATE_CUSTOMER = gql`
     mutation Mutation(
       $updateCustomerId: ID!
       $updateCustomerInput: PatienUpdateInput!
@@ -67,7 +66,7 @@ const useCustomerApi = () => {
     }
   `;
 
-  const deleteCustomer = gql`
+  const DELETE_CUSTOMER = gql`
     mutation Mutation($deleteCustomerId: ID!) {
       deleteCustomer(_id: $deleteCustomerId) {
         _id
@@ -88,7 +87,7 @@ const useCustomerApi = () => {
     }
   `;
 
-  const loginCustomer = gql`
+  const LOGIN_CUSTOMER = gql`
     query Query($loginCustomerToken: String) {
       loginCustomer(Token: $loginCustomerToken) {
         _id
@@ -109,14 +108,12 @@ const useCustomerApi = () => {
     }
   `;
 
-  // const getCustomerAppointment = gql``;
-
   return {
-    getSingleCustomer,
-    signInCustomer,
-    updateCustomer,
-    deleteCustomer,
-    loginCustomer,
+    GET_SINGLE_CUSTOMER,
+    SIGNUP_CUSTOMER,
+    UPDATE_CUSTOMER,
+    DELETE_CUSTOMER,
+    LOGIN_CUSTOMER,
   };
 };
 

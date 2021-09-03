@@ -120,7 +120,6 @@ function RegisterPage() {
   const onSubmit = async () => {
     console.log(user);
     await createCustomer({ variables: { createdCustomerInput:{...user} } });
-    console.log(mutationData);
     signOut()
   };
 
@@ -207,6 +206,8 @@ function RegisterPage() {
           history.push("/")
         }} alert={alert} title="ลงทะเบียนสำเร็จ" text="โปรดยืนยันตัวตนอีกครั้งผ่านแบบฟอร์มที่ส่งไปยังอีเมล์ที่ติดต่อได้ของท่าน" buttonText="ตกลง"/>
         <Submit submit={submit} title="ยืนยันการลงทะเบียน?" text="กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนกดยืนยัน" denyText="ยกเลิก" submitText="ยืนยัน" denyAction={() => setSubmit(false)} submitAction={onSubmit}/>
+        {mutationLoading && <p>Loading...</p>}
+        {mutationError && <p>Error :( Please try again</p>}
         <Grid item className={classes.end}></Grid>
       </Grid>
     </Grid>

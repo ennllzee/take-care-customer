@@ -1,8 +1,9 @@
 import { gql } from "@apollo/client";
 
 const useCustomerApi = () => {
+
   const GET_SINGLE_CUSTOMER = gql`
-    query Query($getCustomerId: ID!) {
+    query GET_SINGLE_CUSTOMER($getCustomerId: ID!) {
       getCustomer(_id: $getCustomerId) {
         _id
         FirstName
@@ -23,7 +24,7 @@ const useCustomerApi = () => {
   `;
 
   const SIGNUP_CUSTOMER = gql`
-    mutation CREAT_USER($createdCustomerInput: CustomerSigninInput!) {
+    mutation CREATE_USER($createdCustomerInput: CustomerSigninInput!) {
       createdCustomer(input: $createdCustomerInput) {
         _id
         FirstName
@@ -43,7 +44,7 @@ const useCustomerApi = () => {
   `;
 
   const UPDATE_CUSTOMER = gql`
-    mutation Mutation(
+    mutation UPDATE_CUSTOMER(
       $updateCustomerId: ID!
       $updateCustomerInput: PatienUpdateInput!
     ) {
@@ -60,14 +61,13 @@ const useCustomerApi = () => {
         Avatar
         CongenitalDisorders
         Role
-        CreatedAt
         UpdatedAt
       }
     }
   `;
 
   const DELETE_CUSTOMER = gql`
-    mutation Mutation($deleteCustomerId: ID!) {
+    mutation DELETE_CUSTOMER($deleteCustomerId: ID!) {
       deleteCustomer(_id: $deleteCustomerId) {
         _id
         FirstName
@@ -88,7 +88,7 @@ const useCustomerApi = () => {
   `;
 
   const LOGIN_CUSTOMER = gql`
-    query Query($loginCustomerToken: String) {
+    query LOGIN_CUSTOMER($loginCustomerToken: String) {
       loginCustomer(Token: $loginCustomerToken) {
         _id
         FirstName
@@ -108,12 +108,273 @@ const useCustomerApi = () => {
     }
   `;
 
+  const GET_SINGLE_APPOINTMENT = gql`
+    query GET_SINGLE_APPOINTMENT($getAppointmentId: ID) {
+      getAppointment(_id: $getAppointmentId) {
+        _id
+        AppointTime
+        BeginTime
+        EndTime
+        Guide {
+          FirstName
+          LastName
+          Email
+        }
+        Dep {
+          Name
+        }
+        Hospital {
+          Name
+        }
+        Review {
+          Star
+          Comment
+        }
+        Record {
+          At
+          Title
+          Description
+        }
+        OpenLink
+        Note
+        Status {
+          Tag
+          Details
+        }
+        Period
+        CreatedAt
+        UpdatedAt
+      }
+    }
+  `;
+
+  const GET_ALLAPPOINTMENT_BY_CUSTOMER = gql`
+    query GET_ALLAPPOINTMENT_BY_CUSTOMER(
+      $getAllAppointmentByCustomerCustomerId: ID!
+    ) {
+      getAllAppointmentByCustomer(
+        CustomerId: $getAllAppointmentByCustomerCustomerId
+      ) {
+        _id
+        AppointTime
+        BeginTime
+        EndTime
+        Guide {
+          FirstName
+          LastName
+          Email
+        }
+        Dep {
+          Name
+        }
+        Hospital {
+          Name
+        }
+        Review {
+          Star
+          Comment
+        }
+        Record {
+          At
+          Title
+          Description
+        }
+        OpenLink
+        Note
+        Status {
+          Tag
+          Details
+        }
+        Period
+        CreatedAt
+        UpdatedAt
+      }
+    }
+  `;
+
+  const CREATE_APPOINTMENT = gql`
+    mutation CreateAppointmentMutation(
+      $createAppointmentInput: BookingAppointmentInput
+    ) {
+      createAppointment(input: $createAppointmentInput) {
+        _id
+        AppointTime
+      }
+    }
+  `;
+
+  const UPDATE_APPOINTMENT_GUIDE_REQUEST = gql`
+    mutation UpdateAppointmentRequestGuideMutation(
+      $updateAppointmentRequestGuideId: ID!
+      $updateAppointmentRequestGuideUpdateinput: UpdateAppointmentInput
+    ) {
+      updateAppointmentRequestGuide(
+        _id: $updateAppointmentRequestGuideId
+        updateinput: $updateAppointmentRequestGuideUpdateinput
+      ) {
+        _id
+        AppointTime
+        Guide {
+          FirstName
+          LastName
+          Email
+        }
+        Dep {
+          Name
+        }
+        Hospital {
+          Name
+        }
+        Status {
+          Tag
+          Details
+        }
+        Period
+        CreatedAt
+        UpdatedAt
+      }
+    }
+  `;
+
+  const UPDATE_APPOINTMENT_REVIEW = gql`
+    mutation UpdateAppointmentReviewMutation(
+      $updateAppointmentReviewId: ID!
+      $updateAppointmentReviewReviewinput: ReviewInput
+    ) {
+      updateAppointmentReview(
+        _id: $updateAppointmentReviewId
+        reviewinput: $updateAppointmentReviewReviewinput
+      ) {
+        _id
+      }
+    }
+  `;
+
+  const CREATE_REPORT = gql`
+    mutation CreateReportMutation($createReportInput: ReportInput!) {
+      createReport(input: $createReportInput) {
+        _id
+        Title
+        Description
+        ByCustomer {
+          _id
+        }
+        ResponseText
+        ResponseByAdmin {
+          _id
+        }
+        CreatedAt
+        UpdatedAt
+      }
+    }
+  `;
+
+  const GET_ALLHOSPITAL = gql`
+    query GET_ALLHOSPITAL {
+      getAllHospital {
+        _id
+        Name
+        Address
+        Building {
+          _id
+          Name
+          Department {
+            _id
+            Name
+          }
+        }
+        Department {
+          _id
+          Name
+        }
+        CreatedAt
+        UpdatedAt
+      }
+    }
+  `;
+
+  const GET_ALLBUILDING = gql`
+    query GET_ALLBUILDING {
+      getAllBuilding {
+        _id
+        Name
+        Department {
+          _id
+          Name
+        }
+      }
+    }
+  `;
+
+  const GET_ALLDEPARTMENT = gql`
+    query GET_ALLDEPARTMENT {
+      getAllDepartment {
+        _id
+        Name
+        Building {
+          _id
+          Name
+        }
+      }
+    }
+  `;
+
+  const GET_AVAILABLE_GUIDE = gql`
+    query GET_AVAILABLE_GUIDE(
+      $getAvailableGuideCustomerId: ID
+      $getAvailableGuideDate: String!
+      $getAvailableGuidePeriod: String!
+    ) {
+      getAvailableGuide(
+        CustomerId: $getAvailableGuideCustomerId
+        Date: $getAvailableGuideDate
+        Period: $getAvailableGuidePeriod
+      ) {
+        _id
+        ScheduleDate
+        Available
+        Period
+        Createdby {
+          FirstName
+          LastName
+          PhoneNumber
+          Email
+          LangSkill {
+            Languages
+            Level
+          }
+          Status {
+            Tag
+            Details
+          }
+        }
+      }
+    }
+  `;
+
+  const GET_PERIOD = gql`
+    query GET_PERIOD {
+      getPeriod
+    }
+  `;
+
   return {
     GET_SINGLE_CUSTOMER,
     SIGNUP_CUSTOMER,
     UPDATE_CUSTOMER,
     DELETE_CUSTOMER,
     LOGIN_CUSTOMER,
+    GET_SINGLE_APPOINTMENT,
+    GET_ALLAPPOINTMENT_BY_CUSTOMER,
+    CREATE_APPOINTMENT,
+    UPDATE_APPOINTMENT_GUIDE_REQUEST,
+    UPDATE_APPOINTMENT_REVIEW,
+    CREATE_REPORT,
+    GET_ALLHOSPITAL,
+    GET_ALLBUILDING,
+    GET_ALLDEPARTMENT,
+    GET_AVAILABLE_GUIDE,
+    GET_PERIOD
   };
 };
 

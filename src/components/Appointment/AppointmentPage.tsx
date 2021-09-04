@@ -1,3 +1,4 @@
+import DateFnsUtils from "@date-io/date-fns";
 import MomentUtils from "@date-io/moment";
 import { makeStyles, Theme, createStyles, Grid, Typography, IconButton, Divider, Button, CircularProgress } from "@material-ui/core";
 import { Today, PostAdd } from "@material-ui/icons";
@@ -100,12 +101,12 @@ function AppointmentPage() {
                     >
                       <Today />
                     </IconButton>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DatePicker
+                    <MuiPickersUtilsProvider  utils={DateFnsUtils}>
+                    <DatePicker
                         open={calender}
                         onClose={() => setCalender(false)}
                         value={date}
-                        onChange={(e) => e !== null && setDate(new Date(e.format('DD MMMM YYYY')))}
+                        onChange={(e) => e !== null && setDate(e)}
                         showTodayButton={true}
                         TextFieldComponent={() => null}
                       />

@@ -9,7 +9,7 @@ import {
   import { useEffect, useState } from "react";
   import { history } from "../../helper/history";
   import GoogleLogin from "react-google-login";
-  import { gql, useQuery } from '@apollo/client';
+  import { useQuery } from '@apollo/client';
 
   import useCustomerApi from '../../hooks/customerhooks'
   

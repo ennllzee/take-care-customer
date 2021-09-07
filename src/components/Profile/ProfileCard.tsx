@@ -4,7 +4,7 @@ import { GoogleLogout } from 'react-google-login';
 
 interface ProfileCardProps{
     name: string
-    id: any
+    gmail?: string
     img: any
 }
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-function ProfileCard({name, id, img} : ProfileCardProps){
+function ProfileCard({name, gmail, img} : ProfileCardProps){
 
     const classes = useStyles()
 
@@ -55,7 +55,7 @@ function ProfileCard({name, id, img} : ProfileCardProps){
                         {name}
                         <br/>
                         <Typography variant="caption" color="textSecondary">
-                            ID: {id}
+                            Gmail: {gmail}
                         </Typography>
                     </Typography>
                 </CardContent>

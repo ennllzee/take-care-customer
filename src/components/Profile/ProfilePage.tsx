@@ -144,7 +144,7 @@ function ProfilePage() {
             <Grid item xs={12} md={10} lg={8}>
               <ProfileCard
                 name={user?.FirstName + " " + user?.LastName}
-                id={user?._id}
+                gmail={user?.Gmail}
                 img={user?.Avatar}
               />
             </Grid>

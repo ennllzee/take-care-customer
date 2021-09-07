@@ -4,9 +4,9 @@ import Guide from "./Guide";
 import Hospital from "./Hospital";
 
 interface AppointmentForm {
-    Period: string //"morning" "afternoon" "all-day"
-    AppointTime: any
-    Customer: Customer
+    Period?: string //"Morning" "Afternoon" "All-day"
+    AppointTime?: any
+    Customer?: Customer
     Guide?: Guide
     Hospital?: Hospital
     Department?: Department

@@ -1,15 +1,27 @@
+import { useQuery } from "@apollo/client";
 import DateFnsUtils from "@date-io/date-fns";
-import MomentUtils from "@date-io/moment";
-import { makeStyles, Theme, createStyles, Grid, Typography, IconButton, Divider, Button, CircularProgress } from "@material-ui/core";
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+  Grid,
+  Typography,
+  IconButton,
+  Divider,
+  Button,
+  CircularProgress,
+} from "@material-ui/core";
 import { Today, PostAdd } from "@material-ui/icons";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { history } from "../../helper/history";
+import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
 import Alert from "../Alert/Alert";
 import BottomBar from "../BottomBar/BottomBar";
 import TopBar from "../TopBar/TopBar";
+import AddAppointment from "./AddAppointment";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,29 +55,27 @@ function AppointmentPage() {
     }
   }, [accessToken]);
 
-  // const { getAllAppointment } = useAppointmentApi();
-  // const id = localStorage.getItem("_id");
+  const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
+  const id = localStorage.getItem("_id");
 
-  // const { loading, error, data } = useQuery(getAllAppointment, {
-  //   variables: { getAllAppointmentPatientId: id },
-  // });
+  const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
+    variables: { getAllAppointmentByCustomerCustomerId: id },
+  });
 
   const [add, setAdd] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
   const [calender, setCalender] = useState<boolean>(false);
-  // const [appointment, setAppointment] = useState<Appointment[]>(
-  //   data !== undefined ? data.getAllAppointment : []
-  // );
-  const [appointment, setAppointment] = useState<Appointment[]>([]);
+  const [appointment, setAppointment] = useState<Appointment[]>(
+    data !== undefined ? data.getAllAppointmentByCustomer : []
+  );
   const [success, setSuccess] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     setAppointment(data.getAllAppointment);
-  //     console.log(data.getAllAppointment);
-  //   }
-  //   console.log(error);
-  // }, [loading]);
+  useEffect(() => {
+    if (!loading) {
+      setAppointment(data.getAllAppointmentByCustomer);
+    }
+    console.log(error);
+  }, [loading]);
 
   return (
     <Grid>
@@ -79,7 +89,7 @@ function AppointmentPage() {
       >
         <Grid item className={classes.sub}></Grid>
         <Grid item className={classes.main}>
-          {/* {!loading ? ( */}
+          {!loading ? (
             <>
               <Grid
                 container
@@ -101,8 +111,8 @@ function AppointmentPage() {
                     >
                       <Today />
                     </IconButton>
-                    <MuiPickersUtilsProvider  utils={DateFnsUtils}>
-                    <DatePicker
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <DatePicker
                         open={calender}
                         onClose={() => setCalender(false)}
                         value={date}
@@ -135,16 +145,52 @@ function AppointmentPage() {
                       ) {
                         return (
                           // <AppointmentCard appointment={m} match={m.Guide} />
-                          <></>
+                          <Grid
+                            container
+                            direction="row"
+                            alignItems="flex-end"
+                            justify="center"
+                          >
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">เวลานัดหมาย</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">{m.AppointTime}</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">โรงพยาบาล</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">{m.Hospital.Name}</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">แผนก</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">{m.Department.Name}</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">เพิ่มเติม</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">{m.Note}</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">ไกด์</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="center">{m.Guide?.FirstName} {m.Guide?.LastName}</Typography>
+                            </Grid>
+                          </Grid>
                         );
                       }
                     })
                   ) : (
                     <Typography align="center">
                       {date <=
-                        new Date(
-                          moment(new Date()).add(1, "days").format("DD MMMM yyyy")
-                        ) ? (
+                      new Date(
+                        moment(new Date()).add(1, "days").format("DD MMMM yyyy")
+                      ) ? (
                         <Typography
                           align="center"
                           variant="subtitle1"
@@ -152,10 +198,12 @@ function AppointmentPage() {
                         >
                           ไม่มีการนัดหมาย
                         </Typography>
-                        ) : date <=
-                      new Date(
-                        moment(new Date()).add(8, "days").format("DD MMMM yyyy")
-                      ) ? (
+                      ) : date <=
+                        new Date(
+                          moment(new Date())
+                            .add(8, "days")
+                            .format("DD MMMM yyyy")
+                        ) ? (
                         <Button
                           type="button"
                           variant="contained"
@@ -164,14 +212,14 @@ function AppointmentPage() {
                           <PostAdd />
                           เพิ่มนัดหมาย
                         </Button>
-
                       ) : (
                         <Typography
                           align="center"
                           variant="subtitle1"
                           color="textSecondary"
                         >
-                          ลูกค้าสามารถเพิ่มการนัดหมายที่เกิดขึ้นภายใน 7 วันถัดไปเท่านั้น
+                          ลูกค้าสามารถเพิ่มการนัดหมายที่เกิดขึ้นภายใน 7
+                          วันถัดไปเท่านั้น
                         </Typography>
                       )}
                     </Typography>
@@ -180,12 +228,18 @@ function AppointmentPage() {
                     // <Alert severity="success" onClose={() => setSuccess(false)}>
                     //   เพิ่มการนัดหมายสำเร็จ
                     // </Alert>
-                    <Alert closeAlert={() => setSuccess(false)} alert={success} title="เพิ่มนัดหมายสำเร็จ" text="กรุณารอการตอบกลับจากไกด์" buttonText="ปิดหน้าต่าง"/>
+                    <Alert
+                      closeAlert={() => setSuccess(false)}
+                      alert={success}
+                      title="เพิ่มนัดหมายสำเร็จ"
+                      text="กรุณารอการตอบกลับจากไกด์"
+                      buttonText="ปิดหน้าต่าง"
+                    />
                   )}
                 </Grid>
               </Grid>
             </>
-          {/* ) : (
+          ) : (
             <Grid
               container
               direction="row"
@@ -194,18 +248,18 @@ function AppointmentPage() {
             >
               <CircularProgress disableShrink />
             </Grid>
-          )} */}
+          )}
         </Grid>
 
         <Grid item className={classes.sub}></Grid>
       </Grid>
-      <BottomBar page="Appointment"/>
-      {/* <AddAppointment
+      <BottomBar page="Appointment" />
+      <AddAppointment
         open={add}
         setOpen={setAdd}
         date={date}
         setSuccess={setSuccess}
-      /> */}
+      />
     </Grid>
   );
 }

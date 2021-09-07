@@ -19,6 +19,7 @@ const useCustomerApi = () => {
         Role
         CreatedAt
         UpdatedAt
+        Gmail
       }
     }
   `;
@@ -289,6 +290,18 @@ const useCustomerApi = () => {
         }
         CreatedAt
         UpdatedAt
+      },
+      getAllDepartment {
+        _id
+        Name
+        Building {
+          _id
+          Name
+        }
+        Hospital {
+          _id
+          Name
+        }
       }
     }
   `;

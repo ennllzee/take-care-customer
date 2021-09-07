@@ -125,7 +125,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
             </Typography>
           </Grid>
           <Grid item xs={7}>
-            <Grid container spacing={2} alignItems="center">
+            <Grid container spacing={2} alignItems="center" justify="center">
               <Grid item>
                 <Fab
                   variant="extended"

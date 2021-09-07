@@ -81,10 +81,10 @@ function InformationForm({
   const [alert, setAlert] = useState<boolean>(false);
 
   const next = () => {
-    console.log(period);
-    console.log(time);
-    console.log(hosId);
-    console.log(depId);
+    // console.log(period);
+    // console.log(time);
+    // console.log(hosId);
+    // console.log(depId);
     if (
       period !== undefined &&
       time !== undefined &&

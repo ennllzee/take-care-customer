@@ -1,7 +1,6 @@
 import { gql } from "@apollo/client";
 
 const useCustomerApi = () => {
-
   const GET_SINGLE_CUSTOMER = gql`
     query GET_SINGLE_CUSTOMER($getCustomerId: ID!) {
       getCustomer(_id: $getCustomerId) {
@@ -290,7 +289,7 @@ const useCustomerApi = () => {
         }
         CreatedAt
         UpdatedAt
-      },
+      }
       getAllDepartment {
         _id
         Name
@@ -360,6 +359,9 @@ const useCustomerApi = () => {
             Tag
             Details
           }
+          _id
+          Gender
+          Avatar
         }
       }
     }
@@ -387,7 +389,7 @@ const useCustomerApi = () => {
     GET_ALLBUILDING,
     GET_ALLDEPARTMENT,
     GET_AVAILABLE_GUIDE,
-    GET_PERIOD
+    GET_PERIOD,
   };
 };
 

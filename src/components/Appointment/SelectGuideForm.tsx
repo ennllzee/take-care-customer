@@ -86,7 +86,12 @@ function SelectGuideForm({
 
   useEffect(() => {
     if (!loading) {
-      setAvailableGuide(data.getAvailableGuide);
+      const {getAvailableGuide} = data;
+      const getGuide = getAvailableGuide.map((val: any) => {
+        return val.Createdby
+      })
+      console.log(getGuide)
+      setAvailableGuide(getGuide);
     }
   }, [loading]);
 

@@ -11,6 +11,7 @@ interface AppointmentForm {
     Hospital?: Hospital
     Department?: Department
     Note? : string
+    ScheuleGuideId? : string
 }
 
 

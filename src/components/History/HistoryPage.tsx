@@ -203,7 +203,10 @@ function HistoryPage() {
 
   useEffect(() => {
     if (!loading) {
+      // setAppointment({ ...data.getAllAppointmentByCustomer, Department: data.getAllAppointmentByCustomer.Dep});
       setAppointment(data.getAllAppointmentByCustomer);
+      console.log(data.getAllAppointmentByCustomer);
+      console.log(appointment);
     }
   }, [loading]);
 

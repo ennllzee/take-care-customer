@@ -164,7 +164,7 @@ const useCustomerApi = () => {
           LastName
           Email
         }
-        Dep {
+        Department {
           Name
         }
         Hospital {

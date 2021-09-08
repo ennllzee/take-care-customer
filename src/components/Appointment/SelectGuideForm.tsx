@@ -58,13 +58,17 @@ function SelectGuideForm({
   const [guideId, setGuideId] = useState<string | undefined>(
     appointment?.Guide?._id
   );
-  const [availableGuide, setAvailableGuide] = useState<Guide[]>(
+  const [availableGuide, setAvailableGuide] = useState<any[]>(
     data !== undefined ? data.getAvailableGuide : []
   );
 
   const next = () => {
     if (guideId !== undefined) {
-      setAppointment({...appointment, Guide: availableGuide.find((g) => g._id === guideId)})
+      setAppointment({
+                        ...appointment, 
+                        Guide: availableGuide.find((g) => g.Createdby._id === guideId).Createdby,
+                        ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId).ScheduleId
+                      })
       setStep(3);
     } else {
       setAlert(true);
@@ -86,13 +90,16 @@ function SelectGuideForm({
   useEffect(() => {
     if (!loading) {
       const {getAvailableGuide} = data;
-      const getGuide = getAvailableGuide.map((val: any) => {
-        return val.Createdby
-      })
+      const getGuide = getAvailableGuide.map((val: any) => ({
+          ScheduleId: val._id, 
+          Createdby: val.Createdby 
+      }))
+
       console.log(getGuide)
       setAvailableGuide(getGuide);
     }
   }, [loading]);
+
 
   useEffect(() => {
     console.log(guideId);
@@ -121,7 +128,7 @@ function SelectGuideForm({
             availableGuide.map((g) => {
               return (
                 <>
-                  {g._id === guideId && (
+                  {g.Createdby._id === guideId && (
                     <>
                       <Grid
                         item
@@ -131,20 +138,20 @@ function SelectGuideForm({
                         className={classes.card}
                         onClick={() => setGuideId(undefined)}
                       >
-                        <ContactCard user={g} check={true} />
+                        <ContactCard user={g.Createdby} check={true} />
                       </Grid>
                     </>
                   )}
-                  {g._id !== guideId && (
+                  {g.Createdby._id !== guideId && (
                     <Grid
                       item
                       xs={12}
                       md={4}
                       lg={3}
                       className={classes.card}
-                      onClick={() => click(g)}
+                      onClick={() => click(g.Createdby)}
                     >
-                      <ContactCard user={g} />
+                      <ContactCard user={g.Createdby} />
                     </Grid>
                   )}
                 </>

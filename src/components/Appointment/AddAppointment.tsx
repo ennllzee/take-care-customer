@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import {
   createStyles,
   Divider,
@@ -20,6 +19,7 @@ import Customer from "../../models/Customer";
 import InformationForm from "./InformationForm";
 import SelectGuideForm from "./SelectGuideForm";
 import SubmitForm from "./SubmitForm";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 interface AddAppointmentProps {
   open: boolean;
@@ -58,37 +58,56 @@ function AddAppointment({
 }: AddAppointmentProps) {
   const classes = useStyles();
   const [step, setStep] = useState<number>(1);
-  
-  // const [openSubmit,setOpenSubmit] = useState<boolean>(false)
-  const id = localStorage.getItem("_id")
 
-  const { GET_SINGLE_CUSTOMER } = useCustomerApi();
+  // const [openSubmit,setOpenSubmit] = useState<boolean>(false)
+  const id = localStorage.getItem("_id");
+
+  const { GET_SINGLE_CUSTOMER, CREATE_APPOINTMENT } = useCustomerApi();
 
   const { loading, error, data } = useQuery(GET_SINGLE_CUSTOMER, {
     variables: { getCustomerId: id },
   });
 
+  const [
+    createAppointment,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(CREATE_APPOINTMENT);
+
   const [newAppointment, setNewAppointment] = useState<AppointmentForm>({
-    Customer: data !== undefined ? data.getCustomer : undefined
-});
+    Customer: data !== undefined ? data.getCustomer : undefined,
+  });
 
   const submit = () => {
     //wait for createAppointment
+    createAppointment({
+      variables: {
+        createAppointmentInput: {
+          AppointTime: newAppointment.AppointTime,
+          CustomerId: newAppointment.Customer?._id,
+          DepId: newAppointment.Department?._id,
+          HospitalId: newAppointment.Hospital?._id,
+          Note: newAppointment.Note,
+          GuideId: newAppointment.Guide?._id,
+          Period: newAppointment.Period,
+          ScheuleGuideId: newAppointment.ScheuleGuideId,
+        },
+      },
+    });
     setSuccess(true);
     setOpen(false);
   };
 
-  useEffect (() => {
-    if(!loading){
-        setNewAppointment({
-            Customer: data.getCustomer
-        });
+  useEffect(() => {
+    if (!loading) {
+      setNewAppointment({
+        Customer: data.getCustomer,
+      });
     }
-  }, [loading])
+  }, [loading]);
 
   useEffect(() => {
     setNewAppointment({
-        Customer: data !== undefined ? data.getCustomer : undefined
+      Customer: data !== undefined ? data.getCustomer : undefined,
     });
   }, [date]);
 

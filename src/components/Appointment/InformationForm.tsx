@@ -253,7 +253,7 @@ function InformationForm({
                   container
                   spacing={1}
                   justify="center"
-                  alignItems="flex-end"
+                  alignItems="center"
                 >
                   <Grid item>
                     <Typography>

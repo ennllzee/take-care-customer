@@ -89,7 +89,7 @@ function ProfilePage() {
     user?.FirstName
   );
   const [lastName, setLastName] = useState<string | undefined>(user?.LastName);
-  const [dob, setDOB] = useState<Date | null>(new Date(user?.DOB));
+  const [dob, setDOB] = useState<string | undefined>(user?.DOB);
   const [phoneNum, setPhoneNum] = useState<string | undefined>(
     user?.PhoneNumber
   );
@@ -250,7 +250,7 @@ function ProfilePage() {
                           readOnly: !edit,
                         }}
                         fullWidth={true}
-                        onChange={(e) => setDOB(new Date(e.target.value))}
+                        onChange={(e) => setDOB(new Date(e.target.value).toISOString())}
                         required
                       />
                     </Grid>

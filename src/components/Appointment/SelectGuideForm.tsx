@@ -18,7 +18,7 @@ import { useQuery } from "@apollo/client";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     form: {
-      paddingTop: "5%",
+      paddingTop: "2%",
     },
     card: {
       padding: "2%",
@@ -64,7 +64,6 @@ function SelectGuideForm({
 
   const next = () => {
     if (guideId !== undefined) {
-      // wait for availableGuide
       setAppointment({...appointment, Guide: availableGuide.find((g) => g._id === guideId)})
       setStep(3);
     } else {
@@ -86,7 +85,12 @@ function SelectGuideForm({
 
   useEffect(() => {
     if (!loading) {
-      setAvailableGuide(data.getAvailableGuide);
+      const {getAvailableGuide} = data;
+      const getGuide = getAvailableGuide.map((val: any) => {
+        return val.Createdby
+      })
+      console.log(getGuide)
+      setAvailableGuide(getGuide);
     }
   }, [loading]);
 
@@ -121,8 +125,8 @@ function SelectGuideForm({
                     <>
                       <Grid
                         item
-                        xs={10}
-                        md={3}
+                        xs={12}
+                        md={4}
                         lg={3}
                         className={classes.card}
                         onClick={() => setGuideId(undefined)}
@@ -135,7 +139,7 @@ function SelectGuideForm({
                     <Grid
                       item
                       xs={12}
-                      md={3}
+                      md={4}
                       lg={3}
                       className={classes.card}
                       onClick={() => click(g)}

@@ -72,7 +72,7 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
     user.FirstName
   );
   const [lastName, setLastName] = useState<string | undefined>(user.LastName);
-  const [dob, setDOB] = useState<Date | undefined>(user.DOB);
+  const [dob, setDOB] = useState<string | undefined>(user.DOB);
   const [disorder, setDisorder] = useState<string | undefined>(
     user.CongenitalDisorders
   );
@@ -271,7 +271,7 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
             <Grid item xs={10}>
               <TextField
                 id="date"
-                label="Birthday"
+                label="วันเกิด"
                 type="date"
                 defaultValue={
                   dob === undefined
@@ -282,7 +282,7 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
                   shrink: true,
                 }}
                 fullWidth={true}
-                onChange={(e) => setDOB(new Date(e.target.value))}
+                onChange={(e) => setDOB((new Date(e.target.value)).toISOString())}
                 required
               />
             </Grid>
@@ -296,7 +296,7 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
             <Grid item xs={10}>
               <TextField
                 id="input-with-icon-grid"
-                label="Congenital disorder"
+                label="โรคประจำตัว"
                 fullWidth={true}
                 value={disorder}
                 onChange={(e) => setDisorder(e.target.value)}

@@ -120,25 +120,24 @@ function RegisterSubmit({
             </Typography>
           </Grid>
           <Grid item xs={7}>
-            <Grid container spacing={2} alignItems="center" justify="center">
-              <Grid item>
-                <Fab
-                  variant="extended"
-                  style={{ background: "#AC86C7", color: "white" }}
-                  disabled={true}
-                >
-                  3
-                </Fab>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="h4">Submit</Typography>
-                <Typography variant="subtitle2" color="textSecondary">
-                  ยืนยันการลงทะเบียน
-                </Typography>
-              </Grid>
+            <Grid container spacing={2} alignItems="center" justify="flex-end">            
+                <Grid item>
+                  <Fab
+                    variant="extended"
+                    style={{ background: "#AC86C7", color: "white" }}
+                    disabled={true}
+                  >
+                    3
+                  </Fab>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="h4">Submit</Typography>
+                  <Typography variant="subtitle2" color="textSecondary">
+                    ยืนยันการลงทะเบียน
+                  </Typography>
+                </Grid>
             </Grid>
           </Grid>
-          
         </Grid>
         {/* <Typography variant="h4">ยืนยันการลงทะเบียน</Typography> */}
         <div className={classes.margin}>

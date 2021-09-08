@@ -1,8 +1,19 @@
-import { makeStyles, Theme, createStyles, Grid, Typography, Divider } from "@material-ui/core";
+import { useQuery } from "@apollo/client";
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+  Grid,
+  Typography,
+  Divider,
+  CircularProgress,
+} from "@material-ui/core";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { history } from "../../helper/history";
+import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
+import AppointmentCard from "../Appointment/AppointmentCard";
 import BottomBar from "../BottomBar/BottomBar";
 import TopBar from "../TopBar/TopBar";
 
@@ -24,8 +35,8 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     card: {
-      padding: "2%"
-    }
+      padding: "2%",
+    },
   })
 );
 
@@ -40,144 +51,161 @@ function HistoryPage() {
   }, [accessToken]);
 
   // const { getAllAppointment } = useAppointmentApi();
-//   const QUERY_ALL_APPOINTMENT = gql`
-//   query Query($getAllAppointmentByPatientPatientId: ID!, $getAllAppointmentByGuideGuideId: ID!) {
-//     getAllAppointmentByPatient(
-//       PatientId: $getAllAppointmentByPatientPatientId
-//     ) {
-//       _id
-//       AppointTime
-//       BeginTime
-//       EndTime
-//       PatientId {
-//         _id
-//         FirstName
-//         LastName
-//         Gender
-//         DOB
-//         PhoneNumber
-//         Email
-//         Avatar
-//         Role
-//       }
-//       GuideId {
-//         _id
-//         FirstName
-//         LastName
-//         Gender
-//         PhoneNumber
-//         Email
-//         IsValidated
-//         Avatar
-//         Role
-//       }
-//       DepId {
-//         _id
-//         Name
-//         BuildingId {
-//           _id
-//           Name
-//         }
-//         HospitalId {
-//           _id
-//           Name
-//         }
-//       }
-//       Review {
-//         Star
-//         Comment
-//       }
-//       Record {
-//         At
-//         Title
-//         Description
-//       }
-//       OpenLink
-//       Note
-//       CreatedAt
-//       UpdatedAt
-//     },
-//     getAllAppointmentByGuide(GuideId: $getAllAppointmentByGuideGuideId) {
-//       _id
-//       AppointTime
-//       BeginTime
-//       EndTime
-//       PatientId {
-//         _id
-//         FirstName
-//         LastName
-//         Gender
-//         DOB
-//         PhoneNumber
-//         Email
-//         Avatar
-//         Role
-//       }
-//       GuideId {
-//         _id
-//         FirstName
-//         LastName
-//         Gender
-//         PhoneNumber
-//         Email
-//         IsValidated
-//         Avatar
-//         Role
-//       }
-//       DepId {
-//         _id
-//         Name
-//         BuildingId {
-//           _id
-//           Name
-//         }
-//         HospitalId {
-//           _id
-//           Name
-//         }
-//       }
-//       Review {
-//         Star
-//         Comment
-//       }
-//       Record {
-//         At
-//         Title
-//         Description
-//       }
-//       OpenLink
-//       Note
-//       CreatedAt
-//       UpdatedAt
-//     }
-//   }
-//   `
-//   const id = localStorage.getItem("_id");
+  //   const QUERY_ALL_APPOINTMENT = gql`
+  //   query Query($getAllAppointmentByPatientPatientId: ID!, $getAllAppointmentByGuideGuideId: ID!) {
+  //     getAllAppointmentByPatient(
+  //       PatientId: $getAllAppointmentByPatientPatientId
+  //     ) {
+  //       _id
+  //       AppointTime
+  //       BeginTime
+  //       EndTime
+  //       PatientId {
+  //         _id
+  //         FirstName
+  //         LastName
+  //         Gender
+  //         DOB
+  //         PhoneNumber
+  //         Email
+  //         Avatar
+  //         Role
+  //       }
+  //       GuideId {
+  //         _id
+  //         FirstName
+  //         LastName
+  //         Gender
+  //         PhoneNumber
+  //         Email
+  //         IsValidated
+  //         Avatar
+  //         Role
+  //       }
+  //       DepId {
+  //         _id
+  //         Name
+  //         BuildingId {
+  //           _id
+  //           Name
+  //         }
+  //         HospitalId {
+  //           _id
+  //           Name
+  //         }
+  //       }
+  //       Review {
+  //         Star
+  //         Comment
+  //       }
+  //       Record {
+  //         At
+  //         Title
+  //         Description
+  //       }
+  //       OpenLink
+  //       Note
+  //       CreatedAt
+  //       UpdatedAt
+  //     },
+  //     getAllAppointmentByGuide(GuideId: $getAllAppointmentByGuideGuideId) {
+  //       _id
+  //       AppointTime
+  //       BeginTime
+  //       EndTime
+  //       PatientId {
+  //         _id
+  //         FirstName
+  //         LastName
+  //         Gender
+  //         DOB
+  //         PhoneNumber
+  //         Email
+  //         Avatar
+  //         Role
+  //       }
+  //       GuideId {
+  //         _id
+  //         FirstName
+  //         LastName
+  //         Gender
+  //         PhoneNumber
+  //         Email
+  //         IsValidated
+  //         Avatar
+  //         Role
+  //       }
+  //       DepId {
+  //         _id
+  //         Name
+  //         BuildingId {
+  //           _id
+  //           Name
+  //         }
+  //         HospitalId {
+  //           _id
+  //           Name
+  //         }
+  //       }
+  //       Review {
+  //         Star
+  //         Comment
+  //       }
+  //       Record {
+  //         At
+  //         Title
+  //         Description
+  //       }
+  //       OpenLink
+  //       Note
+  //       CreatedAt
+  //       UpdatedAt
+  //     }
+  //   }
+  //   `
+  //   const id = localStorage.getItem("_id");
 
-//   const { loading, error, data } = useQuery(QUERY_ALL_APPOINTMENT, {
-//     variables: { getAllAppointmentByPatientPatientId: id, getAllAppointmentByGuideGuideId: id },
-//   });
+  //   const { loading, error, data } = useQuery(QUERY_ALL_APPOINTMENT, {
+  //     variables: { getAllAppointmentByPatientPatientId: id, getAllAppointmentByGuideGuideId: id },
+  //   });
 
-//   const [appointment, setAppointment] = useState<Appointment[]>(
-//     data !== undefined && role === "customer" ? data.getAllAppointmentByPatient : 
-//     data !== undefined && role === "guide" ? data.getAllAppointmentByGuide
-//     : []
-//   );
+  //   const [appointment, setAppointment] = useState<Appointment[]>(
+  //     data !== undefined && role === "customer" ? data.getAllAppointmentByPatient :
+  //     data !== undefined && role === "guide" ? data.getAllAppointmentByGuide
+  //     : []
+  //   );
 
-//   useEffect(() => {
-//     if (!loading) {
-//       if(role === "customer"){
-//         console.log(data);
-//         setAppointment(data.getAllAppointmentByPatient);
-//       }else{ //guide
-//         setAppointment(data.getAllAppointmentByGuide);
-//       }
-      
-//     }
-//     console.log(error);
-//   }, [loading]);
+  //   useEffect(() => {
+  //     if (!loading) {
+  //       if(role === "customer"){
+  //         console.log(data);
+  //         setAppointment(data.getAllAppointmentByPatient);
+  //       }else{ //guide
+  //         setAppointment(data.getAllAppointmentByGuide);
+  //       }
 
-  const [appointment, setAppointment] = useState<Appointment[]>([]);
+  //     }
+  //     console.log(error);
+  //   }, [loading]);
+
+  const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
+  const id = localStorage.getItem("_id");
+
+  const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
+    variables: {
+      getAllAppointmentByCustomerCustomerId: id,
+    },
+  });
+
+  const [appointment, setAppointment] = useState<Appointment[]>(
+    data !== undefined ? data.getAllAppointmentByCustomer : []
+  );
+
+  useEffect(() => {
+    if (!loading) {
+      setAppointment(data.getAllAppointmentByCustomer);
+    }
+  }, [loading]);
 
   return (
     <Grid>
@@ -191,11 +219,14 @@ function HistoryPage() {
       >
         <Grid item className={classes.sub}></Grid>
         <Grid item className={classes.main}>
-          {/* {!loading ? ( */}
+          {!loading ? (
             <>
-              {appointment !== undefined && appointment.find(a => a.EndTime !== null) ? (
+              {appointment.length !== 0 &&
+              appointment.find((a) => a.EndTime !== null) ? (
                 appointment
-                  ?.filter(a => a.EndTime !== null).slice().sort((a, b) => {
+                  ?.filter((a) => a.EndTime !== null)
+                  .slice()
+                  .sort((a, b) => {
                     return (
                       new Date(a.AppointTime).getTime() -
                       new Date(b.AppointTime).getTime()
@@ -227,10 +258,9 @@ function HistoryPage() {
                           className={classes.card}
                         >
                           <Grid item xs={12} md={10} lg={8}>
-                            {/* <AppointmentCard
+                            <AppointmentCard
                               appointment={a}
-                              match={role === "customer" ? a.Guide : a.Customer}
-                            /> */}
+                            />
                           </Grid>
                         </Grid>
                       </>
@@ -246,8 +276,8 @@ function HistoryPage() {
                 </Typography>
               )}
             </>
-           {/* ) : (
-             <Grid
+          ) : (
+            <Grid
               container
               direction="row"
               alignItems="center"
@@ -255,7 +285,7 @@ function HistoryPage() {
             >
               <CircularProgress disableShrink />
             </Grid>
-          )} */}
+          )}
         </Grid>
 
         <Grid item className={classes.sub}></Grid>

@@ -79,27 +79,28 @@ function InformationForm({
   const { loading, error, data } = useQuery(GET_ALLHOSPITAL, {});
 
   const [alert, setAlert] = useState<boolean>(false);
+  const [timeAlert, setTimeAlert] = useState<boolean>(false);
 
   const next = () => {
-    console.log(period);
-    console.log(time);
-    console.log(hosId);
-    console.log(depId);
     if (
       period !== undefined &&
       time !== undefined &&
       hosId !== undefined &&
       depId !== undefined
     ) {
-      setAppointment({
-        ...appointment,
-        Period: period,
-        AppointTime: time,
-        Hospital: hos.find((h) => h._id === hosId),
-        Department: dep?.find((d) => d._id === depId),
-        Note: note,
-      });
-      setStep(2);
+      if (isWrongTime()) {
+        setTimeAlert(true);
+      } else {
+        setAppointment({
+          ...appointment,
+          Period: period,
+          AppointTime: time,
+          Hospital: hos.find((h) => h._id === hosId),
+          Department: dep?.find((d) => d._id === depId),
+          Note: note,
+        });
+        setStep(2);
+      }
     } else {
       setAlert(true);
     }
@@ -128,7 +129,6 @@ function InformationForm({
 
   useEffect(() => {
     setTime(!isWrongTime() ? time : undefined);
-    // console.log(isWrongTime());
   }, [period]);
 
   const handleChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,7 +173,7 @@ function InformationForm({
       <Grid item xs={12} md={12} lg={12} className={classes.form}>
         <Paper className={classes.paper}>
           {!loading ? (
-            <form onSubmit={next}>
+            <form>
               <div className={classes.margin}>
                 <Grid
                   container
@@ -412,11 +412,20 @@ function InformationForm({
                   buttonText="ตกลง"
                 />
               )}
+              {timeAlert && (
+                <Alert
+                  closeAlert={() => setTimeAlert(false)}
+                  alert={timeAlert}
+                  title="ช่วงเวลาไม่ถูกต้อง"
+                  text="กรุณากำหนดเวลานัดหมายให้ตรงช่วงเวลาที่กำหนด"
+                  buttonText="ตกลง"
+                />
+              )}
               <div className={classes.margin}>
                 <Grid container justify="flex-end" alignItems="center">
                   <Grid item xs={4} md={4} lg={4}>
                     <Typography align="right">
-                      <Button type="submit" variant="contained" color="primary">
+                      <Button type="button" onClick={next} variant="contained" color="primary">
                         ถัดไป
                       </Button>
                     </Typography>

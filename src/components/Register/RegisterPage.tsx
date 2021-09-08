@@ -36,8 +36,8 @@ import ContactForm from "./ContactForm";
 import ProfileForm from "./ProfileForm";
 import RegisterSubmit from "./RegisterSubmit";
 
-import { gql, useMutation } from '@apollo/client';
-import useCustomerApi from '../../hooks/customerhooks'
+import { gql, useMutation } from "@apollo/client";
+import useCustomerApi from "../../hooks/customerhooks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,17 +88,18 @@ function RegisterPage() {
   const gmail = localStorage.getItem("gmail");
   const token = localStorage.getItem("token");
 
-  const [alert, setAlert] = useState<boolean>(false)
+  const [alert, setAlert] = useState<boolean>(false);
 
   const logout = () => {
-    setAlert(true)
-    history.push("/")
-  }
+    setAlert(true);
+    history.push("/");
+  };
 
   const { signOut } = useGoogleLogout({
-    clientId : "907374215732-b5mgla300uqrmlvkq4gstaq0de9osef7.apps.googleusercontent.com",
-    onLogoutSuccess: logout
-  })
+    clientId:
+      "907374215732-b5mgla300uqrmlvkq4gstaq0de9osef7.apps.googleusercontent.com",
+    onLogoutSuccess: logout,
+  });
 
   useEffect(() => {
     if (accessToken !== null) {
@@ -107,20 +108,22 @@ function RegisterPage() {
     if (gmail === null) {
       history.push("/");
     }
-
   }, [accessToken, gmail]);
 
-  const [submit, setSubmit] = useState<boolean>(false)
+  const [submit, setSubmit] = useState<boolean>(false);
 
   const { SIGNUP_CUSTOMER } = useCustomerApi();
 
-  const [createCustomer, { data: mutationData, loading: mutationLoading, error: mutationError } ] = useMutation(SIGNUP_CUSTOMER);
+  const [
+    createCustomer,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(SIGNUP_CUSTOMER);
 
   //NEEDED BACKEND
   const onSubmit = async () => {
     console.log(user);
-    await createCustomer({ variables: { createdCustomerInput:{...user} } });
-    signOut()
+    await createCustomer({ variables: { createdCustomerInput: { ...user } } });
+    signOut();
   };
 
   const [step, setStep] = useState<number>(1);
@@ -176,36 +179,42 @@ function RegisterPage() {
               {/* </form> */}
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
-                {step === 1 && (
-                  <ProfileForm
-                    user={user}
-                    setUser={setUser}
-                    setStep={setStep}
-                  />
-                )}
-                {step === 2 && (
-                  <ContactForm
-                    user={user}
-                    setUser={setUser}
-                    setStep={setStep}
-                  />
-                )}
-                {step === 3 && (
-                  <RegisterSubmit
-                    user={user}
-                    setUser={setUser}
-                    setStep={setStep}
-                    setSubmit={setSubmit}
-                  />
-                )}
+              {step === 1 && (
+                <ProfileForm user={user} setUser={setUser} setStep={setStep} />
+              )}
+              {step === 2 && (
+                <ContactForm user={user} setUser={setUser} setStep={setStep} />
+              )}
+              {step === 3 && (
+                <RegisterSubmit
+                  user={user}
+                  setUser={setUser}
+                  setStep={setStep}
+                  setSubmit={setSubmit}
+                />
+              )}
             </Grid>
           </Grid>
         </Grid>
-        <Alert closeAlert={() => {
-          setAlert(false)
-          history.push("/")
-        }} alert={alert} title="ลงทะเบียนสำเร็จ" text="โปรดยืนยันตัวตนอีกครั้งผ่านแบบฟอร์มที่ส่งไปยังอีเมล์ที่ติดต่อได้ของท่าน" buttonText="ตกลง"/>
-        <Submit submit={submit} title="ยืนยันการลงทะเบียน?" text="กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนกดยืนยัน" denyText="ยกเลิก" submitText="ยืนยัน" denyAction={() => setSubmit(false)} submitAction={onSubmit}/>
+        <Alert
+          closeAlert={() => {
+            setAlert(false);
+            history.push("/");
+          }}
+          alert={alert}
+          title="ลงทะเบียนสำเร็จ"
+          text="โปรดยืนยันตัวตนอีกครั้งผ่านแบบฟอร์มที่ส่งไปยังอีเมล์ที่ติดต่อได้ของท่าน"
+          buttonText="ตกลง"
+        />
+        <Submit
+          submit={submit}
+          title="ยืนยันการลงทะเบียน?"
+          text="กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนกดยืนยัน"
+          denyText="ยกเลิก"
+          submitText="ยืนยัน"
+          denyAction={() => setSubmit(false)}
+          submitAction={onSubmit}
+        />
         {mutationLoading && <p>Loading...</p>}
         {mutationError && <p>Error :( Please try again</p>}
         <Grid item className={classes.end}></Grid>

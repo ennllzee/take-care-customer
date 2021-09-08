@@ -181,7 +181,7 @@ function SelectGuideForm({
           <Grid item xs={4} md={4} lg={4}>
             <Typography align="right">
               <Button
-                type="submit"
+                type="button"
                 variant="contained"
                 color="primary"
                 onClick={next}

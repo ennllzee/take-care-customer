@@ -62,7 +62,11 @@ function AddAppointment({
   // const [openSubmit,setOpenSubmit] = useState<boolean>(false)
   const id = localStorage.getItem("_id");
 
-  const { GET_SINGLE_CUSTOMER, CREATE_APPOINTMENT } = useCustomerApi();
+  const {
+    GET_SINGLE_CUSTOMER,
+    CREATE_APPOINTMENT,
+    GET_ALLAPPOINTMENT_BY_CUSTOMER,
+  } = useCustomerApi();
 
   const { loading, error, data } = useQuery(GET_SINGLE_CUSTOMER, {
     variables: { getCustomerId: id },
@@ -92,6 +96,12 @@ function AddAppointment({
           ScheuleGuideId: newAppointment.ScheuleGuideId,
         },
       },
+      refetchQueries: [
+        {
+          query: GET_ALLAPPOINTMENT_BY_CUSTOMER,
+          variables: { getAllAppointmentByCustomerCustomerId: id },
+        },
+      ],
     });
     setSuccess(true);
     setOpen(false);

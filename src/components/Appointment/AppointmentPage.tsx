@@ -58,7 +58,7 @@ function AppointmentPage() {
   const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
   const id = localStorage.getItem("_id");
 
-  const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
+  const { loading, error, data  } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
     variables: { getAllAppointmentByCustomerCustomerId: id },
   });
 
@@ -74,8 +74,8 @@ function AppointmentPage() {
     if (!loading) {
       setAppointment(data.getAllAppointmentByCustomer);
     }
-    console.log(error);
-  }, [loading]);
+    console.log(data);
+  }, [loading,data]);
 
   return (
     <Grid>

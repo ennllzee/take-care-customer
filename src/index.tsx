@@ -9,15 +9,21 @@ import { history } from "./helper/history";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 
-const link = new BatchHttpLink({
-  uri: "http://localhost:4000/graphql",
-  batchMax: 5, // No more than 5 operations per batch
-  batchInterval: 20, // Wait no more than 20ms after first batched operation
-});
+// const link = new BatchHttpLink({
+//   uri: "http://localhost:4000/graphql",
+//   batchMax: 5, // No more than 5 operations per batch
+//   batchInterval: 20, // Wait no more than 20ms after first batched operation
+// });
+
+import { createUploadLink } from 'apollo-upload-client';
+
+const link = createUploadLink({
+  uri: "http://localhost:4000/graphql/",
+})
 
 const client = new ApolloClient({
-  link,
   cache: new InMemoryCache(),
+  link,
 });
 
 ReactDOM.render(

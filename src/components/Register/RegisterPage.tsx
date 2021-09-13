@@ -80,9 +80,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function RegisterPage() {
   const classes = useStyles();
-  // const [username,setUsername] = useState<string>()
-  // const [password,setPassword] = useState<string>()
-  // const [confirmedPassword,setConfirmedPassword] = useState<string>()
 
   const accessToken = localStorage.getItem("accessToken");
   const gmail = localStorage.getItem("gmail");
@@ -112,24 +109,51 @@ function RegisterPage() {
 
   const [submit, setSubmit] = useState<boolean>(false);
 
-  const { SIGNUP_CUSTOMER } = useCustomerApi();
-
-  const [
-    createCustomer,
-    { data: mutationData, loading: mutationLoading, error: mutationError },
-  ] = useMutation(SIGNUP_CUSTOMER);
-
-  //NEEDED BACKEND
-  const onSubmit = async () => {
-    console.log(user);
-    await createCustomer({ variables: { createdCustomerInput: { ...user } } });
-    signOut();
-  };
-
   const [step, setStep] = useState<number>(1);
   const [user, setUser] = useState<CustomerForm>({
     Token: token,
   });
+
+  const { SIGNUP_CUSTOMER } = useCustomerApi();
+  const UPLOAD_IMAGE = gql`
+    mutation FilenameMutation(
+      $singleUploadFile: Upload
+      $singleUploadCustomerId: ID!
+    ) {
+      singleUpload(
+        file: $singleUploadFile
+        customerId: $singleUploadCustomerId
+      ) 
+    }
+  `;
+
+  const [setUploadFile] = useMutation(UPLOAD_IMAGE, {
+    onCompleted: (data) => console.log(data),
+  });
+
+  const [createCustomer, { loading: mutationLoading, error: mutationError }] =
+    useMutation(SIGNUP_CUSTOMER, {
+      onCompleted: (data) => {
+        console.log(data);
+        // setUploadFile({ variables: { singleUploadFile: user.Avatar } })
+        setUploadFile({
+          variables: {
+            singleUploadFile: user.Avatar,
+            singleUploadCustomerId: data.createdCustomer._id,
+          },
+        });
+      },
+    });
+
+  //NEEDED BACKEND
+  const onSubmit = async () => {
+    console.log(user.Avatar);
+    createCustomer({
+      variables: { createdCustomerInput: { ...user, Avatar: null } },
+    });
+
+    signOut();
+  };
 
   return (
     <Grid>

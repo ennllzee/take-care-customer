@@ -114,7 +114,6 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
         LastName: lastName,
         Gender: gender,
         DOB: dob,
-        CongenitalDisorders: disorder,
         Avatar: baseImage,
       });
       setStep(2);
@@ -130,8 +129,13 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
           alignItems="center"
           justify="space-between"
         >
-          <Grid item xs={7}>
-            <Grid container spacing={2} alignItems="center" justify="center">
+          <Grid item xs={8}>
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              justify="flex-start"
+            >
               <Grid item>
                 <Fab
                   variant="extended"
@@ -149,28 +153,16 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Typography align="center">
-              <Fab
-                variant="extended"
-                style={{ background: "#C3A3DB" }}
-                disabled={true}
-              >
-                2
-              </Fab>
-            </Typography>
+          <Grid item xs={1}>
+            <Typography align="center">2</Typography>
           </Grid>
-          <Grid item xs={2}>
-            <Typography align="center">
-              <Fab
-                variant="extended"
-                style={{ background: "#C3A3DB" }}
-                disabled={true}
-              >
-                3
-              </Fab>
-            </Typography>
+          <Grid item xs={1}>
+            <Typography align="center">3</Typography>
           </Grid>
+          <Grid item xs={1}>
+            <Typography align="center">4</Typography>
+          </Grid>
+          
         </Grid>
         {/* <Typography variant="h4">ข้อมูลส่วนตัว</Typography> */}
         <div className={classes.margin}>
@@ -288,24 +280,6 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
             </Grid>
           </Grid>
         </div>
-        <div className={classes.margin}>
-          <Grid container spacing={2} justify="center" alignItems="flex-end">
-            <Grid item>
-              <Healing />
-            </Grid>
-            <Grid item xs={10}>
-              <TextField
-                id="input-with-icon-grid"
-                label="โรคประจำตัว"
-                fullWidth={true}
-                value={disorder}
-                onChange={(e) => setDisorder(e.target.value)}
-                type="text"
-              />
-            </Grid>
-          </Grid>
-        </div>
-
         <Grid
           container
           direction="row"

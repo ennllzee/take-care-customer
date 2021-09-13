@@ -97,45 +97,37 @@ function RegisterSubmit({
           alignItems="center"
           justify="space-between"
         >
-          <Grid item xs={2}>
-            <Typography align="center">
-              <Fab
-                variant="extended"
-                style={{ background: "#AC86C7", color: "white" }}
-                disabled={true}
-              >
-                1
-              </Fab>
-            </Typography>
+          <Grid item xs={1}>
+            <Typography align="center">1</Typography>
           </Grid>
-          <Grid item xs={2}>
-            <Typography align="center">
-              <Fab
-                variant="extended"
-                style={{ background: "#AC86C7", color: "white" }}
-                disabled={true}
-              >
-                2
-              </Fab>
-            </Typography>
+          <Grid item xs={1}>
+            <Typography align="center">2</Typography>
           </Grid>
-          <Grid item xs={7}>
-            <Grid container spacing={2} alignItems="center" justify="flex-end">            
-                <Grid item>
-                  <Fab
-                    variant="extended"
-                    style={{ background: "#AC86C7", color: "white" }}
-                    disabled={true}
-                  >
-                    3
-                  </Fab>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography variant="h4">Submit</Typography>
-                  <Typography variant="subtitle2" color="textSecondary">
-                    ยืนยันการลงทะเบียน
-                  </Typography>
-                </Grid>
+          <Grid item xs={1}>
+            <Typography align="center">3</Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              justify="flex-start"
+            >
+              <Grid item>
+                <Fab
+                  variant="extended"
+                  style={{ background: "#AC86C7", color: "white" }}
+                  disabled={true}
+                >
+                  4
+                </Fab>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="h4">Summary</Typography>
+                <Typography variant="subtitle2" color="textSecondary">
+                  สรุปข้อมูลการลงทะเบียน
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -166,9 +158,7 @@ function RegisterSubmit({
                 value={user.FirstName}
                 required
                 type="text"
-                InputProps={{
-                  readOnly: true,
-                }}
+                disabled={true}
               />
             </Grid>
             <Grid item xs={5}>
@@ -179,9 +169,7 @@ function RegisterSubmit({
                 value={user.LastName}
                 required
                 type="text"
-                InputProps={{
-                  readOnly: true,
-                }}
+                disabled={true}
               />
             </Grid>
           </Grid>
@@ -192,7 +180,7 @@ function RegisterSubmit({
               <Wc />
             </Grid>
             <Grid item xs={10}>
-              <FormControl required fullWidth={true}>
+              <FormControl fullWidth={true}>
                 <InputLabel id="gender-label" shrink={true}>
                   เพศ
                 </InputLabel>
@@ -200,9 +188,7 @@ function RegisterSubmit({
                   labelId="gender-label"
                   value={user.Gender}
                   fullWidth={true}
-                  inputProps={{
-                    readOnly: true,
-                  }}
+                  disabled={true}
                 >
                   <MenuItem value={undefined} disabled>
                     เพศ
@@ -223,17 +209,14 @@ function RegisterSubmit({
             <Grid item xs={10}>
               <TextField
                 id="date"
-                label="Birthday"
+                label="วันเกิด"
                 type="date"
                 defaultValue={moment(user.DOB).format("YYYY-MM-DD")}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 fullWidth={true}
-                required
-                inputProps={{
-                  readOnly: true,
-                }}
+                disabled={true}
               />
             </Grid>
           </Grid>
@@ -255,9 +238,7 @@ function RegisterSubmit({
                 }
                 type="text"
                 required
-                inputProps={{
-                  readOnly: true,
-                }}
+                disabled={true}
               />
             </Grid>
           </Grid>
@@ -275,9 +256,7 @@ function RegisterSubmit({
                 value={user.PhoneNumber}
                 required
                 type="text"
-                inputProps={{
-                  readOnly: true,
-                }}
+                disabled={true}
               />
             </Grid>
           </Grid>
@@ -295,9 +274,7 @@ function RegisterSubmit({
                 value={user.Email}
                 type="text"
                 required
-                inputProps={{
-                  readOnly: true,
-                }}
+                disabled={true}
               />
             </Grid>
           </Grid>
@@ -316,9 +293,7 @@ function RegisterSubmit({
                   user.EmergencyTel !== undefined ? user.EmergencyTel : "-"
                 }
                 type="text"
-                inputProps={{
-                  readOnly: true,
-                }}
+                disabled={true}
               />
             </Grid>
           </Grid>

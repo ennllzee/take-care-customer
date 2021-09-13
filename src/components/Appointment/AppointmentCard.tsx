@@ -22,11 +22,8 @@ import Appointment from "../../models/Appointment";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      maxWidth: "80hw",
-    },
-    media: {
-      height: 0,
-      paddingTop: "56.25%", // 16:9
+      padding: "4%",
+      paddingBottom: 0,
     },
     expand: {
       transform: "rotate(0deg)",
@@ -45,10 +42,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface AppointmentCardProps {
-    appointment: Appointment
+  appointment: Appointment;
 }
 
-function AppointmentCard({ appointment } : AppointmentCardProps) {
+function AppointmentCard({ appointment }: AppointmentCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -57,22 +54,27 @@ function AppointmentCard({ appointment } : AppointmentCardProps) {
   };
 
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Grid container direction="row" alignItems="flex-end" justify="center">
+    <Card>
+      <CardContent className={classes.root}>
+        <Grid
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center"
+        >
           <Grid item xs={5}>
-            <Typography variant="body1" align="center">
-              เวลานัดหมาย
+            <Typography variant="body1" align="left">
+              เวลานัดหมาย:
             </Typography>
           </Grid>
           <Grid item xs={7}>
             <Typography variant="body1" align="left">
-              {moment(appointment.AppointTime).format("HH:mm")}
+              {moment(appointment.AppointTime).format("HH.mm น.")}
             </Typography>
           </Grid>
           <Grid item xs={5}>
-            <Typography variant="body1" align="center">
-              โรงพยาบาล
+            <Typography variant="body1" align="left">
+              โรงพยาบาล:
             </Typography>
           </Grid>
           <Grid item xs={7}>
@@ -81,8 +83,8 @@ function AppointmentCard({ appointment } : AppointmentCardProps) {
             </Typography>
           </Grid>
           <Grid item xs={5}>
-            <Typography variant="body1" align="center">
-              แผนก
+            <Typography variant="body1" align="left">
+              แผนก:
             </Typography>
           </Grid>
           <Grid item xs={7}>
@@ -106,28 +108,33 @@ function AppointmentCard({ appointment } : AppointmentCardProps) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-        <Grid container direction="row" alignItems="flex-end" justify="center">
-          <Grid item xs={5}>
-            <Typography variant="body1" align="center">
-              ไกด์
-            </Typography>
+          <Grid
+            container
+            direction="row"
+            alignItems="flex-start"
+            justify="center"
+          >
+            <Grid item xs={5}>
+              <Typography variant="body1" align="left">
+                ข้อมูลเพิ่มเติม:
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <Typography variant="body1" align="left">
+                {appointment.Note !== null ? appointment.Note : "-"}
+              </Typography>
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1" align="left">
+                ไกด์:
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <Typography variant="body1" align="left">
+                {appointment.Guide?.FirstName} {appointment.Guide?.LastName}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={7}>
-            <Typography variant="body1" align="left">
-              {appointment.Guide?.FirstName} {appointment.Guide?.LastName}
-            </Typography>
-          </Grid>
-          <Grid item xs={5}>
-            <Typography variant="body1" align="center">
-              ข้อมูลเพิ่มเติม
-            </Typography>
-          </Grid>
-          <Grid item xs={7}>
-            <Typography variant="body1" align="left">
-              {appointment.Note}
-            </Typography>
-          </Grid>
-        </Grid>
         </CardContent>
       </Collapse>
     </Card>

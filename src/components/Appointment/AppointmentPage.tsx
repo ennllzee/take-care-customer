@@ -148,35 +148,35 @@ function AppointmentPage() {
                           <Grid
                             container
                             direction="row"
-                            alignItems="flex-end"
+                            alignItems="flex-start"
                             justify="center"
                           >
                             <Grid item xs={5}>
-                              <Typography variant="body1" align="center">เวลานัดหมาย</Typography>
+                              <Typography variant="body1" align="left">เวลานัดหมาย:</Typography>
                             </Grid>
                             <Grid item xs={7}>
-                              <Typography variant="body1" align="left">{moment(m.AppointTime).format("HH:mm")}</Typography>
+                              <Typography variant="body1" align="left">{moment(m.AppointTime).format("HH.mm น.")}</Typography>
                             </Grid>
                             <Grid item xs={5}>
-                              <Typography variant="body1" align="center">โรงพยาบาล</Typography>
+                              <Typography variant="body1" align="left">โรงพยาบาล:</Typography>
                             </Grid>
                             <Grid item xs={7}>
                               <Typography variant="body1" align="left">{m.Hospital.Name}</Typography>
                             </Grid>
                             <Grid item xs={5}>
-                              <Typography variant="body1" align="center">แผนก</Typography>
+                              <Typography variant="body1" align="left">แผนก:</Typography>
                             </Grid>
                             <Grid item xs={7}>
                               <Typography variant="body1" align="left">{m.Department.Name}</Typography>
                             </Grid>
                             <Grid item xs={5}>
-                              <Typography variant="body1" align="center">เพิ่มเติม</Typography>
+                              <Typography variant="body1" align="left">ข้อมูลเพิ่มเติม:</Typography>
                             </Grid>
                             <Grid item xs={7}>
-                              <Typography variant="body1" align="left">{m.Note}</Typography>
+                              <Typography variant="body1" align="left">{m.Note !== null ? m.Note : "-"}</Typography>
                             </Grid>
                             <Grid item xs={5}>
-                              <Typography variant="body1" align="center">ไกด์</Typography>
+                              <Typography variant="body1" align="left">ไกด์:</Typography>
                             </Grid>
                             <Grid item xs={7}>
                               <Typography variant="body1" align="left">{m.Guide?.FirstName} {m.Guide?.LastName}</Typography>

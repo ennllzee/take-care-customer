@@ -89,7 +89,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
       Email: email,
       EmergencyTel: emerNum,
     });
-    setStep(1);
+    setStep(2);
   };
 
   const next = () => {
@@ -100,7 +100,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
         Email: email,
         EmergencyTel: emerNum,
       });
-      setStep(3);
+      setStep(4);
     }
   };
 

@@ -168,9 +168,7 @@ function ProfilePage() {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         required
-                        InputProps={{
-                          readOnly: !edit,
-                        }}
+                        disabled={!edit}
                         type="text"
                       />
                     </Grid>
@@ -182,9 +180,7 @@ function ProfilePage() {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         required
-                        InputProps={{
-                          readOnly: !edit,
-                        }}
+                        disabled={!edit}
                         type="text"
                       />
                     </Grid>
@@ -212,9 +208,7 @@ function ProfilePage() {
                             setGender(e.target.value as string);
                           }}
                           fullWidth={true}
-                          inputProps={{
-                            readOnly: !edit,
-                          }}
+                          disabled={!edit}
                         >
                           <MenuItem value={undefined} disabled>
                             เพศ
@@ -246,9 +240,7 @@ function ProfilePage() {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        InputProps={{
-                          readOnly: !edit,
-                        }}
+                        disabled={!edit}
                         fullWidth={true}
                         onChange={(e) => setDOB(new Date(e.target.value).toISOString())}
                         required
@@ -273,9 +265,7 @@ function ProfilePage() {
                         fullWidth={true}
                         value={disorder === undefined || disorder === null ? "ไม่มี" : disorder}
                         onChange={(e) => setDisorder(e.target.value)}
-                        InputProps={{
-                          readOnly: !edit,
-                        }}
+                        disabled={!edit}
                         type="text"
                         required
                       />
@@ -299,9 +289,7 @@ function ProfilePage() {
                         fullWidth={true}
                         value={phoneNum}
                         onChange={(e) => setPhoneNum(e.target.value)}
-                        InputProps={{
-                          readOnly: !edit,
-                        }}
+                        disabled={!edit}
                         required
                         type="text"
                       />
@@ -325,9 +313,7 @@ function ProfilePage() {
                         fullWidth={true}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        InputProps={{
-                          readOnly: !edit,
-                        }}
+                        disabled={!edit}
                         type="text"
                       />
                     </Grid>
@@ -351,9 +337,7 @@ function ProfilePage() {
                         fullWidth={true}
                         value={emerNum}
                         onChange={(e) => setEmerNum(e.target.value)}
-                        InputProps={{
-                          readOnly: !edit,
-                        }}
+                        disabled={!edit}
                         type="text"
                       />
                     </Grid>

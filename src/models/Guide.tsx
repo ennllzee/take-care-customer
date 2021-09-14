@@ -23,7 +23,6 @@ interface Guide {
     IdCard: string
     VerifyDate?: any
     Avatar?: any
-    CongenitalDisorders?: string
     Status: {
         Tag: string
         Details: string[]

@@ -64,7 +64,7 @@ function ContactCard({user, setOpen = undefined, check = false} : ContactCardPro
                             </Button>
                         }
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body2">
                         {user?.FirstName} {user?.LastName}
                     </Typography>
                     <Typography variant="body2">

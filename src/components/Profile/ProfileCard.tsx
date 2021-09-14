@@ -55,7 +55,7 @@ function ProfileCard({name, gmail, img} : ProfileCardProps){
                         {name}
                         <br/>
                         <Typography variant="caption" color="textSecondary">
-                            Gmail: {gmail}
+                            {gmail}
                         </Typography>
                     </Typography>
                 </CardContent>

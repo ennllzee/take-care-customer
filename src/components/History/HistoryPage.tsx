@@ -11,6 +11,7 @@ import {
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { history } from "../../helper/history";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
 import AppointmentCard from "../Appointment/AppointmentCard";
@@ -248,7 +249,7 @@ function HistoryPage() {
                         >
                           <Grid item xs={10} md={11} lg={11}>
                             <Typography variant="h5">
-                              {moment(a.AppointTime).format("DD MMMM YYYY")}
+                              {convertToThaiDate(new Date(a.AppointTime))}
                             </Typography>
                           </Grid>
                         </Grid>

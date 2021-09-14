@@ -15,11 +15,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Person, Wc, Cake, Healing } from "@material-ui/icons";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import moment from "moment";
 import { useState } from "react";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import CustomerForm from "../../models/CustomerForm";
+import Alert from "../Alert/Alert";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -89,6 +90,8 @@ function ProfileForm({
   const [baseImage, setBaseImage] = useState<any | undefined>(user.Avatar);
   const [avatar, setavatar] = useState<any | undefined>(user.Avatar);
 
+  const [alert,setAlert] = useState<boolean>(false)
+
   const uploadImage = async (e: any) => {
     const file = e.target.files[0];
     setavatar(file);
@@ -130,6 +133,8 @@ function ProfileForm({
         Avatar: avatar,
       });
       setStep(2);
+    } else {
+      setAlert(true)
     }
   };
 
@@ -274,7 +279,7 @@ function ProfileForm({
             </Grid>
             <Grid item xs={10}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
+                {/* <DatePicker
                   margin="normal"
                   id="date-picker-dialog"
                   label="วันเกิด"
@@ -285,6 +290,18 @@ function ProfileForm({
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
+                  fullWidth={true}
+                  required
+                /> */}
+                <DatePicker
+                  label="วันเกิด"
+                  format="dd/MM/yyyy"
+                  value={dob !== undefined ? new Date(dob) : null}
+                  onChange={(e) => setDOB(e?.toISOString())}
+                  openTo="year"
+                  views={["year", "month", "date"]}
+                  // required
+                  disableFuture
                   fullWidth={true}
                 />
               </MuiPickersUtilsProvider>
@@ -317,7 +334,7 @@ function ProfileForm({
           <Grid item xs={4} md={3} lg={2}>
             <Button
               fullWidth={true}
-              type="submit"
+              type="button"
               // color="primary"
               onClick={next}
               variant="contained"
@@ -327,6 +344,15 @@ function ProfileForm({
           </Grid>
         </Grid>
       </form>
+      {alert && (
+        <Alert
+          closeAlert={() => setAlert(false)}
+          alert={alert}
+          title="ข้อมูลการนัดหมาย"
+          text="กรุณากรอกข้อมูลให้ครบ"
+          buttonText="ตกลง"
+        />
+      )}
     </Grid>
   );
 }

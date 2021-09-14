@@ -120,6 +120,8 @@ function AppointmentPage() {
                         onChange={(e) => e !== null && setDate(e)}
                         showTodayButton={true}
                         TextFieldComponent={() => null}
+                        minDate={new Date()}
+                        maxDate={new Date(moment(new Date()).add(7, 'days').format('DD MMMM yyyy'))}
                       />
                     </MuiPickersUtilsProvider>
                   </Typography>

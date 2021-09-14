@@ -31,9 +31,10 @@ import Hospital from "../../models/Hospital";
 import { useEffect } from "react";
 import moment from "moment";
 import { gql, useQuery } from "@apollo/client";
-import Customer from "../../models/Customer";
 import Alert from "../Alert/Alert";
 import useCustomerApi from "../../hooks/customerhooks";
+import { MuiPickersUtilsProvider, TimePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 interface InformationFormProps {
   appointment?: AppointmentForm;
@@ -132,6 +133,7 @@ function InformationForm({
   }, [period]);
 
   const handleChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let minTime = (event.target as HTMLInputElement).value === "Afternoon" ? 13 : 7
     setMin(
       (event.target as HTMLInputElement).value === "Afternoon"
         ? "13:00:00"
@@ -143,7 +145,14 @@ function InformationForm({
         : "18:00:00"
     );
     setPeriod((event.target as HTMLInputElement).value);
-    setTime(undefined);
+    setTime(new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      minTime,
+      0,
+      0
+    ).toISOString());
   };
 
   const [min, setMin] = useState<string>(
@@ -338,7 +347,7 @@ function InformationForm({
                     </FormControl>
                   </Grid>
                   <Grid item xs={10}>
-                    <TextField
+                    {/* <TextField
                       id="time"
                       label="เวลานัดหมาย"
                       type="time"
@@ -372,7 +381,31 @@ function InformationForm({
                         );
                       }}
                       required
-                    />
+                    /> */}
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <TimePicker
+                        ampm={false}
+                        id="time-picker"
+                        label="เวลานัดหมาย"
+                        value={time !== undefined ? new Date(time) : null}
+                        onChange={(e) => {
+                          setTime(
+                            new Date(
+                              date.getFullYear(),
+                              date.getMonth(),
+                              date.getDate(),
+                              e?.getHours(),
+                              e?.getMinutes(),
+                              e?.getMilliseconds()
+                            ).toISOString()
+                          );
+                        }}
+                        minutesStep={5}
+                        required
+                        fullWidth={true}
+                        error={isWrongTime()}
+                      />
+                    </MuiPickersUtilsProvider>
                   </Grid>
                 </Grid>
               </div>
@@ -399,7 +432,7 @@ function InformationForm({
                       multiline={true}
                       rows={3}
                       variant="outlined"
-                      placeholder="(ตัวอย่าง) ต้องการรถเข็น"
+                      placeholder="(ตัวอย่าง) ผู้ป่วยต้องการรถเข็น"
                     />
                   </Grid>
                 </Grid>
@@ -426,7 +459,12 @@ function InformationForm({
                 <Grid container justify="flex-end" alignItems="center">
                   <Grid item xs={4} md={4} lg={4}>
                     <Typography align="right">
-                      <Button type="button" onClick={next} variant="contained" color="primary">
+                      <Button
+                        type="button"
+                        onClick={next}
+                        variant="contained"
+                        color="primary"
+                      >
                         ถัดไป
                       </Button>
                     </Typography>

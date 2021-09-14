@@ -25,6 +25,7 @@ import {
 import moment from "moment";
 import { useState } from "react";
 import CustomerForm from "../../models/CustomerForm";
+import Alert from "../Alert/Alert";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -81,6 +82,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
   );
   const [email, setEmail] = useState<string | undefined>(user.Email);
   const [emerNum, setEmerNum] = useState<string | undefined>(user.EmergencyTel);
+  const [alert,setAlert] = useState<boolean>(false)
 
   const back = () => {
     setUser({
@@ -101,6 +103,8 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
         EmergencyTel: emerNum,
       });
       setStep(4);
+    }else{
+      setAlert(true)
     }
   };
 
@@ -222,7 +226,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
           <Grid item xs={4} md={3} lg={2}>
             <Button
               fullWidth={true}
-              type="submit"
+              type="button"
               onClick={next}
               // color="primary"
               variant="contained"
@@ -232,6 +236,15 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
           </Grid>
         </Grid>
       </form>
+      {alert && (
+        <Alert
+          closeAlert={() => setAlert(false)}
+          alert={alert}
+          title="ข้อมูลการนัดหมาย"
+          text="กรุณากรอกข้อมูลให้ครบ"
+          buttonText="ตกลง"
+        />
+      )}
     </Grid>
   );
 }

@@ -64,9 +64,17 @@ interface ProfileFormProps {
   user: CustomerForm;
   setUser: any;
   setStep: any;
+  displayImg: any;
+  setdisplayImg: any;
 }
 
-function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
+function ProfileForm({
+  user,
+  setUser,
+  setStep,
+  displayImg,
+  setdisplayImg,
+}: ProfileFormProps) {
   const classes = useStyles();
   const [firstName, setFirstName] = useState<string | undefined>(
     user.FirstName
@@ -79,11 +87,16 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
   const [gender, setGender] = useState<string | undefined>(user.Gender);
   //   const [imgName, setImgName] = useState<any | undefined>(user.FirstName);
   const [baseImage, setBaseImage] = useState<any | undefined>(user.Avatar);
+  const [avatar, setavatar] = useState<any | undefined>(user.Avatar);
 
   const uploadImage = async (e: any) => {
     const file = e.target.files[0];
+    setavatar(file);
+
     const base64 = await convertBase64(file);
     setBaseImage(base64);
+    setdisplayImg(base64);
+    console.log(displayImg);
   };
 
   const convertBase64 = (file: any) => {
@@ -114,7 +127,8 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
         LastName: lastName,
         Gender: gender,
         DOB: dob,
-        Avatar: baseImage,
+        CongenitalDisorders: disorder,
+        Avatar: avatar,
       });
       setStep(2);
     }
@@ -274,7 +288,7 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
                   shrink: true,
                 }}
                 fullWidth={true}
-                onChange={(e) => setDOB((new Date(e.target.value)).toISOString())}
+                onChange={(e) => setDOB(new Date(e.target.value).toISOString())}
                 required
               />
             </Grid>

@@ -13,7 +13,11 @@ const useCustomerApi = () => {
         Email
         EmergencyTel
         GoogleId
-        Avatar
+        Avatar {
+          filename
+          mimetype
+          data
+        }
         CongenitalDisorders
         Role
         CreatedAt
@@ -34,7 +38,11 @@ const useCustomerApi = () => {
         PhoneNumber
         Email
         EmergencyTel
-        Avatar
+        Avatar {
+          filename
+          mimetype
+          data
+        }
         CongenitalDisorders
         Role
         CreatedAt
@@ -58,7 +66,11 @@ const useCustomerApi = () => {
         Email
         EmergencyTel
         GoogleId
-        Avatar
+        Avatar {
+          filename
+          mimetype
+          data
+        }
         CongenitalDisorders
         Role
         UpdatedAt
@@ -78,7 +90,11 @@ const useCustomerApi = () => {
         Email
         EmergencyTel
         GoogleId
-        Avatar
+        Avatar {
+          filename
+          mimetype
+          data
+        }
         CongenitalDisorders
         Role
         CreatedAt
@@ -91,19 +107,6 @@ const useCustomerApi = () => {
     query LOGIN_CUSTOMER($loginCustomerToken: String) {
       loginCustomer(Token: $loginCustomerToken) {
         _id
-        FirstName
-        LastName
-        Gender
-        DOB
-        PhoneNumber
-        Email
-        EmergencyTel
-        GoogleId
-        Avatar
-        CongenitalDisorders
-        Role
-        CreatedAt
-        UpdatedAt
       }
     }
   `;
@@ -361,7 +364,11 @@ const useCustomerApi = () => {
           }
           _id
           Gender
-          Avatar
+          Avatar {
+            filename
+            mimetype
+            data
+          }
         }
       }
     }

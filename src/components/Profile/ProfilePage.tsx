@@ -81,7 +81,7 @@ function ProfilePage() {
       setGender(data.getCustomer?.Gender);
       setDisorder(data.getCustomer?.CongenitalDisorders);
       setEmerNum(data.getCustomer?.EmergencyTel);
-      setAvatar(data.getCustomer?.Avatar);
+      setAvatar(`data:${data.getCustomer?.Avatar.mimetype};base64,${data.getCustomer?.Avatar.data}`);
     }
   }, [loading]);
 
@@ -101,7 +101,7 @@ function ProfilePage() {
     user?.CongenitalDisorders
   );
   const [gender, setGender] = useState<string | undefined>(user?.Gender);
-  const [avatar, setAvatar] = useState<any | undefined>(user?.Avatar);
+  const [avatar, setAvatar] = useState<any | undefined>('');
   const [edit, setEdit] = useState<boolean>(false);
 
   useEffect(() => {
@@ -144,7 +144,7 @@ function ProfilePage() {
               <ProfileCard
                 name={user?.FirstName + " " + user?.LastName}
                 gmail={user?.Gmail}
-                img={user?.Avatar}
+                img={avatar}
               />
             </Grid>
             <Grid item xs={12} md={10} lg={8}>

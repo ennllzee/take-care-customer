@@ -113,6 +113,7 @@ function RegisterPage() {
   const [user, setUser] = useState<CustomerForm>({
     Token: token,
   });
+  const [displayImg, setdisplayImg] = useState<any | undefined>("");
 
   const { SIGNUP_CUSTOMER } = useCustomerApi();
   const UPLOAD_IMAGE = gql`
@@ -120,10 +121,7 @@ function RegisterPage() {
       $singleUploadFile: Upload
       $singleUploadCustomerId: ID!
     ) {
-      singleUpload(
-        file: $singleUploadFile
-        customerId: $singleUploadCustomerId
-      ) 
+      singleUpload(file: $singleUploadFile, customerId: $singleUploadCustomerId)
     }
   `;
 
@@ -135,7 +133,6 @@ function RegisterPage() {
     useMutation(SIGNUP_CUSTOMER, {
       onCompleted: (data) => {
         console.log(data);
-        // setUploadFile({ variables: { singleUploadFile: user.Avatar } })
         setUploadFile({
           variables: {
             singleUploadFile: user.Avatar,
@@ -147,7 +144,6 @@ function RegisterPage() {
 
   //NEEDED BACKEND
   const onSubmit = async () => {
-    console.log(user.Avatar);
     createCustomer({
       variables: { createdCustomerInput: { ...user, Avatar: null } },
     });
@@ -204,7 +200,13 @@ function RegisterPage() {
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               {step === 1 && (
-                <ProfileForm user={user} setUser={setUser} setStep={setStep} />
+                <ProfileForm
+                  user={user}
+                  setUser={setUser}
+                  setStep={setStep}
+                  displayImg={displayImg}
+                  setdisplayImg={setdisplayImg}
+                />
               )}
               {step === 2 && (
                 <ContactForm user={user} setUser={setUser} setStep={setStep} />
@@ -215,6 +217,7 @@ function RegisterPage() {
                   setUser={setUser}
                   setStep={setStep}
                   setSubmit={setSubmit}
+                  displayImg={displayImg}
                 />
               )}
             </Grid>

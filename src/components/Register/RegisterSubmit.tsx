@@ -74,6 +74,7 @@ interface RegisterSubmitProps {
   setUser: any;
   setStep: any;
   setSubmit: any;
+  displayImg: any;
 }
 
 function RegisterSubmit({
@@ -81,12 +82,30 @@ function RegisterSubmit({
   setUser,
   setStep,
   setSubmit,
+  displayImg
 }: RegisterSubmitProps) {
   const classes = useStyles();
 
   const back = () => {
     setStep(2);
   };
+
+  // const convertBase64 = (file: any) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
+
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // };
+
+  // const base64Avatar = convertBase64(user.Avatar);
 
   return (
     <Grid>
@@ -149,7 +168,7 @@ function RegisterSubmit({
             className={classes.card}
           >
             <Grid item xs={4}>
-              <CardMedia image={user.Avatar} className={classes.img} />
+              <CardMedia image={displayImg} className={classes.img} />
             </Grid>
           </Grid>
         </div>

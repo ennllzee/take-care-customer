@@ -65,9 +65,17 @@ interface ProfileFormProps {
   user: CustomerForm;
   setUser: any;
   setStep: any;
+  displayImg: any;
+  setdisplayImg: any;
 }
 
-function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
+function ProfileForm({
+  user,
+  setUser,
+  setStep,
+  displayImg,
+  setdisplayImg,
+}: ProfileFormProps) {
   const classes = useStyles();
   const [firstName, setFirstName] = useState<string | undefined>(
     user.FirstName
@@ -84,13 +92,12 @@ function ProfileForm({ user, setUser, setStep }: ProfileFormProps) {
 
   const uploadImage = async (e: any) => {
     const file = e.target.files[0];
-
-    console.log(file);
     setavatar(file);
-    
+
     const base64 = await convertBase64(file);
     setBaseImage(base64);
-    // console.log(base64);
+    setdisplayImg(base64);
+    console.log(displayImg);
   };
 
   const convertBase64 = (file: any) => {

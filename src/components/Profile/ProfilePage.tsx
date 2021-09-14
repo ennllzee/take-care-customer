@@ -117,7 +117,6 @@ function ProfilePage() {
       lastName !== undefined &&
       dob !== undefined &&
       phoneNum !== undefined &&
-      disorder !== undefined &&
       gender !== undefined
     ) {
       console.log("completed");

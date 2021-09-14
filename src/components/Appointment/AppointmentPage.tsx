@@ -181,6 +181,12 @@ function AppointmentPage() {
                             <Grid item xs={7}>
                               <Typography variant="body1" align="left">{m.Guide?.FirstName} {m.Guide?.LastName}</Typography>
                             </Grid>
+                            <Grid item xs={5}>
+                              <Typography variant="body1" align="left">สถานะ:</Typography>
+                            </Grid>
+                            <Grid item xs={7}>
+                              <Typography variant="body1" align="left">{m.Status.Tag}</Typography>
+                            </Grid>
                           </Grid>
                         );
                       }

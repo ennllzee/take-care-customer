@@ -101,7 +101,7 @@ function ProfilePage() {
     user?.CongenitalDisorders
   );
   const [gender, setGender] = useState<string | undefined>(user?.Gender);
-  const [avatar, setAvatar] = useState<any | undefined>('');
+  const [avatar, setAvatar] = useState<any | undefined>();
   const [edit, setEdit] = useState<boolean>(false);
 
   useEffect(() => {
@@ -124,6 +124,8 @@ function ProfilePage() {
 
     setEdit(false);
   };
+
+  console.log(user?.Avatar)
 
   return (
     <Grid>
@@ -197,7 +199,7 @@ function ProfilePage() {
                     </Grid>
                     <Grid item xs={10}>
                       <FormControl required fullWidth={true}>
-                        <InputLabel id="gender-label" shrink={true}>
+                        <InputLabel id="gender-label" shrink={gender !== undefined}>
                           เพศ
                         </InputLabel>
                         <Select
@@ -214,7 +216,7 @@ function ProfilePage() {
                           </MenuItem>
                           <MenuItem value="male">ชาย</MenuItem>
                           <MenuItem value="female">หญิง</MenuItem>
-                          <MenuItem value="transgender">ทรานสเจนเดอร์</MenuItem>
+                          <MenuItem value="other">อื่น ๆ</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>

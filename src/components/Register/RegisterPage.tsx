@@ -38,6 +38,7 @@ import RegisterSubmit from "./RegisterSubmit";
 
 import { gql, useMutation } from "@apollo/client";
 import useCustomerApi from "../../hooks/customerhooks";
+import MedicalForm from "./MedicalForm";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -208,10 +209,13 @@ function RegisterPage() {
                   setdisplayImg={setdisplayImg}
                 />
               )}
-              {step === 2 && (
+              {step === 2 && 
+                <MedicalForm user={user} setUser={setUser} setStep={setStep} />
+              }
+              {step === 3 && (
                 <ContactForm user={user} setUser={setUser} setStep={setStep} />
               )}
-              {step === 3 && (
+              {step === 4 && (
                 <RegisterSubmit
                   user={user}
                   setUser={setUser}

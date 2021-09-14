@@ -6,7 +6,7 @@ import Record from "./Record";
 
 interface Appointment {
     _id: any
-    Period: string //"morning" "afternoon" "all-day"
+    Period: string //Morning" "Afternoon" "All-day"
     AppointTime: any
     BeginTime?: any
     EndTime?: any

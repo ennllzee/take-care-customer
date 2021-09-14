@@ -113,45 +113,39 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
           alignItems="center"
           justify="space-between"
         >
-          <Grid item xs={2}>
-            <Typography align="center">
-              <Fab
-                variant="extended"
-                style={{ background: "#AC86C7", color: "white" }}
-                disabled={true}
-              >
-                1
-              </Fab>
-            </Typography>
+          {/* <Grid item xs={1}>
+            <Typography align="center">1</Typography>
           </Grid>
-          <Grid item xs={7}>
-            <Grid container spacing={2} alignItems="center" justify="center">
+          <Grid item xs={1}>
+            <Typography align="center">2</Typography>
+          </Grid> */}
+          <Grid item xs={8}>
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              justify="flex-start"
+            >
               <Grid item>
                 <Fab
                   variant="extended"
                   style={{ background: "#AC86C7", color: "white" }}
                   disabled={true}
                 >
-                  2
+                  3
                 </Fab>
               </Grid>
               <Grid item xs={8}>
                 <Typography variant="h4">Contact</Typography>
-                <Typography variant="subtitle2" color="textSecondary">ช่องทางการติดต่อ</Typography>
+                <Typography variant="subtitle2" color="textSecondary">
+                  ช่องทางการติดต่อ
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Typography align="center">
-              <Fab
-                variant="extended"
-                style={{ background: "#C3A3DB" }}
-                disabled={true}
-              >
-                3
-              </Fab>
-            </Typography>
-          </Grid>
+          {/* <Grid item xs={1}>
+            <Typography align="center">4</Typography>
+          </Grid> */}
         </Grid>
         {/* <Typography variant="h4">ช่องทางการติดต่อ</Typography> */}
         <div className={classes.margin}>
@@ -198,7 +192,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
             <Grid item xs={10}>
               <TextField
                 id="input-with-icon-grid"
-                label="เบอร์ติดต่อกรณีฉุกเฉิน"
+                label="เบอร์ติดต่อกรณีฉุกเฉิน(ไม่จำเป็น)"
                 fullWidth={true}
                 value={emerNum}
                 onChange={(e) => setEmerNum(e.target.value)}

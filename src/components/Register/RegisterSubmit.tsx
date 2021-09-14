@@ -24,6 +24,7 @@ import {
 } from "@material-ui/icons";
 import moment from "moment";
 import { useState } from "react";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 import CustomerForm from "../../models/CustomerForm";
 import Submit from "../Submit/Submit";
 
@@ -87,7 +88,7 @@ function RegisterSubmit({
   const classes = useStyles();
 
   const back = () => {
-    setStep(2);
+    setStep(3);
   };
 
   // const convertBase64 = (file: any) => {
@@ -116,7 +117,7 @@ function RegisterSubmit({
           alignItems="center"
           justify="space-between"
         >
-          <Grid item xs={1}>
+          {/* <Grid item xs={1}>
             <Typography align="center">1</Typography>
           </Grid>
           <Grid item xs={1}>
@@ -124,7 +125,7 @@ function RegisterSubmit({
           </Grid>
           <Grid item xs={1}>
             <Typography align="center">3</Typography>
-          </Grid>
+          </Grid> */}
           <Grid item xs={8}>
             <Grid
               container
@@ -175,7 +176,7 @@ function RegisterSubmit({
                 label="ชื่อ"
                 fullWidth={true}
                 value={user.FirstName}
-                required
+                // required
                 type="text"
                 disabled={true}
               />
@@ -186,7 +187,7 @@ function RegisterSubmit({
                 label="นามสกุล"
                 fullWidth={true}
                 value={user.LastName}
-                required
+                // required
                 type="text"
                 disabled={true}
               />
@@ -227,13 +228,14 @@ function RegisterSubmit({
             </Grid>
             <Grid item xs={10}>
               <TextField
-                id="date"
+                // id="date"
                 label="วันเกิด"
-                type="date"
-                defaultValue={moment(user.DOB).format("YYYY-MM-DD")}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                // type="date"
+                // defaultValue={moment(user.DOB).format("YYYY-MM-DD")}
+                value={convertToThaiDate(new Date(user.DOB))}
+                // InputLabelProps={{
+                //   shrink: true,
+                // }}
                 fullWidth={true}
                 disabled={true}
               />
@@ -248,7 +250,7 @@ function RegisterSubmit({
             <Grid item xs={10}>
               <TextField
                 id="input-with-icon-grid"
-                label="Congenital disorder"
+                label="โรคประจำตัว"
                 fullWidth={true}
                 value={
                   user.CongenitalDisorders !== undefined
@@ -256,7 +258,7 @@ function RegisterSubmit({
                     : "-"
                 }
                 type="text"
-                required
+                // required
                 disabled={true}
               />
             </Grid>
@@ -273,7 +275,7 @@ function RegisterSubmit({
                 label="เบอร์โทรศัพท์มือถือ"
                 fullWidth={true}
                 value={user.PhoneNumber}
-                required
+                // required
                 type="text"
                 disabled={true}
               />
@@ -292,7 +294,7 @@ function RegisterSubmit({
                 fullWidth={true}
                 value={user.Email}
                 type="text"
-                required
+                // required
                 disabled={true}
               />
             </Grid>

@@ -1,3 +1,4 @@
+import DateFnsUtils from "@date-io/date-fns";
 import {
   Button,
   CardMedia,
@@ -14,8 +15,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Person, Wc, Cake, Healing } from "@material-ui/icons";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import moment from "moment";
 import { useState } from "react";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 import CustomerForm from "../../models/CustomerForm";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -81,9 +84,6 @@ function ProfileForm({
   );
   const [lastName, setLastName] = useState<string | undefined>(user.LastName);
   const [dob, setDOB] = useState<string | undefined>(user.DOB);
-  const [disorder, setDisorder] = useState<string | undefined>(
-    user.CongenitalDisorders
-  );
   const [gender, setGender] = useState<string | undefined>(user.Gender);
   //   const [imgName, setImgName] = useState<any | undefined>(user.FirstName);
   const [baseImage, setBaseImage] = useState<any | undefined>(user.Avatar);
@@ -127,7 +127,6 @@ function ProfileForm({
         LastName: lastName,
         Gender: gender,
         DOB: dob,
-        CongenitalDisorders: disorder,
         Avatar: avatar,
       });
       setStep(2);
@@ -167,7 +166,7 @@ function ProfileForm({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={1}>
+          {/* <Grid item xs={1}>
             <Typography align="center">2</Typography>
           </Grid>
           <Grid item xs={1}>
@@ -175,8 +174,7 @@ function ProfileForm({
           </Grid>
           <Grid item xs={1}>
             <Typography align="center">4</Typography>
-          </Grid>
-          
+          </Grid> */}
         </Grid>
         {/* <Typography variant="h4">ข้อมูลส่วนตัว</Typography> */}
         <div className={classes.margin}>
@@ -188,7 +186,7 @@ function ProfileForm({
             className={classes.card}
           >
             <Grid item xs={4}>
-              <CardMedia image={baseImage} className={classes.img} />
+              <CardMedia image={displayImg} className={classes.img} />
             </Grid>
             <Grid item xs={6}>
               <Typography align="center">
@@ -248,7 +246,7 @@ function ProfileForm({
             </Grid>
             <Grid item xs={10}>
               <FormControl required fullWidth={true}>
-                <InputLabel id="gender-label" shrink={true}>
+                <InputLabel id="gender-label" shrink={gender !== undefined}>
                   เพศ
                 </InputLabel>
                 <Select
@@ -275,7 +273,22 @@ function ProfileForm({
               <Cake />
             </Grid>
             <Grid item xs={10}>
-              <TextField
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="date-picker-dialog"
+                  label="วันเกิด"
+                  format="MM/dd/yyyy"
+                  value={dob !== undefined ? new Date(dob) : undefined}
+                  // value = {convertToThaiDate(dob !== undefined ? new Date(dob) : undefined)}
+                  onChange={(e) => setDOB(e?.toISOString())}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  fullWidth={true}
+                />
+              </MuiPickersUtilsProvider>
+              {/* <TextField
                 id="date"
                 label="วันเกิด"
                 type="date"
@@ -290,7 +303,7 @@ function ProfileForm({
                 fullWidth={true}
                 onChange={(e) => setDOB(new Date(e.target.value).toISOString())}
                 required
-              />
+              /> */}
             </Grid>
           </Grid>
         </div>

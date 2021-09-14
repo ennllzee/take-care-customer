@@ -98,9 +98,9 @@ function MedicalForm({ user, setUser, setStep }: ProfileFormProps) {
           alignItems="center"
           justify="space-between"
         >
-          <Grid item xs={1}>
+          {/* <Grid item xs={1}>
             <Typography align="center">1</Typography>
-          </Grid>
+          </Grid> */}
           <Grid item xs={8}>
             <Grid
               container
@@ -125,12 +125,12 @@ function MedicalForm({ user, setUser, setStep }: ProfileFormProps) {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={1}>
+          {/* <Grid item xs={1}>
             <Typography align="center">3</Typography>
           </Grid>
           <Grid item xs={1}>
             <Typography align="center">4</Typography>
-          </Grid>
+          </Grid> */}
         </Grid>
         <div className={classes.margin}>
           <Grid container spacing={2} justify="center" alignItems="flex-end">
@@ -140,7 +140,7 @@ function MedicalForm({ user, setUser, setStep }: ProfileFormProps) {
             <Grid item xs={10}>
               <TextField
                 id="input-with-icon-grid"
-                label="โรคประจำตัว"
+                label="โรคประจำตัว(ไม่จำเป็น)"
                 fullWidth={true}
                 value={disorder}
                 onChange={(e) => setDisorder(e.target.value)}
@@ -153,7 +153,7 @@ function MedicalForm({ user, setUser, setStep }: ProfileFormProps) {
         <Grid
           container
           direction="row"
-          justify="flex-end"
+          justify="space-between"
           alignItems="center"
           className={classes.button}
         >

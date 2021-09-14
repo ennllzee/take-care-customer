@@ -65,10 +65,12 @@ function SelectGuideForm({
   const next = () => {
     if (guideId !== undefined) {
       setAppointment({
-                        ...appointment, 
-                        Guide: availableGuide.find((g) => g.Createdby._id === guideId).Createdby,
-                        ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId).ScheduleId
-                      })
+        ...appointment,
+        Guide: availableGuide.find((g) => g.Createdby._id === guideId)
+          .Createdby,
+        ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId)
+          .ScheduleId,
+      });
       setStep(3);
     } else {
       setAlert(true);
@@ -88,18 +90,17 @@ function SelectGuideForm({
   };
 
   useEffect(() => {
-    if (!loading) {
-      const {getAvailableGuide} = data;
-      const getGuide = getAvailableGuide.map((val: any) => ({
-          ScheduleId: val._id, 
-          Createdby: val.Createdby 
-      }))
+    if (!loading && data) {
+      // const { getAvailableGuide } = data;
+      // const getGuide = getAvailableGuide.map((val: any) => ({
+      //   ScheduleId: val._id,
+      //   Createdby: val.Createdby,
+      // }));
 
-      console.log(getGuide)
-      setAvailableGuide(getGuide);
+      // console.log(getGuide);
+      setAvailableGuide(data.getAvailableGuide);
     }
   }, [loading]);
-
 
   useEffect(() => {
     console.log(guideId);

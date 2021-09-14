@@ -374,8 +374,9 @@ const useCustomerApi = () => {
     }
   `;
 
-  const GET_PERIOD = gql`
-    query GET_PERIOD {
+  const GET_EXTENDTION_DATA = gql`
+    query GET_EXTENDTION_DATA {
+      getAppointmentStatus
       getPeriod
     }
   `;
@@ -396,7 +397,7 @@ const useCustomerApi = () => {
     GET_ALLBUILDING,
     GET_ALLDEPARTMENT,
     GET_AVAILABLE_GUIDE,
-    GET_PERIOD,
+    GET_EXTENDTION_DATA,
   };
 };
 

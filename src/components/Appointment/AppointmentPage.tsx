@@ -16,6 +16,7 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { history } from "../../helper/history";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
 import Alert from "../Alert/Alert";
@@ -100,7 +101,7 @@ function AppointmentPage() {
               >
                 <Grid item xs={10} md={11} lg={11}>
                   <Typography variant="h5">
-                    {moment(date).format("DD MMMM YYYY")}
+                    {convertToThaiDate(date)}
                   </Typography>
                 </Grid>
                 <Grid item xs={2} md={1} lg={1}>

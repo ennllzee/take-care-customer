@@ -334,7 +334,7 @@ function ProfilePage() {
                     <Grid item xs={10}>
                       <TextField
                         id="input-with-icon-grid"
-                        label="เบอร์ติดต่อกรณีฉุกเฉิน"
+                        label="เบอร์ติดต่อกรณีฉุกเฉิน(ไม่จำเป็น)"
                         fullWidth={true}
                         value={emerNum}
                         onChange={(e) => setEmerNum(e.target.value)}

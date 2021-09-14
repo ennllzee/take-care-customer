@@ -399,6 +399,7 @@ function InformationForm({
                       multiline={true}
                       rows={3}
                       variant="outlined"
+                      placeholder="(ตัวอย่าง) ต้องการรถเข็น"
                     />
                   </Grid>
                 </Grid>

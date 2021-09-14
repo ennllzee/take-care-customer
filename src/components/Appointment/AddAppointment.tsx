@@ -20,6 +20,7 @@ import InformationForm from "./InformationForm";
 import SelectGuideForm from "./SelectGuideForm";
 import SubmitForm from "./SubmitForm";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 
 interface AddAppointmentProps {
   open: boolean;
@@ -137,7 +138,7 @@ function AddAppointment({
         >
           <Grid item xs={12} md={12} lg={12}>
             <Typography variant="h4" className={classes.line}>
-              {moment(date).format("DD MMMM YYYY")}
+              {convertToThaiDate(date)}
             </Typography>
             <Divider variant="middle" />
           </Grid>

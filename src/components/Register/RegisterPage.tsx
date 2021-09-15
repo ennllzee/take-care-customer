@@ -90,7 +90,6 @@ function RegisterPage() {
 
   const logout = () => {
     setAlert(true);
-    history.push("/");
   };
 
   const { signOut } = useGoogleLogout({

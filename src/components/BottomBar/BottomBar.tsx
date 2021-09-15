@@ -65,7 +65,7 @@ function BottomBar({ page }: BottomBarProps) {
             >
               <History />
             </IconButton>
-            <IconButton
+            {/* <IconButton
               color="inherit"
               onClick={() => history.push(`/hospital&information&=${accessToken}`)}
             >
@@ -76,7 +76,7 @@ function BottomBar({ page }: BottomBarProps) {
               onClick={() => history.push(`/customer&service&=${accessToken}`)}
             >
               <Help />
-            </IconButton>
+            </IconButton> */}
           </Grid>
         </Toolbar>
       </AppBar>

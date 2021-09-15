@@ -25,8 +25,8 @@ function Home() {
           <Route exact path={`/profile&=${accessToken}`} component={ProfilePage} />
           <Route path={`/appointment&=${accessToken}`} component={AppointmentPage} />
           <Route path={`/history&=${accessToken}`} component={HistoryPage} />
-          <Route path={`/hospital&information&=${accessToken}`} component={HospitalInformationPage} />
-          <Route path={`/customer&service&=${accessToken}`} component={CustomerServicePage} />
+          {/* <Route path={`/hospital&information&=${accessToken}`} component={HospitalInformationPage} />
+          <Route path={`/customer&service&=${accessToken}`} component={CustomerServicePage} /> */}
         </Switch>
     </div>
   );

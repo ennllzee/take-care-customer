@@ -18,6 +18,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Grid } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
+import ContactCard from "./ContactCard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create("transform", {
         duration: theme.transitions.duration.shortest,
       }),
+      padding: 0,
     },
     expandOpen: {
       transform: "rotate(180deg)",
@@ -92,6 +94,16 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               {appointment.Department.Name}
             </Typography>
           </Grid>
+          <Grid item xs={5}>
+            <Typography variant="body1" align="left">
+              ข้อมูลเพิ่มเติม:
+            </Typography>
+          </Grid>
+          <Grid item xs={7}>
+            <Typography variant="body1" align="left">
+              {appointment.Note !== null ? appointment.Note : "-"}
+            </Typography>
+          </Grid>
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
@@ -103,6 +115,10 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           aria-expanded={expanded}
           aria-label="แสดงข้อมูลเพิ่มเติม"
         >
+          {!expanded && (
+            <Typography variant="button">แสดงข้อมูลไกด์</Typography>
+          )}
+
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
@@ -114,17 +130,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             alignItems="flex-start"
             justify="center"
           >
-            <Grid item xs={5}>
-              <Typography variant="body1" align="left">
-                ข้อมูลเพิ่มเติม:
-              </Typography>
-            </Grid>
-            <Grid item xs={7}>
-              <Typography variant="body1" align="left">
-                {appointment.Note !== null ? appointment.Note : "-"}
-              </Typography>
-            </Grid>
-            <Grid item xs={5}>
+            {/* <Grid item xs={5}>
               <Typography variant="body1" align="left">
                 ไกด์:
               </Typography>
@@ -133,7 +139,8 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               <Typography variant="body1" align="left">
                 {appointment.Guide?.FirstName} {appointment.Guide?.LastName}
               </Typography>
-            </Grid>
+            </Grid> */}
+            <ContactCard user={appointment.Guide} />
           </Grid>
         </CardContent>
       </Collapse>

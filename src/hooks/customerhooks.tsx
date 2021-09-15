@@ -381,6 +381,18 @@ const useCustomerApi = () => {
     }
   `;
 
+  const UPLOAD_PROFILE = gql`
+    mutation AddCustomerProfileMutation(
+      $addCustomerProfileCustomerId: ID!
+      $addCustomerProfileFile: Upload
+    ) {
+      addCustomerProfile(
+        customerId: $addCustomerProfileCustomerId
+        file: $addCustomerProfileFile
+      )
+    }
+  `;
+
   return {
     GET_SINGLE_CUSTOMER,
     SIGNUP_CUSTOMER,
@@ -398,6 +410,7 @@ const useCustomerApi = () => {
     GET_ALLDEPARTMENT,
     GET_AVAILABLE_GUIDE,
     GET_EXTENDTION_DATA,
+    UPLOAD_PROFILE,
   };
 };
 

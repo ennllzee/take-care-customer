@@ -115,17 +115,9 @@ function RegisterPage() {
   });
   const [displayImg, setdisplayImg] = useState<any | undefined>("");
 
-  const { SIGNUP_CUSTOMER } = useCustomerApi();
-  const UPLOAD_IMAGE = gql`
-    mutation FilenameMutation(
-      $singleUploadFile: Upload
-      $singleUploadCustomerId: ID!
-    ) {
-      singleUpload(file: $singleUploadFile, customerId: $singleUploadCustomerId)
-    }
-  `;
+  const { SIGNUP_CUSTOMER, UPLOAD_PROFILE } = useCustomerApi();
 
-  const [setUploadFile] = useMutation(UPLOAD_IMAGE, {
+  const [setUploadFile] = useMutation(UPLOAD_PROFILE, {
     onCompleted: (data) => console.log(data),
   });
 
@@ -135,8 +127,8 @@ function RegisterPage() {
         console.log(data);
         setUploadFile({
           variables: {
-            singleUploadFile: user.Avatar,
-            singleUploadCustomerId: data.createdCustomer._id,
+            addCustomerProfileFile: user.Avatar,
+            addCustomerProfileCustomerId: data.createdCustomer._id,
           },
         });
       },
@@ -208,9 +200,9 @@ function RegisterPage() {
                   setdisplayImg={setdisplayImg}
                 />
               )}
-              {step === 2 && 
+              {step === 2 && (
                 <MedicalForm user={user} setUser={setUser} setStep={setStep} />
-              }
+              )}
               {step === 3 && (
                 <ContactForm user={user} setUser={setUser} setStep={setStep} />
               )}

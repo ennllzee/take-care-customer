@@ -355,7 +355,7 @@ const useCustomerApi = () => {
           PhoneNumber
           Email
           LangSkill {
-            Languages
+            Language
             Level
           }
           Status {

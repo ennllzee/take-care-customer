@@ -11,6 +11,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  TextFieldProps,
   Theme,
   Typography,
 } from "@material-ui/core";
@@ -137,6 +138,21 @@ function ProfileForm({
       setAlert(true)
     }
   };
+
+  const renderInput = (props: TextFieldProps): any => (
+    <TextField
+      onClick={props.onClick}
+      label="วันเกิด"
+      fullWidth={true}
+      value={dob !== undefined ? convertToThaiDate(new Date(dob)) : null}
+      onChange={props.onChange}
+      required
+      type="text"
+      InputProps={{
+        readOnly: true,
+      }}
+    />
+  );
 
   return (
     <Grid>
@@ -279,23 +295,8 @@ function ProfileForm({
             </Grid>
             <Grid item xs={10}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                {/* <DatePicker
-                  margin="normal"
-                  id="date-picker-dialog"
-                  label="วันเกิด"
-                  format="MM/dd/yyyy"
-                  value={dob !== undefined ? new Date(dob) : undefined}
-                  // value = {convertToThaiDate(dob !== undefined ? new Date(dob) : undefined)}
-                  onChange={(e) => setDOB(e?.toISOString())}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                  fullWidth={true}
-                  required
-                /> */}
                 <DatePicker
                   label="วันเกิด"
-                  format="dd/MM/yyyy"
                   value={dob !== undefined ? new Date(dob) : null}
                   onChange={(e) => setDOB(e?.toISOString())}
                   openTo="year"
@@ -303,24 +304,9 @@ function ProfileForm({
                   // required
                   disableFuture
                   fullWidth={true}
+                  TextFieldComponent={renderInput}
                 />
               </MuiPickersUtilsProvider>
-              {/* <TextField
-                id="date"
-                label="วันเกิด"
-                type="date"
-                defaultValue={
-                  dob === undefined
-                    ? undefined
-                    : moment(dob).format("YYYY-MM-DD")
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth={true}
-                onChange={(e) => setDOB(new Date(e.target.value).toISOString())}
-                required
-              /> */}
             </Grid>
           </Grid>
         </div>

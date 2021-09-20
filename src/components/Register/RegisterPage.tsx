@@ -163,7 +163,7 @@ function RegisterPage() {
           >
             <Grid item xs={12} md={12} lg={12}>
               {/* <Paper className={classes.box}>         */}
-              <div className={classes.margin}>
+              {/* <div className={classes.margin}>
                 <Grid
                   container
                   spacing={2}
@@ -186,7 +186,7 @@ function RegisterPage() {
                     />
                   </Grid>
                 </Grid>
-              </div>
+              </div> */}
               {/* </Paper> */}
               {/* </form> */}
             </Grid>

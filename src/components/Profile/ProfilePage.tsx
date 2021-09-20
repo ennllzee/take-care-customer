@@ -88,7 +88,7 @@ function ProfilePage() {
       setDisorder(data.getCustomer?.CongenitalDisorders);
       setEmerNum(data.getCustomer?.EmergencyTel);
       setAvatar(
-        data.getCustomer.Avater !== null
+        data.getCustomer.Avatar !== null
           ? `data:${data.getCustomer?.Avatar?.mimetype};base64,${data.getCustomer?.Avatar?.data}`
           : undefined
       );

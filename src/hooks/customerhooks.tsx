@@ -166,6 +166,12 @@ const useCustomerApi = () => {
           FirstName
           LastName
           Email
+          Gender
+          Avatar {
+            filename
+            mimetype
+            data
+          }
         }
         Department {
           Name

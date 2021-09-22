@@ -153,8 +153,6 @@ function ProfilePage() {
     setEdit(false);
   };
 
-  console.log(user?.Avatar);
-
   return (
     <Grid>
       <TopBar page="ข้อมูลส่วนตัว" />

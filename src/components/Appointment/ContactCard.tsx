@@ -86,12 +86,21 @@ function ContactCard({
     setExpanded(!expanded);
   };
 
+  const convertAvatar = (Avatar: any) => {
+    if (Avatar) {
+      return `data:${Avatar?.mimetype};base64,${Avatar?.data}`;
+    } else {
+      return undefined;
+    }
+  };
+  const avatar = convertAvatar(user?.Avatar)
+
   return (
     <Card>
       <CardContent className={classes.card}>
         <CardMedia
           className={classes.cover}
-          // image={user?.Avatar}
+          // image={avatar}
           component="img"
           height="100%"
           image={"https://pbs.twimg.com/media/D42rqfjU0AA0CBZ.jpg"}

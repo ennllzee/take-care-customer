@@ -52,48 +52,9 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
     setStep(2);
   };
 
-  // const QUERY_HOSPITAL_DEPARTMENT = gql`
-  // query Query {
-  //     getAllHospital {
-  //       _id
-  //       Name
-  //     }
-  //     getAllDepartment {
-  //       _id
-  //       Name
-  //     }
-  //     getAllGuide {
-  //       _id
-  //       FirstName
-  //       LastName
-  //       Gender
-  //       DOB
-  //       PhoneNumber
-  //       Email
-  //       Avatar
-  //       Role
-  //     }
-  // }`
-
-  // const { loading, error, data } = useQuery(QUERY_HOSPITAL_DEPARTMENT, {
-  // });
-
-  // const [hos, setHos] = useState<any[]>(data !== undefined ? data.getAllHospital : [])
-  // const [dep, setDep] = useState<any[]>(data !== undefined ? data.getAllDepartment : [])
-  // const [users, setUsers] = useState<any[]>(data !== undefined ? data.getAllPatient : [])
-
-  // useEffect (() => {
-  //     console.log(loading)
-  //     if(!loading ){
-  //         setHos(data.getAllHospital)
-  //         setDep(data.getAllDepartment)
-  //         setUsers(data.getGuide)
-  //     }
-  // }, [loading])
-
   return (
     <Grid container direction="row" alignItems="center" justify="flex-start">
-      <Grid container spacing={1} alignItems="flex-end">
+      <Grid container spacing={1} alignItems="center">
         <Grid item>
           <Description fontSize="large" />
         </Grid>
@@ -104,8 +65,6 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
 
       <Grid item xs={12} md={12} lg={12} className={classes.form}>
         <Paper className={classes.paper}>
-          {/* {!loading ? (
-            <> */}
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="flex-end">
               <Grid item>
@@ -187,30 +146,6 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
             </Grid>
           </div>
           <br />
-          {/* <div className={classes.margin}>
-                <Grid
-                  container
-                  spacing={1}
-                  justify="center"
-                  alignItems="flex-end"
-                >
-                  <Grid item>
-                    <Typography>
-                      <AlarmAdd />
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField
-                      label="เวลานัดหมาย"
-                      value={moment(appointment?.AppointTime).format("LT")}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      fullWidth={true}
-                    />
-                  </Grid>
-                </Grid>
-              </div> */}
           <div className={classes.margin}>
             <Grid
               container
@@ -285,10 +220,6 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
               </Typography>
             </Grid>
           </Grid>
-          {/* </>
-          ) : (
-            <CircularProgress disableShrink />
-          )} */}
         </Paper>
       </Grid>
     </Grid>

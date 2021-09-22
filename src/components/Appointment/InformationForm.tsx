@@ -171,7 +171,7 @@ function InformationForm({
 
   return (
     <Grid container direction="row" alignItems="center" justify="flex-start">
-      <Grid container spacing={1} alignItems="flex-end">
+      <Grid container spacing={1} alignItems="center">
         <Grid item>
           <LocalHospital fontSize="large" />
         </Grid>
@@ -197,7 +197,7 @@ function InformationForm({
                   </Grid>
                   <Grid item xs={10}>
                     <FormControl required fullWidth={true}>
-                      <InputLabel id="hos-label" shrink={true}>
+                      <InputLabel id="hos-label" shrink={hosId !== undefined}>
                         ชื่อโรงพยาบาล
                       </InputLabel>
                       <Select
@@ -233,7 +233,7 @@ function InformationForm({
                   </Grid>
                   <Grid item xs={10}>
                     <FormControl required fullWidth={true}>
-                      <InputLabel id="dep-label" shrink={true}>
+                      <InputLabel id="dep-label" shrink={depId !== undefined}>
                         ชื่อแผนก
                       </InputLabel>
                       <Select
@@ -300,7 +300,7 @@ function InformationForm({
                               control={<Radio />}
                               label={
                                 <>
-                                  <Typography variant="body2">
+                                  <Typography variant="body1">
                                     ช่วงเช้า
                                   </Typography>
                                   <Typography variant="caption">
@@ -316,7 +316,7 @@ function InformationForm({
                               control={<Radio />}
                               label={
                                 <>
-                                  <Typography variant="body2">
+                                  <Typography variant="body1">
                                     ช่วงบ่าย
                                   </Typography>
                                   <Typography variant="caption">
@@ -332,7 +332,7 @@ function InformationForm({
                               control={<Radio />}
                               label={
                                 <>
-                                  <Typography variant="body2">
+                                  <Typography variant="body1">
                                     ทั้งวัน
                                   </Typography>
                                   <Typography variant="caption">
@@ -347,41 +347,6 @@ function InformationForm({
                     </FormControl>
                   </Grid>
                   <Grid item xs={10}>
-                    {/* <TextField
-                      id="time"
-                      label="เวลานัดหมาย"
-                      type="time"
-                      value={
-                        time !== undefined
-                          ? moment(time).format("HH:mm")
-                          : undefined
-                      }
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      error={isWrongTime()}
-                      helperText={isWrongTime() && "ช่วงเวลาไม่ถูกต้อง"}
-                      inputProps={{
-                        readOnly: period === undefined,
-                        inputProps: {
-                          min: new Date(
-                            moment(date).format("YYYY-MM-DDT" + min)
-                          ).toISOString(),
-                          max: new Date(
-                            moment(date).format("YYYY-MM-DDT" + max)
-                          ).toISOString(),
-                        },
-                      }}
-                      fullWidth={true}
-                      onChange={(e) => {
-                        setTime(
-                          new Date(
-                            moment(date).format("YYYY-MM-DDT" + e.target.value)
-                          ).toISOString()
-                        );
-                      }}
-                      required
-                    /> */}
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <TimePicker
                         ampm={false}

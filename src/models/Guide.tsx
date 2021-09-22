@@ -11,7 +11,6 @@ interface Guide {
     Email: string
     GoogleId: string
     Gmail: string
-    EmergencyTel?: string 
     IsVerified: boolean
     Education: {
         Degree: string

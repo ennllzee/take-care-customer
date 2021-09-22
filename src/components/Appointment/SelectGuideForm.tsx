@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
     check: {
       color: "#29A940",
     },
+    body: {
+      padding: "2%"
+    }
   })
 );
 
@@ -108,7 +111,7 @@ function SelectGuideForm({
 
   return (
     <Grid container direction="row" alignItems="center" justify="flex-start">
-      <Grid container spacing={1} alignItems="flex-end">
+      <Grid container spacing={1} alignItems="center">
         <Grid item>
           <PersonPin fontSize="large" />
         </Grid>
@@ -123,8 +126,8 @@ function SelectGuideForm({
           direction="row"
           alignItems="center"
           justify="space-evenly"
+          className={classes.body}
         >
-          {/* wait for availableGuide */}
           {availableGuide.length !== 0 ? (
             availableGuide.map((g) => {
               return (

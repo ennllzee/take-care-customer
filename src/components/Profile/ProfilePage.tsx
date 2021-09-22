@@ -10,6 +10,7 @@ import {
   MenuItem,
   Button,
   CircularProgress,
+  TextFieldProps,
 } from "@material-ui/core";
 import {
   Person,
@@ -36,6 +37,7 @@ import {
   KeyboardDatePicker,
   DatePicker,
 } from "@material-ui/pickers";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -74,6 +76,22 @@ function ProfilePage() {
 
   const [user, setUser] = useState<Customer | undefined>(
     data !== undefined ? data.getCustomer : undefined
+  );
+
+  const renderInput = (props: TextFieldProps): any => (
+    <TextField
+      onClick={edit ? props.onClick : undefined}
+      label="วันเกิด"
+      fullWidth={true}
+      value={dob !== undefined ? convertToThaiDate(new Date(dob)) : null}
+      onChange={props.onChange}
+      required
+      type="text"
+      disabled={!edit}
+      InputProps={{
+        readOnly: true,
+      }}
+    />
   );
 
   useEffect(() => {
@@ -241,7 +259,7 @@ function ProfilePage() {
                     </Grid>
                   </div>
                   <div className={classes.margin}>
-                    <Grid
+                  <Grid
                       container
                       spacing={2}
                       justify="center"
@@ -254,17 +272,13 @@ function ProfilePage() {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <DatePicker
                             label="วันเกิด"
-                            format="dd/MM/yyyy"
-                            value={
-                              dob !== undefined ? new Date(dob) : null
-                            }
+                            value={dob !== undefined ? new Date(dob) : null}
                             onChange={(e) => setDOB(e?.toISOString())}
                             openTo="year"
                             views={["year", "month", "date"]}
-                            required
                             disableFuture
                             fullWidth={true}
-                            disabled={!edit}
+                            TextFieldComponent={renderInput}
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>

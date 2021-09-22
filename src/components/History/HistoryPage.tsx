@@ -8,15 +8,14 @@ import {
   Divider,
   CircularProgress,
 } from "@material-ui/core";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { history } from "../../helper/history";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
-import AppointmentCard from "../Appointment/AppointmentCard";
 import BottomBar from "../BottomBar/BottomBar";
 import TopBar from "../TopBar/TopBar";
+import AppointmentCard from "./AppointmentCard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,144 +50,6 @@ function HistoryPage() {
     }
   }, [accessToken]);
 
-  // const { getAllAppointment } = useAppointmentApi();
-  //   const QUERY_ALL_APPOINTMENT = gql`
-  //   query Query($getAllAppointmentByPatientPatientId: ID!, $getAllAppointmentByGuideGuideId: ID!) {
-  //     getAllAppointmentByPatient(
-  //       PatientId: $getAllAppointmentByPatientPatientId
-  //     ) {
-  //       _id
-  //       AppointTime
-  //       BeginTime
-  //       EndTime
-  //       PatientId {
-  //         _id
-  //         FirstName
-  //         LastName
-  //         Gender
-  //         DOB
-  //         PhoneNumber
-  //         Email
-  //         Avatar
-  //         Role
-  //       }
-  //       GuideId {
-  //         _id
-  //         FirstName
-  //         LastName
-  //         Gender
-  //         PhoneNumber
-  //         Email
-  //         IsValidated
-  //         Avatar
-  //         Role
-  //       }
-  //       DepId {
-  //         _id
-  //         Name
-  //         BuildingId {
-  //           _id
-  //           Name
-  //         }
-  //         HospitalId {
-  //           _id
-  //           Name
-  //         }
-  //       }
-  //       Review {
-  //         Star
-  //         Comment
-  //       }
-  //       Record {
-  //         At
-  //         Title
-  //         Description
-  //       }
-  //       OpenLink
-  //       Note
-  //       CreatedAt
-  //       UpdatedAt
-  //     },
-  //     getAllAppointmentByGuide(GuideId: $getAllAppointmentByGuideGuideId) {
-  //       _id
-  //       AppointTime
-  //       BeginTime
-  //       EndTime
-  //       PatientId {
-  //         _id
-  //         FirstName
-  //         LastName
-  //         Gender
-  //         DOB
-  //         PhoneNumber
-  //         Email
-  //         Avatar
-  //         Role
-  //       }
-  //       GuideId {
-  //         _id
-  //         FirstName
-  //         LastName
-  //         Gender
-  //         PhoneNumber
-  //         Email
-  //         IsValidated
-  //         Avatar
-  //         Role
-  //       }
-  //       DepId {
-  //         _id
-  //         Name
-  //         BuildingId {
-  //           _id
-  //           Name
-  //         }
-  //         HospitalId {
-  //           _id
-  //           Name
-  //         }
-  //       }
-  //       Review {
-  //         Star
-  //         Comment
-  //       }
-  //       Record {
-  //         At
-  //         Title
-  //         Description
-  //       }
-  //       OpenLink
-  //       Note
-  //       CreatedAt
-  //       UpdatedAt
-  //     }
-  //   }
-  //   `
-  //   const id = localStorage.getItem("_id");
-
-  //   const { loading, error, data } = useQuery(QUERY_ALL_APPOINTMENT, {
-  //     variables: { getAllAppointmentByPatientPatientId: id, getAllAppointmentByGuideGuideId: id },
-  //   });
-
-  //   const [appointment, setAppointment] = useState<Appointment[]>(
-  //     data !== undefined && role === "customer" ? data.getAllAppointmentByPatient :
-  //     data !== undefined && role === "guide" ? data.getAllAppointmentByGuide
-  //     : []
-  //   );
-
-  //   useEffect(() => {
-  //     if (!loading) {
-  //       if(role === "customer"){
-  //         console.log(data);
-  //         setAppointment(data.getAllAppointmentByPatient);
-  //       }else{ //guide
-  //         setAppointment(data.getAllAppointmentByGuide);
-  //       }
-
-  //     }
-  //     console.log(error);
-  //   }, [loading]);
-
   const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
   const id = localStorage.getItem("_id");
 
@@ -203,12 +64,10 @@ function HistoryPage() {
   );
 
   useEffect(() => {
-    if (!loading) {
-      // setAppointment({ ...data.getAllAppointmentByCustomer, Department: data.getAllAppointmentByCustomer.Dep});
+    if (!loading && data) {
       setAppointment(data.getAllAppointmentByCustomer);
-      console.log(data.getAllAppointmentByCustomer);
-      console.log(appointment);
     }
+    console.log(error)
   }, [loading]);
 
   return (

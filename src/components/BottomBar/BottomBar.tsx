@@ -66,7 +66,7 @@ function BottomBar({ page }: BottomBarProps) {
             >
               <Typography>
                 <Event />
-                {page === "Appoinment" && (
+                {page === "Appointment" && (
                   <Typography style={{ fontSize: 8 }}>appointment</Typography>
                 )}
               </Typography>

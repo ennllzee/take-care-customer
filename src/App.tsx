@@ -17,6 +17,24 @@ const useStyles = makeStyles((theme: Theme) =>
 const theme = createMuiTheme({
   typography: {
     fontFamily: ["Mitr", "cursive"].join(","),
+    body1: {
+      fontSize: 12
+    },
+    caption: {
+      fontSize: 10
+    },
+    h4: {
+      fontSize: 24
+    },
+    h5: {
+      fontSize: 20
+    },
+    h6: {
+      fontSize: 16
+    },
+    button: {
+      fintSize: 12
+    }
   },
 });
 

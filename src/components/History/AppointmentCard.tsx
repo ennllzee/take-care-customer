@@ -18,12 +18,10 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Grid } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
-import ContactCard from "./ContactCard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: "4%",
       paddingBottom: 0,
     },
     expand: {
@@ -116,9 +114,8 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           aria-label="แสดงข้อมูลเพิ่มเติม"
         >
           {!expanded && (
-            <Typography variant="button">แสดงข้อมูลไกด์</Typography>
+            <Typography variant="button">แสดงรายละเอียด</Typography>
           )}
-
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
@@ -130,7 +127,27 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             alignItems="flex-start"
             justify="center"
           >
-            {/* <Grid item xs={5}>
+            <Grid item xs={5}>
+              <Typography variant="body1" align="left">
+                เวลาเริ่ม:
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <Typography variant="body1" align="left">
+                {moment(appointment.BeginTime).format("HH.mm น.")}
+              </Typography>
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1" align="left">
+                เวลาสิ้นสุด:
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <Typography variant="body1" align="left">
+                {moment(appointment.EndTime).format("HH.mm น.")}
+              </Typography>
+            </Grid>
+            <Grid item xs={5}>
               <Typography variant="body1" align="left">
                 ไกด์:
               </Typography>
@@ -139,8 +156,35 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               <Typography variant="body1" align="left">
                 {appointment.Guide?.FirstName} {appointment.Guide?.LastName}
               </Typography>
-            </Grid> */}
-            <ContactCard user={appointment.Guide} />
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1" align="left">
+                ระดับความพึงพอใจ:
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <Typography variant="body1" align="left">
+                {appointment.Review?.Star !== null ? (
+                  <>{appointment.Review?.Star}</>
+                ) : (
+                  "ยังไม่ได้รับการประเมิน"
+                )}
+              </Typography>
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1" align="left">
+                ความคิดเห็น:
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <Typography variant="body1" align="left">
+                {appointment.Review?.Comment !== null ? (
+                  <>{appointment.Review?.Comment}</>
+                ) : (
+                  "-"
+                )}
+              </Typography>
+            </Grid>
           </Grid>
         </CardContent>
       </Collapse>

@@ -23,6 +23,7 @@ import Alert from "../Alert/Alert";
 import BottomBar from "../BottomBar/BottomBar";
 import TopBar from "../TopBar/TopBar";
 import AddAppointment from "./AddAppointment";
+import ContactCard from "./ContactCard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -189,6 +190,9 @@ function AppointmentPage() {
                             </Grid>
                             <Grid item xs={7}>
                               <Typography variant="body1" align="left">{m.Status.Tag}</Typography>
+                            </Grid>
+                            <Grid item xs={12} md={10} xl={10}>
+                              <ContactCard user={m.Guide}/>
                             </Grid>
                           </Grid>
                         );

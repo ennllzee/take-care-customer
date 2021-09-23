@@ -21,6 +21,7 @@ import {
 } from "@material-ui/icons";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 import AppointmentForm from "../../models/AppointmentForm";
 import ContactCard from "./ContactCard";
 
@@ -76,9 +77,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
                 <TextField
                   label="ชื่อโรงพยาบาล"
                   value={appointment?.Hospital?.Name}
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  disabled={true}
                   fullWidth={true}
                 />
               </Grid>
@@ -95,9 +94,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
                 <TextField
                   label="ชื่อแผนก"
                   value={appointment?.Department?.Name}
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  disabled={true}
                   fullWidth={true}
                 />
               </Grid>
@@ -117,6 +114,23 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           </div>
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="flex-end">
+              <Grid item>
+                <Typography>
+                  <MeetingRoom />
+                </Typography>
+              </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  label="วันนัดหมาย"
+                  value={convertToThaiDate(new Date(appointment?.AppointTime))}
+                  disabled={true}
+                  fullWidth={true}
+                />
+              </Grid>
+            </Grid>
+          </div>
+          <div className={classes.margin}>
+            <Grid container spacing={1} justify="center" alignItems="flex-end">
               <Grid item xs={5}>
                 <TextField
                   label="ช่วงเวลา"
@@ -127,9 +141,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
                       ? "ช่วงบ่าย"
                       : "ทั้งวัน"
                   }
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  disabled={true}
                   fullWidth={true}
                 />
               </Grid>
@@ -137,9 +149,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
                 <TextField
                   label="เวลานัดหมาย"
                   value={moment(appointment?.AppointTime).format("LT")}
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  disabled={true}
                   fullWidth={true}
                 />
               </Grid>
@@ -164,9 +174,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
                   value={
                     appointment?.Note === undefined ? "-" : appointment.Note
                   }
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  disabled={true}
                   fullWidth={true}
                   multiline={true}
                   rows={3}

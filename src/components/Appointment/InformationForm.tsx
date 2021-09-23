@@ -14,6 +14,7 @@ import {
   RadioGroup,
   Select,
   TextField,
+  TextFieldProps,
   Theme,
   Typography,
 } from "@material-ui/core";
@@ -23,6 +24,7 @@ import {
   LocalHospital,
   MeetingRoom,
   Message,
+  Today,
 } from "@material-ui/icons";
 import { useState } from "react";
 import AppointmentForm from "../../models/AppointmentForm";
@@ -33,14 +35,18 @@ import moment from "moment";
 import { gql, useQuery } from "@apollo/client";
 import Alert from "../Alert/Alert";
 import useCustomerApi from "../../hooks/customerhooks";
-import { MuiPickersUtilsProvider, TimePicker } from "@material-ui/pickers";
+import {
+  DatePicker,
+  MuiPickersUtilsProvider,
+  TimePicker,
+} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 
 interface InformationFormProps {
   appointment?: AppointmentForm;
   setAppointment: any;
   setStep: any;
-  date: Date;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -62,7 +68,6 @@ function InformationForm({
   appointment,
   setAppointment,
   setStep,
-  date,
 }: InformationFormProps) {
   const classes = useStyles();
   const [hosId, setHosId] = useState<string | undefined>(
@@ -81,6 +86,13 @@ function InformationForm({
 
   const [alert, setAlert] = useState<boolean>(false);
   const [timeAlert, setTimeAlert] = useState<boolean>(false);
+  const [date, setDate] = useState<Date>(
+    new Date(
+      time !== undefined
+        ? time
+        : moment(new Date()).add(1, "days").format("DD MMMM yyyy")
+    )
+  );
 
   const next = () => {
     if (
@@ -130,10 +142,34 @@ function InformationForm({
 
   useEffect(() => {
     setTime(!isWrongTime() ? time : undefined);
+    setAppointment({
+      ...appointment,
+      Guide: undefined
+    });
   }, [period]);
 
+  useEffect(() => {
+    if (time !== undefined) {
+      setTime(
+        new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          new Date(time).getHours(),
+          new Date(time).getMinutes(),
+          new Date(time).getMilliseconds()
+        ).toISOString()
+      );
+    }
+    setAppointment({
+      ...appointment,
+      Guide: undefined
+    });
+  }, [date]);
+
   const handleChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let minTime = (event.target as HTMLInputElement).value === "Afternoon" ? 13 : 7
+    let minTime =
+      (event.target as HTMLInputElement).value === "Afternoon" ? 13 : 7;
     setMin(
       (event.target as HTMLInputElement).value === "Afternoon"
         ? "13:00:00"
@@ -145,14 +181,16 @@ function InformationForm({
         : "18:00:00"
     );
     setPeriod((event.target as HTMLInputElement).value);
-    setTime(new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      minTime,
-      0,
-      0
-    ).toISOString());
+    setTime(
+      new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        minTime,
+        0,
+        0
+      ).toISOString()
+    );
   };
 
   const [min, setMin] = useState<string>(
@@ -168,6 +206,17 @@ function InformationForm({
       time < new Date(moment(date).format("YYYY-MM-DDT" + min)).toISOString()
     );
   };
+
+  const renderInput = (props: TextFieldProps): any => (
+    <TextField
+      onClick={props.onClick}
+      label="วันนัดหมาย"
+      fullWidth={true}
+      value={convertToThaiDate(date)}
+      onChange={props.onChange}
+      type="text"
+    />
+  );
 
   return (
     <Grid container direction="row" alignItems="center" justify="flex-start">
@@ -271,6 +320,43 @@ function InformationForm({
                   </Grid>
                   <Grid item xs={10}>
                     <FormLabel component="legend">ช่วงเวลานัดหมาย</FormLabel>
+                  </Grid>
+                </Grid>
+              </div>
+              <div className={classes.margin}>
+                <Grid
+                  container
+                  spacing={2}
+                  justify="center"
+                  alignItems="flex-end"
+                >
+                  <Grid item>
+                    <Today />
+                  </Grid>
+                  <Grid item xs={10}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <DatePicker
+                        label="วันนัดหมาย"
+                        value={date}
+                        onChange={(e) => e !== null && setDate(e)}
+                        minDate={
+                          new Date(
+                            moment(new Date())
+                              .add(1, "days")
+                              .format("DD MMMM yyyy")
+                          )
+                        }
+                        maxDate={
+                          new Date(
+                            moment(new Date())
+                              .add(7, "days")
+                              .format("DD MMMM yyyy")
+                          )
+                        }
+                        fullWidth={true}
+                        TextFieldComponent={renderInput}
+                      />
+                    </MuiPickersUtilsProvider>
                   </Grid>
                 </Grid>
               </div>

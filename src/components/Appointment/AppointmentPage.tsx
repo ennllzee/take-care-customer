@@ -23,6 +23,7 @@ import Alert from "../Alert/Alert";
 import BottomBar from "../BottomBar/BottomBar";
 import TopBar from "../TopBar/TopBar";
 import AddAppointment from "./AddAppointment";
+import AppointmentCard from "./AppointmentCard";
 import ContactCard from "./ContactCard";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,7 +61,7 @@ function AppointmentPage() {
   const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
   const id = localStorage.getItem("_id");
 
-  const { loading, error, data  } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
+  const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
     variables: { getAllAppointmentByCustomerCustomerId: id },
   });
 
@@ -77,7 +78,7 @@ function AppointmentPage() {
       setAppointment(data.getAllAppointmentByCustomer);
     }
     console.log(data);
-  }, [loading,data]);
+  }, [loading, data]);
 
   return (
     <Grid>
@@ -93,164 +94,85 @@ function AppointmentPage() {
         <Grid item className={classes.main}>
           {!loading ? (
             <>
-              <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justify="flex-start"
-                className={classes.line}
-              >
-                <Grid item xs={10} md={11} lg={11}>
-                  <Typography variant="h5">
-                    {convertToThaiDate(date)}
-                  </Typography>
-                </Grid>
-                <Grid item xs={2} md={1} lg={1}>
-                  <Typography align="center">
-                    <IconButton
-                      color="inherit"
-                      onClick={() => setCalender(true)}
-                    >
-                      <Today />
-                    </IconButton>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <DatePicker
-                        open={calender}
-                        onClose={() => setCalender(false)}
-                        value={date}
-                        onChange={(e) => e !== null && setDate(e)}
-                        showTodayButton={true}
-                        TextFieldComponent={() => null}
-                        minDate={new Date()}
-                        maxDate={new Date(moment(new Date()).add(7, 'days').format('DD MMMM yyyy'))}
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Divider variant="middle" />
-              <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justify="center"
-                className={classes.card}
-              >
-                <Grid item xs={12} md={10} lg={8}>
-                  {appointment?.find(
-                    (m) =>
-                      moment(m.AppointTime).format("YYYY-MM-DD") ===
-                      moment(date).format("YYYY-MM-DD")
-                  ) ? (
-                    appointment?.map((m) => {
-                      if (
-                        moment(m.AppointTime).format("YYYY-MM-DD") ===
-                        moment(date).format("YYYY-MM-DD")
-                      ) {
-                        return (
-                          // <AppointmentCard appointment={m} match={m.Guide} />
+              {appointment?.filter(
+                (a) =>
+                  new Date(a.AppointTime) >= new Date() &&
+                  new Date(a.AppointTime) <=
+                    new Date(
+                      moment(new Date()).add(7, "days").format("DD MMMM yyyy")
+                    )
+              ).length !== 0 ? (
+                <>
+                  {appointment
+                    ?.filter(
+                      (a) =>
+                        new Date(a.AppointTime) >= new Date() &&
+                        new Date(a.AppointTime) <=
+                          new Date(
+                            moment(new Date())
+                              .add(7, "days")
+                              .format("DD MMMM yyyy")
+                          )
+                    )
+                    .slice()
+                    .reverse()
+                    .sort((a, b) => {
+                      return (
+                        new Date(a.AppointTime).getTime() -
+                        new Date(b.AppointTime).getTime()
+                      );
+                    })
+                    .reverse()
+                    .map((a) => {
+                      return (
+                        <>
                           <Grid
                             container
                             direction="row"
-                            alignItems="flex-start"
-                            justify="center"
+                            alignItems="center"
+                            justify="flex-start"
+                            className={classes.line}
                           >
-                            <Grid item xs={5}>
-                              <Typography variant="body1" align="left">เวลานัดหมาย:</Typography>
-                            </Grid>
-                            <Grid item xs={7}>
-                              <Typography variant="body1" align="left">{moment(m.AppointTime).format("HH.mm น.")}</Typography>
-                            </Grid>
-                            <Grid item xs={5}>
-                              <Typography variant="body1" align="left">โรงพยาบาล:</Typography>
-                            </Grid>
-                            <Grid item xs={7}>
-                              <Typography variant="body1" align="left">{m.Hospital.Name}</Typography>
-                            </Grid>
-                            <Grid item xs={5}>
-                              <Typography variant="body1" align="left">แผนก:</Typography>
-                            </Grid>
-                            <Grid item xs={7}>
-                              <Typography variant="body1" align="left">{m.Department.Name}</Typography>
-                            </Grid>
-                            <Grid item xs={5}>
-                              <Typography variant="body1" align="left">ข้อมูลเพิ่มเติม:</Typography>
-                            </Grid>
-                            <Grid item xs={7}>
-                              <Typography variant="body1" align="left">{m.Note !== null ? m.Note : "-"}</Typography>
-                            </Grid>
-                            <Grid item xs={5}>
-                              <Typography variant="body1" align="left">ไกด์:</Typography>
-                            </Grid>
-                            <Grid item xs={7}>
-                              <Typography variant="body1" align="left">{m.Guide?.FirstName} {m.Guide?.LastName}</Typography>
-                            </Grid>
-                            <Grid item xs={5}>
-                              <Typography variant="body1" align="left">สถานะ:</Typography>
-                            </Grid>
-                            <Grid item xs={7}>
-                              <Typography variant="body1" align="left">{m.Status.Tag}</Typography>
-                            </Grid>
-                            <Grid item xs={12} md={10} xl={10}>
-                              <ContactCard user={m.Guide}/>
+                            <Grid item xs={10} md={11} lg={11}>
+                              <Typography variant="h5">
+                                {convertToThaiDate(new Date(a.AppointTime))}
+                              </Typography>
                             </Grid>
                           </Grid>
-                        );
-                      }
-                    })
-                  ) : (
-                    <Typography align="center">
-                      {date <=
-                      new Date(
-                        moment(new Date()).add(1, "days").format("DD MMMM yyyy")
-                      ) ? (
-                        <Typography
-                          align="center"
-                          variant="subtitle1"
-                          color="textSecondary"
-                        >
-                          ไม่มีการนัดหมาย
-                        </Typography>
-                      ) : date <=
-                        new Date(
-                          moment(new Date())
-                            .add(8, "days")
-                            .format("DD MMMM yyyy")
-                        ) ? (
-                        <Button
-                          type="button"
-                          variant="contained"
-                          onClick={() => setAdd(true)}
-                        >
-                          <PostAdd />
-                          เพิ่มนัดหมาย
-                        </Button>
-                      ) : (
-                        <Typography
-                          align="center"
-                          variant="subtitle1"
-                          color="textSecondary"
-                        >
-                          ลูกค้าสามารถเพิ่มการนัดหมายที่เกิดขึ้นภายใน 7
-                          วันถัดไปเท่านั้น
-                        </Typography>
-                      )}
-                    </Typography>
-                  )}
-                  {success && (
-                    // <Alert severity="success" onClose={() => setSuccess(false)}>
-                    //   เพิ่มการนัดหมายสำเร็จ
-                    // </Alert>
-                    <Alert
-                      closeAlert={() => setSuccess(false)}
-                      alert={success}
-                      title="เพิ่มนัดหมายสำเร็จ"
-                      text="กรุณารอการตอบกลับจากไกด์"
-                      buttonText="ปิดหน้าต่าง"
-                    />
-                  )}
-                </Grid>
-              </Grid>
+                          <Divider variant="middle" />
+                          <Grid
+                            container
+                            direction="row"
+                            alignItems="center"
+                            justify="center"
+                            className={classes.card}
+                          >
+                            <Grid item xs={12} md={10} lg={8}>
+                              <AppointmentCard appointment={a} />
+                            </Grid>
+                          </Grid>
+                        </>
+                      );
+                    })}
+                </>
+              ) : (
+                <Typography
+                  align="center"
+                  variant="subtitle1"
+                  color="textSecondary"
+                >
+                  ไม่มีนัดหมาย
+                </Typography>
+              )}
+              <Button
+                fullWidth={true}
+                type="button"
+                onClick={() => setAdd(true)}
+                color="primary"
+                variant="contained"
+              >
+                <PostAdd/> เพิ่มนัดหมาย
+              </Button>
             </>
           ) : (
             <Grid
@@ -267,12 +189,7 @@ function AppointmentPage() {
         <Grid item className={classes.sub}></Grid>
       </Grid>
       <BottomBar page="Appointment" />
-      <AddAppointment
-        open={add}
-        setOpen={setAdd}
-        date={date}
-        setSuccess={setSuccess}
-      />
+      <AddAppointment open={add} setOpen={setAdd} setSuccess={setSuccess} />
     </Grid>
   );
 }

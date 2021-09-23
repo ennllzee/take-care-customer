@@ -25,7 +25,6 @@ import convertToThaiDate from "../../hooks/convertToThaiDate";
 interface AddAppointmentProps {
   open: boolean;
   setOpen: any;
-  date: any;
   setSuccess: any;
 }
 
@@ -54,7 +53,6 @@ const useStyles = makeStyles((theme: Theme) =>
 function AddAppointment({
   open,
   setOpen,
-  date,
   setSuccess,
 }: AddAppointmentProps) {
   const classes = useStyles();
@@ -120,7 +118,7 @@ function AddAppointment({
     setNewAppointment({
       Customer: data !== undefined ? data.getCustomer : undefined,
     });
-  }, [date]);
+  }, [data]);
 
   return (
     <Modal open={open} className={classes.modal}>
@@ -138,7 +136,8 @@ function AddAppointment({
         >
           <Grid item xs={12} md={12} lg={12}>
             <Typography variant="h4" className={classes.line}>
-              {convertToThaiDate(date)}
+              {/* {convertToThaiDate(date)} */}
+              เพิ่มนัดหมาย
             </Typography>
             <Divider variant="middle" />
           </Grid>
@@ -148,7 +147,7 @@ function AddAppointment({
                 appointment={newAppointment}
                 setAppointment={setNewAppointment}
                 setStep={setStep}
-                date={date}
+                // date={date}
               />
             ) : step === 2 ? (
               <SelectGuideForm

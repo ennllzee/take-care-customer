@@ -98,7 +98,7 @@ function SelectGuideForm({
   }, [loading]);
 
   useEffect(() => {
-    console.log(guideId);
+    console.log(availableGuide.find(e => e._id === guideId));
   }, [guideId]);
 
   return (

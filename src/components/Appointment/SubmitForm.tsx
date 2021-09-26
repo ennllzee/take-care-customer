@@ -114,11 +114,11 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           </div>
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="flex-end">
-              <Grid item>
+              {/* <Grid item>
                 <Typography>
                   <MeetingRoom />
                 </Typography>
-              </Grid>
+              </Grid> */}
               <Grid item xs={10}>
                 <TextField
                   label="วันนัดหมาย"
@@ -148,7 +148,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
               <Grid item xs={5}>
                 <TextField
                   label="เวลานัดหมาย"
-                  value={moment(appointment?.AppointTime).format("LT")}
+                  value={moment(appointment?.AppointTime).format("HH.mm น.")}
                   disabled={true}
                   fullWidth={true}
                 />
@@ -197,7 +197,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           </div>
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="center">
-              <Grid item xs={10} md={4} lg={3}>
+              <Grid item xs={10} md={4} lg={4}>
                 <ContactCard user={appointment?.Guide} />
               </Grid>
             </Grid>

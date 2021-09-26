@@ -94,7 +94,7 @@ function ContactCard({
     }
   };
   const avatar = convertAvatar(user?.Avatar)
-
+  
   return (
     <Card>
       <CardContent className={classes.card}>

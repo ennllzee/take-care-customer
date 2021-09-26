@@ -3,15 +3,22 @@ import Guide from "./Guide";
 
 interface GuideSchedule {
     _id: string
-    Date: any
-    Period: string //"morning" "afternoon" "all-day"
-    Guide: Guide
-    IsAvailable: boolean
-    WorkOnAppointmentId: Appointment
-    Status: {
+    ScheduleDate: any
+    Period: string 
+    Createdby: Guide
+    AvailableMorning: boolean
+    AvailableAfternoon: boolean
+    WorkOnMorningAppointment: Appointment
+    WorkOnAfternoonAppointment: Appointment
+    ScheduleMorningStatus: {
         Tag: string
         Details: string[]
     }
+    ScheduleAfternoonStatus: {
+        Tag: string
+        Details: string[]
+    }
+
 }
 
 export default GuideSchedule

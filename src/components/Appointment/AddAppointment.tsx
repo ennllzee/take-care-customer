@@ -82,6 +82,7 @@ function AddAppointment({
 
   const submit = () => {
     //wait for createAppointment
+    console.log(newAppointment)
     createAppointment({
       variables: {
         createAppointmentInput: {
@@ -90,7 +91,6 @@ function AddAppointment({
           DepId: newAppointment.Department?._id,
           HospitalId: newAppointment.Hospital?._id,
           Note: newAppointment.Note,
-          GuideId: newAppointment.Guide?._id,
           Period: newAppointment.Period,
           ScheuleGuideId: newAppointment.ScheuleGuideId,
         },

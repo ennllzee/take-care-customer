@@ -10,7 +10,6 @@ import { PersonPin } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import ContactCard from "./ContactCard";
 import AppointmentForm from "../../models/AppointmentForm";
-import Guide from "../../models/Guide";
 import Alert from "../Alert/Alert";
 import useCustomerApi from "../../hooks/customerhooks";
 import { useQuery } from "@apollo/client";

@@ -353,7 +353,6 @@ const useCustomerApi = () => {
       ) {
         _id
         ScheduleDate
-        Available
         Period
         Createdby {
           FirstName
@@ -376,6 +375,8 @@ const useCustomerApi = () => {
             data
           }
         }
+        AvailableMorning
+        AvailableAfternoon
       }
     }
   `;

@@ -167,6 +167,11 @@ const useCustomerApi = () => {
           LastName
           Email
           Gender
+          PhoneNumber
+          LangSkill{
+            Language
+            Level
+          }
           Avatar {
             filename
             mimetype

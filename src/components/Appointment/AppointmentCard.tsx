@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -9,10 +9,11 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Grid } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
 import Image from "material-ui-image";
+import Submit from "../Submit/Submit";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,6 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       backgroundColor: red[500],
     },
+    foot: {
+      padding: "5%",
+    },
   })
 );
 
@@ -42,11 +46,17 @@ interface AppointmentCardProps {
 
 function AppointmentCard({ appointment }: AppointmentCardProps) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const deleteAppointment = () => {
+    setConfirmDelete(false)
+    //waiting for delete
+  }
 
   return (
     <Card>
@@ -104,26 +114,29 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           </Grid>
           <Grid item xs={7}>
             <Typography variant="body1" align="left">
-              {appointment.Status.Tag} 
+              {appointment.Status.Tag}
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="แสดงข้อมูลเพิ่มเติม"
-        >
-          {!expanded && (
-            <Typography variant="button">แสดงข้อมูลไกด์</Typography>
-          )}
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
+      {appointment.Status.Tag !== "Guide Reject" && (
+        <CardActions disableSpacing>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="แสดงข้อมูลเพิ่มเติม"
+          >
+            {!expanded && (
+              <Typography variant="body1">แสดงข้อมูลไกด์</Typography>
+            )}
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+      )}
+
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Grid
@@ -190,6 +203,38 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           </Grid>
         </CardContent>
       </Collapse>
+      <CardContent className={classes.foot}>
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+          
+        >
+          <Grid item xs={4}>
+            <Button type="button" fullWidth={true} variant="contained" style={{padding: '5%'}} onClick={() => setConfirmDelete(true)}>
+              <Typography variant="body1">ยกเลิกนัดหมาย</Typography>
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            {appointment.Status.Tag === "Guide Reject" ||
+              (appointment.Status.Tag === "Wait for Guide to Confirm" && (
+                <Button type="button" fullWidth={true} variant="contained" style={{padding: '5%'}}>
+                  <Typography variant="body1">เปลี่ยนไกด์</Typography>
+                </Button>
+              ))}
+          </Grid>
+        </Grid>
+        <Submit
+          submit={confirmDelete}
+          title="ยกเลิกนัดหมาย"
+          text="ยืนยันการยกเลิกการนัดหมายหรือไม่?"
+          denyText="ปิด"
+          submitText="ยืนยัน"
+          denyAction={() => setConfirmDelete(false)}
+          submitAction={deleteAppointment}
+        />
+      </CardContent>
     </Card>
   );
 }

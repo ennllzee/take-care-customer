@@ -21,11 +21,13 @@ import SelectGuideForm from "./SelectGuideForm";
 import SubmitForm from "./SubmitForm";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
+import Appointment from "../../models/Appointment";
 
 interface AddAppointmentProps {
   open: boolean;
   setOpen: any;
   setSuccess: any;
+  appointments: Appointment[]
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,6 +56,7 @@ function AddAppointment({
   open,
   setOpen,
   setSuccess,
+  appointments
 }: AddAppointmentProps) {
   const classes = useStyles();
   const [step, setStep] = useState<number>(1);
@@ -137,7 +140,7 @@ function AddAppointment({
           <Grid item xs={12} md={12} lg={12}>
             <Typography variant="h4" className={classes.line}>
               {/* {convertToThaiDate(date)} */}
-              เพิ่มนัดหมาย
+              แบบเพิ่มนัดหมาย
             </Typography>
             <Divider variant="middle" />
           </Grid>
@@ -147,6 +150,7 @@ function AddAppointment({
                 appointment={newAppointment}
                 setAppointment={setNewAppointment}
                 setStep={setStep}
+                appointments={appointments}
                 // date={date}
               />
             ) : step === 2 ? (

@@ -57,14 +57,14 @@ function SelectGuideForm({
   });
 
   const [alert, setAlert] = useState<boolean>(false);
-  const [guideId, setGuideId] = useState<string | undefined>(undefined);
+  const [guideId, setGuideId] = useState<string | undefined>(appointment?.Guide?._id);
 
   const [availableGuide, setAvailableGuide] = useState<any[]>(
     data !== undefined ? data.getAvailableGuide : []
   );
 
   const next = () => {
-    if (guideId !== undefined) {
+    if (availableGuide.find((g) => g.Createdby._id === guideId)) {
       setAppointment({
         ...appointment,
         Guide: availableGuide.find((g) => g.Createdby._id === guideId)
@@ -79,14 +79,21 @@ function SelectGuideForm({
   };
 
   const back = () => {
+    setAppointment({
+      ...appointment,
+      Guide: availableGuide.find((g) => g.Createdby._id === guideId)
+        .Createdby,
+      ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId)
+        ._id,
+    });
     setStep(1);
   };
 
   const click = (g: any) => {
-    if (g._id === guideId) {
+    if (g?._id === guideId) {
       setGuideId(undefined);
     } else {
-      setGuideId(g._id);
+      setGuideId(g?._id);
     }
   };
 
@@ -95,7 +102,7 @@ function SelectGuideForm({
       console.log(data.getAvailableGuide)
       setAvailableGuide(data.getAvailableGuide);
     }
-  }, [loading]);
+  }, [loading]); 
 
   useEffect(() => {
     console.log(availableGuide.find(e => e._id === guideId));
@@ -132,9 +139,9 @@ function SelectGuideForm({
                         md={4}
                         lg={3}
                         className={classes.card}
-                        onClick={() => setGuideId(undefined)}
+                        // onClick={() => setGuideId(undefined)}
                       >
-                        <ContactCard user={g.Createdby} check={true} />
+                        <ContactCard user={g.Createdby} check={true} click={() => click(undefined)}/>
                       </Grid>
                     </>
                   )}
@@ -145,9 +152,9 @@ function SelectGuideForm({
                       md={4}
                       lg={3}
                       className={classes.card}
-                      onClick={() => click(g.Createdby)}
+                      // onClick={() => click(g.Createdby)}
                     >
-                      <ContactCard user={g.Createdby} />
+                      <ContactCard user={g.Createdby} click={() => click(g.Createdby)}/>
                     </Grid>
                   )}
                 </>

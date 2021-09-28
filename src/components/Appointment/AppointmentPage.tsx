@@ -67,15 +67,15 @@ function AppointmentPage() {
   });
 
   const [add, setAdd] = useState<boolean>(false);
-  const [date, setDate] = useState<Date>(new Date());
-  const [calender, setCalender] = useState<boolean>(false);
+  // const [date, setDate] = useState<Date>(new Date());
+  // const [calender, setCalender] = useState<boolean>(false);
   const [appointment, setAppointment] = useState<Appointment[]>(
     data !== undefined ? data.getAllAppointmentByCustomer : []
   );
   const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && data) {
       setAppointment(data.getAllAppointmentByCustomer);
     }
     console.log(data);
@@ -166,7 +166,7 @@ function AppointmentPage() {
                 </Typography>
               )}
               <Button
-                fullWidth={true}
+                // fullWidth={true}
                 type="button"
                 onClick={() => setAdd(true)}
                 color="primary"
@@ -190,7 +190,8 @@ function AppointmentPage() {
         <Grid item className={classes.sub}></Grid>
       </Grid>
       <BottomBar page="Appointment" />
-      <AddAppointment open={add} setOpen={setAdd} setSuccess={setSuccess} />
+      <Alert closeAlert={() => setSuccess(false)} alert={success} title="สำเร็จ" text="เพิ่มนัดหมายสำเร็จ" buttonText="ตกลง"/>
+      <AddAppointment open={add} setOpen={setAdd} setSuccess={setSuccess} appointments={appointment}/>
     </Grid>
   );
 }

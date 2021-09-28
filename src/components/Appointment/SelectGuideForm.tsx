@@ -26,8 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#29A940",
     },
     body: {
-      padding: "2%"
-    }
+      padding: "2%",
+    },
   })
 );
 
@@ -57,7 +57,9 @@ function SelectGuideForm({
   });
 
   const [alert, setAlert] = useState<boolean>(false);
-  const [guideId, setGuideId] = useState<string | undefined>(appointment?.Guide?._id);
+  const [guideId, setGuideId] = useState<string | undefined>(
+    appointment?.Guide?._id
+  );
 
   const [availableGuide, setAvailableGuide] = useState<any[]>(
     data !== undefined ? data.getAvailableGuide : []
@@ -81,8 +83,7 @@ function SelectGuideForm({
   const back = () => {
     setAppointment({
       ...appointment,
-      Guide: availableGuide.find((g) => g.Createdby._id === guideId)
-        .Createdby,
+      Guide: availableGuide.find((g) => g.Createdby._id === guideId).Createdby,
       ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId)
         ._id,
     });
@@ -99,13 +100,13 @@ function SelectGuideForm({
 
   useEffect(() => {
     if (!loading && data) {
-      console.log(data.getAvailableGuide)
+      console.log(data.getAvailableGuide);
       setAvailableGuide(data.getAvailableGuide);
     }
-  }, [loading]); 
+  }, [loading]);
 
   useEffect(() => {
-    console.log(availableGuide.find(e => e._id === guideId));
+    console.log(availableGuide.find((e) => e._id === guideId));
   }, [guideId]);
 
   return (
@@ -141,7 +142,11 @@ function SelectGuideForm({
                         className={classes.card}
                         // onClick={() => setGuideId(undefined)}
                       >
-                        <ContactCard user={g.Createdby} check={true} click={() => click(undefined)}/>
+                        <ContactCard
+                          user={g.Createdby}
+                          check={true}
+                          click={() => click(undefined)}
+                        />
                       </Grid>
                     </>
                   )}
@@ -154,7 +159,10 @@ function SelectGuideForm({
                       className={classes.card}
                       // onClick={() => click(g.Createdby)}
                     >
-                      <ContactCard user={g.Createdby} click={() => click(g.Createdby)}/>
+                      <ContactCard
+                        user={g.Createdby}
+                        click={() => click(g.Createdby)}
+                      />
                     </Grid>
                   )}
                 </>
@@ -163,22 +171,20 @@ function SelectGuideForm({
           ) : (
             <Typography
               align="center"
-              variant="subtitle1"
+              variant="body1"
               color="textSecondary"
             >
               ขออภัย ระบบไม่พบไกด์ที่พร้อมบริการในช่วงเวลาที่ท่านเลือกได้
             </Typography>
           )}
         </Grid>
-        {alert && (
-          <Alert
-            closeAlert={() => setAlert(false)}
-            alert={alert}
-            title="เลือกไกด์"
-            text="กรุณาเลือกไกด์"
-            buttonText="ตกลง"
-          />
-        )}
+        <Alert
+          closeAlert={() => setAlert(false)}
+          alert={alert}
+          title="เลือกไกด์"
+          text="กรุณาเลือกไกด์"
+          buttonText="ตกลง"
+        />
         <Grid container justify="space-between" alignItems="center">
           <Grid item xs={4} md={4} lg={4}>
             <Typography align="left">

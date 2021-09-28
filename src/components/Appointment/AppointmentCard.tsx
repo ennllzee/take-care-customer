@@ -14,6 +14,8 @@ import moment from "moment";
 import Appointment from "../../models/Appointment";
 import Image from "material-ui-image";
 import Submit from "../Submit/Submit";
+import ChangeGuide from "./ChangeGuide";
+import Alert from "../Alert/Alert";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,6 +38,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     foot: {
       padding: "5%",
+      paddingTop: 0,
+      paddingBottom: 0,
     },
   })
 );
@@ -47,16 +51,19 @@ interface AppointmentCardProps {
 function AppointmentCard({ appointment }: AppointmentCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
+  const [changeGuide, setChangeGuide] = useState<boolean>(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   const deleteAppointment = () => {
-    setConfirmDelete(false)
+    setConfirmDelete(false);
     //waiting for delete
-  }
+  };
+
+  const [success, setSuccess] = useState<boolean>(false);
 
   return (
     <Card>
@@ -209,22 +216,46 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           direction="row"
           justify="space-between"
           alignItems="center"
-          
         >
           <Grid item xs={4}>
-            <Button type="button" fullWidth={true} variant="contained" style={{padding: '5%'}} onClick={() => setConfirmDelete(true)}>
+            <Button
+              type="button"
+              fullWidth={true}
+              variant="contained"
+              style={{ padding: "5%" }}
+              onClick={() => setConfirmDelete(true)}
+            >
               <Typography variant="body1">ยกเลิกนัดหมาย</Typography>
             </Button>
           </Grid>
           <Grid item xs={4}>
             {appointment.Status.Tag === "Guide Reject" ||
               (appointment.Status.Tag === "Wait for Guide to Confirm" && (
-                <Button type="button" fullWidth={true} variant="contained" style={{padding: '5%'}}>
+                <Button
+                  type="button"
+                  fullWidth={true}
+                  variant="contained"
+                  style={{ padding: "5%" }}
+                  onClick={() => setChangeGuide(true)}
+                >
                   <Typography variant="body1">เปลี่ยนไกด์</Typography>
                 </Button>
               ))}
           </Grid>
         </Grid>
+        <ChangeGuide
+          open={changeGuide}
+          setOpen={setChangeGuide}
+          appointment={appointment}
+          setSuccess={setSuccess}
+        />
+        <Alert
+          closeAlert={() => setSuccess(false)}
+          alert={success}
+          title="สำเร็จ"
+          text="เปลี่ยนไกด์สำเร็จ กรุณารอการตอบรับจากไกด์"
+          buttonText="ตกลง"
+        />
         <Submit
           submit={confirmDelete}
           title="ยกเลิกนัดหมาย"

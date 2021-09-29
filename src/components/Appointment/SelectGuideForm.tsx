@@ -81,12 +81,14 @@ function SelectGuideForm({
   };
 
   const back = () => {
-    setAppointment({
-      ...appointment,
-      Guide: availableGuide.find((g) => g.Createdby._id === guideId).Createdby,
-      ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId)
-        ._id,
-    });
+    if(guideId !== undefined){
+      setAppointment({
+        ...appointment,
+        Guide: availableGuide.find((g) => g.Createdby._id === guideId).Createdby,
+        ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId)
+          ._id,
+      });
+    }
     setStep(1);
   };
 

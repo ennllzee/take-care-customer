@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     form: {
-      paddingTop: "5%",
+      paddingTop: "2%",
     },
     paper: {
       padding: "5%",
@@ -98,7 +98,7 @@ function InformationForm({
     new Date(
       time !== undefined
         ? time
-        : moment(new Date()).add(2, "days").format("DD MMMM yyyy")
+        : moment(new Date()).add(1, "days").format("DD MMMM yyyy")
     )
   );
 

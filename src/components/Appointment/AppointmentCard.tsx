@@ -234,15 +234,20 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           alignItems="center"
         >
           <Grid item xs={4}>
-            <Button
-              type="button"
-              fullWidth={true}
-              variant="contained"
-              style={{ padding: "5%" }}
-              onClick={() => setConfirmDelete(true)}
-            >
-              <Typography variant="body1">ยกเลิกนัดหมาย</Typography>
-            </Button>
+            {new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
+              new Date(
+                moment(new Date()).add(1, "days").format("DD MMMM yyyy")
+              ) && (
+              <Button
+                type="button"
+                fullWidth={true}
+                variant="contained"
+                style={{ padding: "5%" }}
+                onClick={() => setConfirmDelete(true)}
+              >
+                <Typography variant="body1">ยกเลิกนัดหมาย</Typography>
+              </Button>
+            )}
           </Grid>
           <Grid item xs={4}>
             {appointment.Status.Tag === "Guide Reject" ||

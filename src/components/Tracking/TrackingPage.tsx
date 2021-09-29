@@ -14,14 +14,9 @@ interface TrackingPageProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    sub: {
-      minHeight: "15vh",
-    },
     main: {
-      minHeight: "70vh",
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(10),
       paddingRight: "5%",
       paddingLeft: "5%",
       minWidth: "80vw",
@@ -36,9 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
     box: {
       padding: "5%",
       marginBottom: "5%",
-    },
-    end: {
-      minHeight: "5vh",
     },
   })
 );
@@ -71,6 +63,7 @@ function TrackingPage({ id }: TrackingPageProps) {
   const { GET_SINGLE_APPOINTMENT } = useCustomerApi();
   const { loading, error, data } = useQuery(GET_SINGLE_APPOINTMENT, {
     variables: { getAppointmentId: id },
+    pollInterval: 60000,
   });
 
   const [appointment, setAppointment] = useState<Appointment>(
@@ -91,9 +84,7 @@ function TrackingPage({ id }: TrackingPageProps) {
         direction="column"
         alignItems="center"
         justify="flex-start"
-        className={classes.root}
       >
-        <Grid item className={classes.sub}></Grid>
         <Grid item className={classes.main}>
           <Grid
             container
@@ -146,7 +137,6 @@ function TrackingPage({ id }: TrackingPageProps) {
             )}
           </Grid>
         </Grid>
-        <Grid item className={classes.end}></Grid>
       </Grid>
     </Grid>
   );

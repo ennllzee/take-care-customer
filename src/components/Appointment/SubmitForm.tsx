@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     form: {
-      paddingTop: "5%",
-      height: "100%",
+      paddingTop: "2%",
+      // height: "100%",
     },
     paper: {
       padding: "2%",

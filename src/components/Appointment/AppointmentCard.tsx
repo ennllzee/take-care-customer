@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, Link } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
 import Image from "material-ui-image";
@@ -114,6 +114,22 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               {appointment.Note !== null ? appointment.Note : "-"}
             </Typography>
           </Grid>
+          {appointment.OpenLink !== null && (
+            <>
+              <Grid item xs={5}>
+                <Typography variant="body1" align="left">
+                  Tracking Link:
+                </Typography>
+              </Grid>
+              <Grid item xs={7}>
+                <Link href={appointment.OpenLink}>
+                  <Typography variant="body1" align="left">
+                    {appointment.OpenLink}
+                  </Typography>
+                </Link>
+              </Grid>
+            </>
+          )}
           <Grid item xs={5}>
             <Typography variant="body1" align="left">
               สถานะ:

@@ -200,7 +200,7 @@ const [appointment, setAppointment] = useState<Appointment[]>([]);
           <Typography variant="h4" className={classes.title}>
             {page}
           </Typography>
-          {accessToken !== null ? (
+          {accessToken !== null && page !== "บันทึกการบริการ" ? (
             <>
               <Popper
                 open={open}

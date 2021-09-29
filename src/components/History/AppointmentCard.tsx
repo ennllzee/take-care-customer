@@ -15,7 +15,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Grid } from "@material-ui/core";
+import { Grid, Link } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
 
@@ -146,6 +146,18 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               <Typography variant="body1" align="left">
                 {moment(appointment.EndTime).format("HH.mm น.")}
               </Typography>
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1" align="left">
+                Tracking Link:
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <Link href={appointment.OpenLink}>
+                <Typography variant="body1" align="left">
+                  {appointment.OpenLink}
+                </Typography>
+              </Link>
             </Grid>
             <Grid item xs={5}>
               <Typography variant="body1" align="left">

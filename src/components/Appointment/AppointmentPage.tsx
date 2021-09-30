@@ -79,7 +79,8 @@ function AppointmentPage() {
       setAppointment(data.getAllAppointmentByCustomer);
     }
     console.log(data);
-  }, [loading, data]);
+    if(error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
 
   return (
     <Grid>
@@ -172,7 +173,7 @@ function AppointmentPage() {
                 color="primary"
                 variant="contained"
               >
-                <PostAdd/> เพิ่มนัดหมาย
+                <PostAdd /> เพิ่มนัดหมาย
               </Button>
             </>
           ) : (

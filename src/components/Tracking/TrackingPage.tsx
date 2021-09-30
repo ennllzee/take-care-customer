@@ -63,7 +63,7 @@ function TrackingPage({ id }: TrackingPageProps) {
   const { GET_SINGLE_APPOINTMENT } = useCustomerApi();
   const { loading, error, data } = useQuery(GET_SINGLE_APPOINTMENT, {
     variables: { getAppointmentId: id },
-    pollInterval: 60000,
+    pollInterval: 30000,
   });
 
   const [appointment, setAppointment] = useState<Appointment>(
@@ -71,10 +71,13 @@ function TrackingPage({ id }: TrackingPageProps) {
   );
 
   useEffect(() => {
+    console.log(loading)
     if (!loading && data) {
       setAppointment(data.getAppointment);
     }
   }, [loading]);
+
+  
 
   return (
     <Grid>

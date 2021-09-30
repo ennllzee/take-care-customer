@@ -168,7 +168,7 @@ const useCustomerApi = () => {
           Email
           Gender
           PhoneNumber
-          LangSkill{
+          LangSkill {
             Language
             Level
           }
@@ -405,6 +405,92 @@ const useCustomerApi = () => {
     }
   `;
 
+  const GET_ALL_APPOINTMENT = gql`
+    query GET_ALL_APPOINTMENT {
+      getAllAppointment {
+        _id
+        AppointTime
+        BeginTime
+        EndTime
+        Customer {
+          _id
+          FirstName
+          LastName
+          Gender
+          DOB
+          PhoneNumber
+          Email
+          Gmail
+          EmergencyTel
+          Avatar {
+            filename
+            mimetype
+            data
+          }
+          CongenitalDisorders
+        }
+        Guide {
+          _id
+          FirstName
+          LastName
+          Gender
+          DOB
+          Address
+          ContactAddress
+          PhoneNumber
+          Email
+          IsVerified
+          Education {
+            Degree
+            Acadamy
+          }
+          WorkExp {
+            JobTitle
+            WorkPlace
+          }
+          LangSkill {
+            Language
+            Level
+          }
+          IdCard
+          VerifyDate
+          Avatar {
+            filename
+            mimetype
+            data
+          }
+          Status {
+            Tag
+            Details
+          }
+        }
+        Department {
+          _id
+          Name
+        }
+        Hospital {
+          _id
+          Name
+        }
+        Review {
+          Star
+          Comment
+        }
+        Record {
+          At
+          Title
+          Description
+        }
+        OpenLink
+        Note
+        Status {
+          Tag
+          Details
+        }
+        Period
+      }
+    }
+  `;
   return {
     GET_SINGLE_CUSTOMER,
     SIGNUP_CUSTOMER,
@@ -423,6 +509,7 @@ const useCustomerApi = () => {
     GET_AVAILABLE_GUIDE,
     GET_EXTENDTION_DATA,
     UPLOAD_PROFILE,
+    GET_ALL_APPOINTMENT,
   };
 };
 

@@ -21,6 +21,8 @@ interface ContactCardProps {
   user?: Guide;
   setOpen?: any;
   check?: boolean;
+  click?: any
+  // guideId?: string
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -78,6 +80,7 @@ function ContactCard({
   user,
   setOpen = undefined,
   check = false,
+  click = undefined
 }: ContactCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -115,6 +118,7 @@ function ContactCard({
                 ? classes.check
                 : classes.content
             }
+            onClick={click}
           >
             <Typography align="right">
               {setOpen !== undefined && (

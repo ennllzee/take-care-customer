@@ -10,6 +10,7 @@ import {
   Divider,
   Button,
   CircularProgress,
+  Fab
 } from "@material-ui/core";
 import { Today, PostAdd } from "@material-ui/icons";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
@@ -28,14 +29,9 @@ import ContactCard from "./ContactCard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    sub: {
-      minHeight: "15vh",
-    },
     main: {
-      minHeight: "70vh",
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(10),
       paddingRight: "5%",
       paddingLeft: "5%",
       minWidth: "100vw",
@@ -45,6 +41,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     card: {
       padding: "2%",
+    },
+    fab: {
+      position: 'fixed',
+      bottom: theme.spacing(10),
+      right: theme.spacing(2),
     },
   })
 );
@@ -67,15 +68,13 @@ function AppointmentPage() {
   });
 
   const [add, setAdd] = useState<boolean>(false);
-  const [date, setDate] = useState<Date>(new Date());
-  const [calender, setCalender] = useState<boolean>(false);
   const [appointment, setAppointment] = useState<Appointment[]>(
     data !== undefined ? data.getAllAppointmentByCustomer : []
   );
   const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && data) {
       setAppointment(data.getAllAppointmentByCustomer);
     }
     console.log(data);
@@ -89,10 +88,8 @@ function AppointmentPage() {
         container
         direction="column"
         alignItems="center"
-        justify="space-between"
-        className={classes.root}
+        justify="flex-start"
       >
-        <Grid item className={classes.sub}></Grid>
         <Grid item className={classes.main}>
           {!loading ? (
             <>
@@ -166,15 +163,7 @@ function AppointmentPage() {
                   ไม่มีนัดหมาย
                 </Typography>
               )}
-              <Button
-                fullWidth={true}
-                type="button"
-                onClick={() => setAdd(true)}
-                color="primary"
-                variant="contained"
-              >
-                <PostAdd /> เพิ่มนัดหมาย
-              </Button>
+              <Fab className={classes.fab} onClick={() => setAdd(true)}><PostAdd /></Fab>
             </>
           ) : (
             <Grid
@@ -187,11 +176,10 @@ function AppointmentPage() {
             </Grid>
           )}
         </Grid>
-
-        <Grid item className={classes.sub}></Grid>
       </Grid>
       <BottomBar page="Appointment" />
-      <AddAppointment open={add} setOpen={setAdd} setSuccess={setSuccess} />
+      <Alert closeAlert={() => setSuccess(false)} alert={success} title="สำเร็จ" text="เพิ่มนัดหมายสำเร็จ" buttonText="ตกลง"/>
+      <AddAppointment open={add} setOpen={setAdd} setSuccess={setSuccess} appointments={appointment}/>
     </Grid>
   );
 }

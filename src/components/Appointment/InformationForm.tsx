@@ -42,11 +42,13 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
+import Appointment from "../../models/Appointment";
 
 interface InformationFormProps {
   appointment?: AppointmentForm;
   setAppointment: any;
   setStep: any;
+  appointments: Appointment[];
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -55,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     form: {
-      paddingTop: "5%",
+      paddingTop: "2%",
     },
     paper: {
       padding: "5%",
@@ -64,15 +66,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+
+
 function InformationForm({
   appointment,
   setAppointment,
   setStep,
+  appointments,
 }: InformationFormProps) {
   const classes = useStyles();
   const [hosId, setHosId] = useState<string | undefined>(
     appointment?.Hospital?._id
   );
+
+  
+
   const [depId, setDepId] = useState<string | undefined>(
     appointment?.Department?._id
   );
@@ -94,30 +102,44 @@ function InformationForm({
     )
   );
 
+  const [dateAlert, setDateAlert] = useState<boolean>(false);
+
   const next = () => {
     if (
-      period !== undefined &&
-      time !== undefined &&
-      hosId !== undefined &&
-      depId !== undefined
+      appointments.find(
+        (d) => moment(d.AppointTime).format("DD MMMM yyyy") === moment(date).format("DD MMMM yyyy")
+      )
     ) {
-      if (isWrongTime()) {
-        setTimeAlert(true);
-      } else {
-        setAppointment({
-          ...appointment,
-          Period: period,
-          AppointTime: time,
-          Hospital: hos.find((h) => h._id === hosId),
-          Department: dep?.find((d) => d._id === depId),
-          Note: note,
-        });
-        setStep(2);
-      }
+      setDateAlert(true);
     } else {
-      setAlert(true);
+      if (
+        period !== undefined &&
+        time !== undefined &&
+        hosId !== undefined &&
+        depId !== undefined
+      ) {
+        if (isWrongTime()) {
+          setTimeAlert(true);
+        } else {
+          setAppointment({
+            ...appointment,
+            Period: period,
+            AppointTime: time,
+            Hospital: hos.find((h) => h._id === hosId),
+            Department: dep?.find((d) => d._id === depId),
+            Note: note,
+          });
+          setStep(2);
+        }
+      } else {
+        setAlert(true);
+      }
     }
   };
+
+  function disableWeekends(d : any) {
+    return appointments.find(e => moment(e.AppointTime).format("DD MMMM yyyy") === moment(d).format("DD MMMM yyyy")) !== undefined
+  }
 
   const [hos, setHos] = useState<Hospital[]>(
     data !== undefined ? data.getAllHospital : []
@@ -127,8 +149,7 @@ function InformationForm({
   );
 
   useEffect(() => {
-    console.log(loading);
-    if (!loading) {
+    if (!loading && data) {
       setHos(data.getAllHospital);
       setDep(data.getAllDepartment);
     }
@@ -140,13 +161,13 @@ function InformationForm({
     );
   }, [hosId]);
 
-  useEffect(() => {
-    setTime(!isWrongTime() ? time : undefined);
-    setAppointment({
-      ...appointment,
-      Guide: undefined
-    });
-  }, [period]);
+  // useEffect(() => {
+  //   setTime(!isWrongTime() ? time : undefined);
+  //   setAppointment({
+  //     ...appointment,
+  //     Guide: undefined,
+  //   });
+  // }, [period]);
 
   useEffect(() => {
     if (time !== undefined) {
@@ -161,10 +182,10 @@ function InformationForm({
         ).toISOString()
       );
     }
-    setAppointment({
-      ...appointment,
-      Guide: undefined
-    });
+    // setAppointment({
+    //   ...appointment,
+    //   Guide: undefined,
+    // });
   }, [date]);
 
   const handleChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -353,6 +374,7 @@ function InformationForm({
                               .format("DD MMMM yyyy")
                           )
                         }
+                        shouldDisableDate={disableWeekends} 
                         fullWidth={true}
                         TextFieldComponent={renderInput}
                       />
@@ -488,24 +510,27 @@ function InformationForm({
                   </Grid>
                 </Grid>
               </div>
-              {alert && (
-                <Alert
-                  closeAlert={() => setAlert(false)}
-                  alert={alert}
-                  title="ข้อมูลการนัดหมาย"
-                  text="กรุณากรอกข้อมูลให้ครบ"
-                  buttonText="ตกลง"
-                />
-              )}
-              {timeAlert && (
-                <Alert
-                  closeAlert={() => setTimeAlert(false)}
-                  alert={timeAlert}
-                  title="ช่วงเวลาไม่ถูกต้อง"
-                  text="กรุณากำหนดเวลานัดหมายให้ตรงช่วงเวลาที่กำหนด"
-                  buttonText="ตกลง"
-                />
-              )}
+              <Alert
+                closeAlert={() => setAlert(false)}
+                alert={alert}
+                title="ข้อมูลการนัดหมาย"
+                text="กรุณากรอกข้อมูลให้ครบ"
+                buttonText="ตกลง"
+              />
+              <Alert
+                closeAlert={() => setTimeAlert(false)}
+                alert={timeAlert}
+                title="ช่วงเวลาไม่ถูกต้อง"
+                text="กรุณากำหนดเวลานัดหมายให้ตรงช่วงเวลาที่กำหนด"
+                buttonText="ตกลง"
+              />
+              <Alert
+                closeAlert={() => setDateAlert(false)}
+                alert={dateAlert}
+                title="วันที่ไม่ถูกต้อง"
+                text="มีนัดหมายในวันดังกล่าวแล้ว ไม่สามารถเพิ่มนัดหมายอีกได้"
+                buttonText="ตกลง"
+              />
               <div className={classes.margin}>
                 <Grid container justify="flex-end" alignItems="center">
                   <Grid item xs={4} md={4} lg={4}>

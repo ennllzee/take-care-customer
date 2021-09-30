@@ -100,7 +100,7 @@ function RegisterPage() {
 
   useEffect(() => {
     if (accessToken !== null) {
-      history.push(`/profile&=${accessToken}`);
+      history.push(`/appointment&=${accessToken}`);
     }
     if (gmail === null) {
       history.push("/");

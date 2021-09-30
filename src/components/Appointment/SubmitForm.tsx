@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     form: {
-      paddingTop: "5%",
-      height: "100%",
+      paddingTop: "2%",
+      // height: "100%",
     },
     paper: {
       padding: "2%",
@@ -197,7 +197,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           </div>
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="center">
-              <Grid item xs={10} md={4} lg={4}>
+              <Grid item xs={12} md={4} lg={4}>
                 <ContactCard user={appointment?.Guide} />
               </Grid>
             </Grid>

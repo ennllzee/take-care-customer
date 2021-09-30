@@ -19,14 +19,9 @@ import AppointmentCard from "./AppointmentCard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    sub: {
-      minHeight: "15vh",
-    },
     main: {
-      minHeight: "70vh",
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(10),
       paddingRight: "5%",
       paddingLeft: "5%",
       minWidth: "100vw",
@@ -78,9 +73,7 @@ function HistoryPage() {
         direction="column"
         alignItems="center"
         justify="space-between"
-        className={classes.root}
       >
-        <Grid item className={classes.sub}></Grid>
         <Grid item className={classes.main}>
           {!loading ? (
             <>
@@ -150,8 +143,6 @@ function HistoryPage() {
             </Grid>
           )}
         </Grid>
-
-        <Grid item className={classes.sub}></Grid>
       </Grid>
       <BottomBar page="History" />
     </Grid>

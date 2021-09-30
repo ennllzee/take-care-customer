@@ -118,15 +118,64 @@ const useCustomerApi = () => {
         AppointTime
         BeginTime
         EndTime
-        Guide {
+        Customer {
+          _id
           FirstName
           LastName
+          Gender
+          DOB
+          PhoneNumber
           Email
+          Gmail
+          EmergencyTel
+          Avatar {
+            filename
+            mimetype
+            data
+          }
+          CongenitalDisorders
         }
-        Dep {
+        Guide {
+          _id
+          FirstName
+          LastName
+          Gender
+          DOB
+          Address
+          ContactAddress
+          PhoneNumber
+          Email
+          IsVerified
+          Education {
+            Degree
+            Acadamy
+          }
+          WorkExp {
+            JobTitle
+            WorkPlace
+          }
+          LangSkill {
+            Language
+            Level
+          }
+          IdCard
+          VerifyDate
+          Avatar {
+            filename
+            mimetype
+            data
+          }
+          Status {
+            Tag
+            Details
+          }
+        }
+        Department {
+          _id
           Name
         }
         Hospital {
+          _id
           Name
         }
         Review {
@@ -145,8 +194,6 @@ const useCustomerApi = () => {
           Details
         }
         Period
-        CreatedAt
-        UpdatedAt
       }
     }
   `;

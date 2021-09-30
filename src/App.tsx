@@ -49,9 +49,9 @@ function App() {
         <main>
           <Switch>
             <Route exact path="/" component={LoginPage} />
-            <Route path="/register" component={RegisterPage} />
+            <Route exact path="/register" component={RegisterPage} />
             <Route path="/" component={Home} />
-            <Route path={`/tracking&=`} component={TrackingRoute}/>
+            {/* <Route path={`/tracking&=`} component={TrackingRoute}/> */}
           </Switch>
         </main>
       </div>

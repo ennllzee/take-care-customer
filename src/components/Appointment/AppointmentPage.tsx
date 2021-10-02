@@ -1,19 +1,15 @@
 import { useQuery } from "@apollo/client";
-import DateFnsUtils from "@date-io/date-fns";
 import {
   makeStyles,
   Theme,
   createStyles,
   Grid,
   Typography,
-  IconButton,
   Divider,
-  Button,
   CircularProgress,
-  Fab
+  Fab,
 } from "@material-ui/core";
-import { Today, PostAdd } from "@material-ui/icons";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import { PostAdd } from "@material-ui/icons";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { history } from "../../helper/history";
@@ -25,7 +21,6 @@ import BottomBar from "../BottomBar/BottomBar";
 import TopBar from "../TopBar/TopBar";
 import AddAppointment from "./AddAppointment";
 import AppointmentCard from "./AppointmentCard";
-import ContactCard from "./ContactCard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "2%",
     },
     fab: {
-      position: 'fixed',
+      position: "fixed",
       bottom: theme.spacing(10),
       right: theme.spacing(2),
     },
@@ -77,8 +72,7 @@ function AppointmentPage() {
     if (!loading && data) {
       setAppointment(data.getAllAppointmentByCustomer);
     }
-    console.log(data);
-    if(error) console.log(error?.graphQLErrors);
+    if (error) console.log(error?.graphQLErrors);
   }, [loading, data, error]);
 
   return (
@@ -163,7 +157,9 @@ function AppointmentPage() {
                   ไม่มีนัดหมาย
                 </Typography>
               )}
-              <Fab className={classes.fab} onClick={() => setAdd(true)}><PostAdd /></Fab>
+              <Fab className={classes.fab} onClick={() => setAdd(true)}>
+                <PostAdd />
+              </Fab>
             </>
           ) : (
             <Grid
@@ -178,8 +174,19 @@ function AppointmentPage() {
         </Grid>
       </Grid>
       <BottomBar page="Appointment" />
-      <Alert closeAlert={() => setSuccess(false)} alert={success} title="สำเร็จ" text="เพิ่มนัดหมายสำเร็จ" buttonText="ตกลง"/>
-      <AddAppointment open={add} setOpen={setAdd} setSuccess={setSuccess} appointments={appointment}/>
+      <Alert
+        closeAlert={() => setSuccess(false)}
+        alert={success}
+        title="สำเร็จ"
+        text="เพิ่มนัดหมายสำเร็จ"
+        buttonText="ตกลง"
+      />
+      <AddAppointment
+        open={add}
+        setOpen={setAdd}
+        setSuccess={setSuccess}
+        appointments={appointment}
+      />
     </Grid>
   );
 }

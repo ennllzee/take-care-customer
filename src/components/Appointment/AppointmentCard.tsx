@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -64,6 +64,25 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
   };
 
   const [success, setSuccess] = useState<boolean>(false);
+
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const tick = () => {
+      setTime(new Date());
+    };
+    var timeID = setInterval(() => tick(), 1000);
+    return () => {
+      clearInterval(timeID);
+    };
+  }, [time]);
+
+  const [startConfirm, setStartConfirm] = useState<boolean>(false);
+
+  const start = () => {
+    //waiting for start
+    setStartConfirm(false)
+  }
 
   return (
     <Card>
@@ -140,7 +159,23 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               {appointment.Status.Tag}
             </Typography>
           </Grid>
+          {new Date(appointment.AppointTime) <= new Date(time) && appointment.Status.Tag === "Guide Confirm" && (
+            <Grid item xs={12}>
+              <Button onClick={() => setStartConfirm(true)}>
+                <Typography variant="button">เริ่มต้นการบริการ</Typography>
+              </Button>
+            </Grid>
+          )}
         </Grid>
+        <Submit
+          submit={startConfirm}
+          title="เริ่มนัดหมาย"
+          text="ยืนยันเริ่มการใช้บริการหรือไม่?"
+          denyText="ปิด"
+          submitText="ยืนยัน"
+          denyAction={() => setStartConfirm(false)}
+          submitAction={start}
+        />
       </CardContent>
       {appointment.Status.Tag !== "Guide Reject" && (
         <CardActions disableSpacing>

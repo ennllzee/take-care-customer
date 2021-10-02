@@ -75,9 +75,8 @@ function TrackingPage({ id }: TrackingPageProps) {
     if (!loading && data) {
       setAppointment(data.getAppointment);
     }
+    console.log(error)
   }, [loading]);
-
-  
 
   return (
     <Grid>
@@ -110,7 +109,7 @@ function TrackingPage({ id }: TrackingPageProps) {
                       </colgroup>
                       <TableHead>
                         <TableRow>
-                          <StyledTableCell>เวลา</StyledTableCell>
+                          <StyledTableCell align="center">เวลา</StyledTableCell>
                           <StyledTableCell align="center">
                             กิจกรรม
                           </StyledTableCell>

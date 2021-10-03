@@ -9,12 +9,13 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Button, CardHeader, Grid } from "@material-ui/core";
+import { Button, CardHeader, Chip, Grid } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
 import Image from "material-ui-image";
 import Submit from "../Submit/Submit";
 import Alert from "../Alert/Alert";
+import { CheckCircle, FaceRounded, Cancel, Timer } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,6 +40,25 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "5%",
       paddingTop: 0,
       paddingBottom: 0,
+    },
+    status: {
+      padding: "2%",
+    },
+    confirm: {
+      backgroundColor: "#34C156",
+      color: "white",
+    },
+    process: {
+      backgroundColor: "#4884E6",
+      color: "white",
+    },
+    cancel: {
+      backgroundColor: "#5D5D5D",
+      color: "white",
+    },
+    wait: {
+      backgroundColor: "#F5B32E",
+      color: "white",
     },
   })
 );
@@ -113,14 +133,51 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               {appointment?.Note !== null ? appointment?.Note : "-"}
             </Typography>
           </Grid>
-          <Grid item xs={5}>
-            <Typography variant="body1" align="left">
-              สถานะ:
-            </Typography>
-          </Grid>
-          <Grid item xs={7}>
-            <Typography variant="body1" align="left">
-              {appointment?.Status.Tag}
+          <Grid item xs={12} className={classes.status}>
+            <Typography variant="body1" align="center">
+              {appointment?.Status.Tag === "Completed"  ? (
+                <>
+                  <Chip
+                    size="small"
+                    icon={<CheckCircle style={{ color: "white" }} />}
+                    label="สิ้นสุดการบริการ"
+                    className={classes.confirm}
+                  />
+                </>
+              ) : appointment?.Status.Tag === "In process" ? (
+                <>
+                  <Chip
+                    size="small"
+                    icon={<FaceRounded style={{ color: "white" }} />}
+                    label="อยู่ระหว่างการบริการ"
+                    className={classes.process}
+                  />
+                </>
+              ) : appointment?.Status.Tag === "Guide Confirm"&&
+              new Date(
+                moment(appointment.AppointTime).format("DD MMMM yyyy")
+              ) >= new Date(moment(new Date()).format("DD MMMM yyyy")) ? (
+                <>
+                  <Chip
+                    size="small"
+                    icon={<Timer style={{ color: "white" }} />}
+                    label="รอการบริการ"
+                    className={classes.wait}
+                  />
+                </>
+              ) : (
+                <>
+                  <Chip
+                    size="small"
+                    icon={<Cancel style={{ color: "white" }} />}
+                    label="การเพิ่มนัดหมายไม่สำเร็จ"
+                    className={classes.cancel}
+                  />
+                  <Typography color="textSecondary">
+                    ข้อมูลการนัดหมายจะถูกลบจากระบบในวันถัดไป
+                  </Typography>
+                </>
+              )}
             </Typography>
           </Grid>
         </Grid>

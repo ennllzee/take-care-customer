@@ -9,14 +9,23 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Button, CardHeader, Grid, Link } from "@material-ui/core";
+import { Button, CardHeader, Chip, Grid, Link } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
 import Image from "material-ui-image";
 import Submit from "../Submit/Submit";
 import ChangeGuide from "./ChangeGuide";
 import Alert from "../Alert/Alert";
-import { PlayCircleFilled } from "@material-ui/icons";
+import {
+  Announcement,
+  Cancel,
+  CheckCircle,
+  Error,
+  FaceRounded,
+  HighlightOff,
+  PlayCircleFilled,
+  Timer,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,6 +76,29 @@ const useStyles = makeStyles((theme: Theme) =>
     sunday: {
       backgroundColor: "#EA7C7C",
       padding: "1%",
+    },
+    deny: {
+      backgroundColor: "#EA4A4A",
+      color: "white",
+    },
+    status: {
+      padding: "2%",
+    },
+    wait: {
+      backgroundColor: "#F5B32E",
+      color: "white",
+    },
+    confirm: {
+      backgroundColor: "#34C156",
+      color: "white",
+    },
+    process: {
+      backgroundColor: "#4884E6",
+      color: "white",
+    },
+    cancel: {
+      backgroundColor: "#5D5D5D",
+      color: "white",
     },
   })
 );
@@ -193,14 +225,65 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               </Grid>
             </>
           )}
-          <Grid item xs={5}>
-            <Typography variant="body1" align="left">
-              สถานะ:
-            </Typography>
-          </Grid>
-          <Grid item xs={7}>
-            <Typography variant="body1" align="left">
-              {appointment.Status.Tag}
+          <Grid item xs={12} className={classes.status}>
+            <Typography variant="body1" align="center">
+              {appointment.Status.Tag === "Wait for Guide to Confirm" &&
+              new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
+                new Date(moment(new Date()).format("DD MMMM yyyy")) ? (
+                <Chip
+                  size="small"
+                  icon={<Timer style={{ color: "white" }} />}
+                  label="รอการตอบรับจากไกด์"
+                />
+              ) : appointment.Status.Tag === "Guide Confirm" &&
+                new Date(
+                  moment(appointment.AppointTime).format("DD MMMM yyyy")
+                ) >= new Date(moment(new Date()).format("DD MMMM yyyy")) ? (
+                <>
+                  <Chip
+                    size="small"
+                    icon={<CheckCircle style={{ color: "white" }} />}
+                    label="เพิ่มนัดหมายสำเร็จ"
+                    className={classes.confirm}
+                  />
+                </>
+              ) : appointment.Status.Tag === "Guide Reject" &&
+                new Date(
+                  moment(appointment.AppointTime).format("DD MMMM yyyy")
+                ) > new Date(moment(new Date()).format("DD MMMM yyyy")) ? (
+                <>
+                  <Chip
+                    size="small"
+                    icon={<Error style={{ color: "white" }} />}
+                    label="ไกด์ปฏิเสธ กรุณาเปลี่ยนไกด์คนใหม่"
+                    className={classes.deny}
+                  />
+                  <Typography color="textSecondary">
+                    ข้อความจากไกด์: {appointment.Status.Details}
+                  </Typography>
+                </>
+              ) : appointment.Status.Tag === "In process" ? (
+                <>
+                  <Chip
+                    size="small"
+                    icon={<FaceRounded style={{ color: "white" }} />}
+                    label="อยู่ระหว่างการรับบริการ"
+                    className={classes.process}
+                  />
+                </>
+              ) : (
+                <>
+                  <Chip
+                    size="small"
+                    icon={<Cancel style={{ color: "white" }} />}
+                    label="การเพิ่มนัดหมายไม่สำเร็จ"
+                    className={classes.cancel}
+                  />
+                  <Typography color="textSecondary">
+                    ข้อมูลการนัดหมายจะถูกลบจากระบบในวันถัดไป
+                  </Typography>
+                </>
+              )}
             </Typography>
           </Grid>
           {new Date(appointment.AppointTime) <= new Date(time) &&
@@ -333,23 +416,31 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                 style={{ padding: "5%" }}
                 onClick={() => setConfirmDelete(true)}
               >
-                <Typography variant="body1">ยกเลิกนัดหมาย</Typography>
+                <Typography variant="body1">
+                  {new Date(
+                    moment(appointment.AppointTime).format("DD MMMM yyyy")
+                  ) > new Date(moment(new Date()).format("DD MMMM yyyy"))
+                    ? "ยกเลิกนัดหมาย"
+                    : "ลบ"}
+                </Typography>
               </Button>
             )}
           </Grid>
           <Grid item xs={4}>
             {(appointment.Status.Tag === "Guide Reject" ||
-              appointment.Status.Tag === "Wait for Guide to Confirm") && (
-              <Button
-                type="button"
-                fullWidth={true}
-                variant="contained"
-                style={{ padding: "5%" }}
-                onClick={() => setChangeGuide(true)}
-              >
-                <Typography variant="body1">เปลี่ยนไกด์</Typography>
-              </Button>
-            )}
+              appointment.Status.Tag === "Wait for Guide to Confirm") &&
+              new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
+                new Date(moment(new Date()).format("DD MMMM yyyy")) && (
+                <Button
+                  type="button"
+                  fullWidth={true}
+                  variant="contained"
+                  style={{ padding: "5%" }}
+                  onClick={() => setChangeGuide(true)}
+                >
+                  <Typography variant="body1">เปลี่ยนไกด์</Typography>
+                </Button>
+              )}
           </Grid>
         </Grid>
         <ChangeGuide

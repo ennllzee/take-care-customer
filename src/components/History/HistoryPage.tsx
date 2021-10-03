@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: "100vw",
     },
     line: {
-      padding: "1%",
+      padding: "2%",
     },
     card: {
       padding: "2%",
@@ -78,9 +78,9 @@ function HistoryPage() {
           {!loading ? (
             <>
               {appointment.length !== 0 &&
-              appointment.find((a) => a.EndTime !== null) ? (
+              appointment.find((a) => a.Status.Tag === "Completed") ? (
                 appointment
-                  ?.filter((a) => a.EndTime !== null)
+                  ?.filter((a) => a.Status.Tag === "Completed")
                   .slice()
                   .sort((a, b) => {
                     return (

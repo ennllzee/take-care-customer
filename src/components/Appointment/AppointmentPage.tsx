@@ -89,8 +89,8 @@ function AppointmentPage() {
             <>
               {appointment?.filter(
                 (a) =>
-                  new Date(a.AppointTime) >= new Date() &&
-                  new Date(a.AppointTime) <=
+                  new Date(moment(a.AppointTime).format('DD MMMM yyyy')) >= new Date(moment(new Date()).format('DD MMMM yyyy')) &&
+                  new Date(moment(a.AppointTime).format('DD MMMM yyyy')) <=
                     new Date(
                       moment(new Date()).add(7, "days").format("DD MMMM yyyy")
                     )
@@ -99,13 +99,15 @@ function AppointmentPage() {
                   {appointment
                     ?.filter(
                       (a) =>
-                        new Date(a.AppointTime) >= new Date() &&
-                        new Date(a.AppointTime) <=
+                        new Date(moment(a.AppointTime).format('DD MMMM yyyy')) >= new Date(moment(new Date()).format('DD MMMM yyyy')) &&
+                        new Date(moment(a.AppointTime).format('DD MMMM yyyy')) <=
                           new Date(
                             moment(new Date())
                               .add(7, "days")
                               .format("DD MMMM yyyy")
                           )
+                          &&
+                          a.Status.Tag !== "Completed"
                     )
                     .slice()
                     .sort((a, b) => {
@@ -114,7 +116,6 @@ function AppointmentPage() {
                         new Date(b.AppointTime).getTime()
                       );
                     })
-                    .reverse()
                     .map((a) => {
                       return (
                         <>
@@ -150,7 +151,7 @@ function AppointmentPage() {
               ) : (
                 <Typography
                   align="center"
-                  variant="subtitle1"
+                  variant="h6"
                   color="textSecondary"
                 >
                   ไม่มีนัดหมาย

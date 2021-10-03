@@ -40,34 +40,6 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: 0,
       paddingBottom: 0,
     },
-    monday: {
-      backgroundColor: "#FFD68F",
-      padding: "1%",
-    },
-    tuesday: {
-      backgroundColor: "#FF8FD4",
-      padding: "1%",
-    },
-    wednesday: {
-      backgroundColor: "#94E18A",
-      padding: "1%",
-    },
-    thursday: {
-      backgroundColor: "#F3BE95",
-      padding: "1%",
-    },
-    friday: {
-      backgroundColor: "#9FBFF2",
-      padding: "1%",
-    },
-    saturday: {
-      backgroundColor: "#C78FDC",
-      padding: "1%",
-    },
-    sunday: {
-      backgroundColor: "#EA7C7C",
-      padding: "1%",
-    },
   })
 );
 
@@ -94,23 +66,6 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
 
   return (
     <Card>
-      <CardHeader
-        className={
-          new Date(appointment?.AppointTime).getDay() === 0
-            ? classes.sunday
-            : new Date(appointment?.AppointTime).getDay() === 1
-            ? classes.monday
-            : new Date(appointment?.AppointTime).getDay() === 2
-            ? classes.tuesday
-            : new Date(appointment?.AppointTime).getDay() === 3
-            ? classes.wednesday
-            : new Date(appointment?.AppointTime).getDay() === 4
-            ? classes.thursday
-            : new Date(appointment?.AppointTime).getDay() === 5
-            ? classes.friday
-            : classes.saturday
-        }
-      />
       <CardContent className={classes.root}>
         <Grid
           container

@@ -46,6 +46,7 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
       }
       //waiting for review
       setAlert(true);
+      setOpen(false)
     } else {
       setAlertData(true);
     }

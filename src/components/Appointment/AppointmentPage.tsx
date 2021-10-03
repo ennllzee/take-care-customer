@@ -108,7 +108,6 @@ function AppointmentPage() {
                           )
                     )
                     .slice()
-                    .reverse()
                     .sort((a, b) => {
                       return (
                         new Date(a.AppointTime).getTime() -

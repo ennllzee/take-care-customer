@@ -39,8 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     foot: {
       padding: "5%",
-      paddingTop: 0,
-      paddingBottom: 0,
     },
     monday: {
       backgroundColor: "#FFD68F",

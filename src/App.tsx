@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       minHeight: "100vh",
-      
     },
   })
 );
@@ -33,7 +32,7 @@ const theme = createMuiTheme({
       fontSize: 16
     },
     button: {
-      fintSize: 12
+      fontSize: 12
     }
   },
 });

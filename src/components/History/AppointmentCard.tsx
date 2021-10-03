@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -15,7 +15,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Grid, Link } from "@material-ui/core";
+import { Button, Grid, Link } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
 
@@ -47,7 +47,7 @@ interface AppointmentCardProps {
 
 function AppointmentCard({ appointment }: AppointmentCardProps) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -100,6 +100,11 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           <Grid item xs={7}>
             <Typography variant="body1" align="left">
               {appointment.Note !== null ? appointment.Note : "-"}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align="center">
+              <Button>เริ่มการใช้บริการ</Button>
             </Typography>
           </Grid>
         </Grid>
@@ -158,9 +163,12 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                   {appointment.OpenLink}
                 </Typography>
               </Link> */}
-              <Link rel="noopener noreferrer" href={`/tracking&=${appointment._id}`} target="_blank">
+              <Link
+                rel="noopener noreferrer"
+                href={`/tracking&=${appointment._id}`}
+                target="_blank"
+              >
                 <Typography variant="body1" align="left">
-                  {/* {`http://localhost:3000/tracking&=${appointment._id}`} */} 
                   click here
                 </Typography>
               </Link>

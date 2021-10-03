@@ -20,6 +20,9 @@ const theme = createMuiTheme({
     body1: {
       fontSize: 12
     },
+    body2: {
+      fontSize: 11
+    },
     caption: {
       fontSize: 10
     },

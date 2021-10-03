@@ -15,9 +15,10 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Button, Grid, Link } from "@material-ui/core";
+import { Button, Chip, Grid, Link } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
+import { RateReview } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,6 +39,40 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       backgroundColor: red[500],
     },
+    monday: {
+      backgroundColor: "#FFD68F",
+      padding: "1%",
+    },
+    tuesday: {
+      backgroundColor: "#FF8FD4",
+      padding: "1%",
+    },
+    wednesday: {
+      backgroundColor: "#94E18A",
+      padding: "1%",
+    },
+    thursday: {
+      backgroundColor: "#F3BE95",
+      padding: "1%",
+    },
+    friday: {
+      backgroundColor: "#9FBFF2",
+      padding: "1%",
+    },
+    saturday: {
+      backgroundColor: "#C78FDC",
+      padding: "1%",
+    },
+    sunday: {
+      backgroundColor: "#EA7C7C",
+      padding: "1%",
+    },
+    chip: {
+      fontSize: 10,
+      backgroundColor: "#508F7F",
+      color: 'white',
+      padding: '1%'
+    }
   })
 );
 
@@ -48,6 +83,8 @@ interface AppointmentCardProps {
 function AppointmentCard({ appointment }: AppointmentCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
+  const [review, setReview] = useState<boolean>(false)
+  const [alert, setAlert] = useState<boolean>(false)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -55,6 +92,23 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
 
   return (
     <Card>
+      <CardHeader
+        className={
+          new Date(appointment.AppointTime).getDay() === 0
+            ? classes.sunday
+            : new Date(appointment.AppointTime).getDay() === 1
+            ? classes.monday
+            : new Date(appointment.AppointTime).getDay() === 2
+            ? classes.tuesday
+            : new Date(appointment.AppointTime).getDay() === 3
+            ? classes.wednesday
+            : new Date(appointment.AppointTime).getDay() === 4
+            ? classes.thursday
+            : new Date(appointment.AppointTime).getDay() === 5
+            ? classes.friday
+            : classes.saturday
+        }
+      />
       <CardContent className={classes.root}>
         <Grid
           container
@@ -100,11 +154,6 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           <Grid item xs={7}>
             <Typography variant="body1" align="left">
               {appointment.Note !== null ? appointment.Note : "-"}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography align="center">
-              <Button>เริ่มการใช้บริการ</Button>
             </Typography>
           </Grid>
         </Grid>
@@ -190,27 +239,31 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             </Grid>
             <Grid item xs={7}>
               <Typography variant="body1" align="left">
-                {appointment.Review?.Star !== null ? (
+                {/* {appointment.Review?.Star !== null ? (
                   <>{appointment.Review?.Star}</>
-                ) : (
-                  "ยังไม่ได้รับการประเมิน"
-                )}
+                ) : ( */}
+                  <Chip size="small" icon={<RateReview style={{color: 'white'}}/>} label="ประเมินความพึงพอใจ" onClick={() => setReview(true)} className={classes.chip}/>
+                {/* )} */}
               </Typography>
             </Grid>
-            <Grid item xs={5}>
-              <Typography variant="body1" align="left">
-                ความคิดเห็น:
-              </Typography>
-            </Grid>
-            <Grid item xs={7}>
-              <Typography variant="body1" align="left">
-                {appointment.Review?.Comment !== null ? (
-                  <>{appointment.Review?.Comment}</>
-                ) : (
-                  "-"
-                )}
-              </Typography>
-            </Grid>
+            {appointment.Review?.Star !== null && (
+              <>
+                <Grid item xs={5}>
+                  <Typography variant="body1" align="left">
+                    ความคิดเห็น:
+                  </Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body1" align="left">
+                    {appointment.Review?.Comment !== null ? (
+                      <>{appointment.Review?.Comment}</>
+                    ) : (
+                      "-"
+                    )}
+                  </Typography>
+                </Grid>
+              </>
+            )}
           </Grid>
         </CardContent>
       </Collapse>

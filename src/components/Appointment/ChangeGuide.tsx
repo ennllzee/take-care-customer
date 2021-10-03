@@ -119,7 +119,7 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
     //waiting for update guide
     setConfirmSubmit(false)
     setSuccess(true)
-    setOpen(true)
+    setOpen(false)
   }
 
   return (
@@ -178,7 +178,6 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
                                 md={4}
                                 lg={3}
                                 className={classes.card}
-                                // onClick={() => setGuideId(undefined)}
                               >
                                 <ContactCard
                                   user={g.Createdby}
@@ -195,7 +194,6 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
                               md={4}
                               lg={3}
                               className={classes.card}
-                              // onClick={() => click(g.Createdby)}
                             >
                               <ContactCard
                                 user={g.Createdby}

@@ -103,10 +103,10 @@ function ContactCard({
       <CardContent className={classes.card}>
         <CardMedia
           className={classes.cover}
-          // image={avatar}
+          image={avatar}
           component="img"
           height="100%"
-          image={"https://pbs.twimg.com/media/D42rqfjU0AA0CBZ.jpg"}
+          // image={"https://pbs.twimg.com/media/D42rqfjU0AA0CBZ.jpg"}
           title={user?.FirstName}
         />
         <div className={classes.details}>

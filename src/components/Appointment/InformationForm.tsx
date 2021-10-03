@@ -79,8 +79,6 @@ function InformationForm({
     appointment?.Hospital?._id
   );
 
-  
-
   const [depId, setDepId] = useState<string | undefined>(
     appointment?.Department?._id
   );
@@ -153,6 +151,7 @@ function InformationForm({
       setHos(data.getAllHospital);
       setDep(data.getAllDepartment);
     }
+    console.log(error)
   }, [loading]);
 
   useEffect(() => {
@@ -160,14 +159,6 @@ function InformationForm({
       dep.find((d) => d._id === depId)?.Hospital?._id ? depId : undefined
     );
   }, [hosId]);
-
-  // useEffect(() => {
-  //   setTime(!isWrongTime() ? time : undefined);
-  //   setAppointment({
-  //     ...appointment,
-  //     Guide: undefined,
-  //   });
-  // }, [period]);
 
   useEffect(() => {
     if (time !== undefined) {
@@ -182,10 +173,6 @@ function InformationForm({
         ).toISOString()
       );
     }
-    // setAppointment({
-    //   ...appointment,
-    //   Guide: undefined,
-    // });
   }, [date]);
 
   const handleChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {

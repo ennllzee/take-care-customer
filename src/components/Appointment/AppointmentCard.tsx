@@ -9,13 +9,14 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Button, Grid, Link } from "@material-ui/core";
+import { Button, CardHeader, Grid, Link } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
 import Image from "material-ui-image";
 import Submit from "../Submit/Submit";
 import ChangeGuide from "./ChangeGuide";
 import Alert from "../Alert/Alert";
+import { PlayCircleFilled } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,6 +41,34 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "5%",
       paddingTop: 0,
       paddingBottom: 0,
+    },
+    monday: {
+      backgroundColor: "#FFD68F",
+      padding: "1%",
+    },
+    tuesday: {
+      backgroundColor: "#FF8FD4",
+      padding: "1%",
+    },
+    wednesday: {
+      backgroundColor: "#94E18A",
+      padding: "1%",
+    },
+    thursday: {
+      backgroundColor: "#F3BE95",
+      padding: "1%",
+    },
+    friday: {
+      backgroundColor: "#9FBFF2",
+      padding: "1%",
+    },
+    saturday: {
+      backgroundColor: "#C78FDC",
+      padding: "1%",
+    },
+    sunday: {
+      backgroundColor: "#EA7C7C",
+      padding: "1%",
     },
   })
 );
@@ -81,11 +110,28 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
 
   const start = () => {
     //waiting for start
-    setStartConfirm(false)
-  }
+    setStartConfirm(false);
+  };
 
   return (
     <Card>
+      <CardHeader
+        className={
+          new Date(appointment.AppointTime).getDay() === 0
+            ? classes.sunday
+            : new Date(appointment.AppointTime).getDay() === 1
+            ? classes.monday
+            : new Date(appointment.AppointTime).getDay() === 2
+            ? classes.tuesday
+            : new Date(appointment.AppointTime).getDay() === 3
+            ? classes.wednesday
+            : new Date(appointment.AppointTime).getDay() === 4
+            ? classes.thursday
+            : new Date(appointment.AppointTime).getDay() === 5
+            ? classes.friday
+            : classes.saturday
+        }
+      />
       <CardContent className={classes.root}>
         <Grid
           container
@@ -159,13 +205,20 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               {appointment.Status.Tag}
             </Typography>
           </Grid>
-          {new Date(appointment.AppointTime) <= new Date(time) && appointment.Status.Tag === "Guide Confirm" && (
-            <Grid item xs={12}>
-              <Button onClick={() => setStartConfirm(true)}>
-                <Typography variant="button">เริ่มต้นการบริการ</Typography>
-              </Button>
-            </Grid>
-          )}
+          {new Date(appointment.AppointTime) <= new Date(time) &&
+            appointment.Status.Tag === "Guide Confirm" && (
+              <Grid item xs={12}>
+                <Button
+                  onClick={() => setStartConfirm(true)}
+                  style={{ backgroundColor: "#508F7F", color: "white" }}
+                >
+                  <Typography variant="button">
+                    <PlayCircleFilled />
+                    เริ่มต้นการบริการ
+                  </Typography>
+                </Button>
+              </Grid>
+            )}
         </Grid>
         <Submit
           submit={startConfirm}
@@ -269,10 +322,12 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           alignItems="center"
         >
           <Grid item xs={4}>
-            {new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
+            {(new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
               new Date(
                 moment(new Date()).add(1, "days").format("DD MMMM yyyy")
-              ) && (
+              ) ||
+              appointment.Status.Tag === "Guide Reject" ||
+              appointment.Status.Tag === "Wait for Guide to Confirm") && (
               <Button
                 type="button"
                 fullWidth={true}
@@ -285,18 +340,18 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             )}
           </Grid>
           <Grid item xs={4}>
-            {appointment.Status.Tag === "Guide Reject" ||
-              (appointment.Status.Tag === "Wait for Guide to Confirm" && (
-                <Button
-                  type="button"
-                  fullWidth={true}
-                  variant="contained"
-                  style={{ padding: "5%" }}
-                  onClick={() => setChangeGuide(true)}
-                >
-                  <Typography variant="body1">เปลี่ยนไกด์</Typography>
-                </Button>
-              ))}
+            {(appointment.Status.Tag === "Guide Reject" ||
+              appointment.Status.Tag === "Wait for Guide to Confirm") && (
+              <Button
+                type="button"
+                fullWidth={true}
+                variant="contained"
+                style={{ padding: "5%" }}
+                onClick={() => setChangeGuide(true)}
+              >
+                <Typography variant="body1">เปลี่ยนไกด์</Typography>
+              </Button>
+            )}
           </Grid>
         </Grid>
         <ChangeGuide

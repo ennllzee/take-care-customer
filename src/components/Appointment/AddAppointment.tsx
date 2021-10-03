@@ -1,6 +1,5 @@
 import {
   createStyles,
-  Divider,
   Grid,
   IconButton,
   makeStyles,
@@ -15,12 +14,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import useCustomerApi from "../../hooks/customerhooks";
 import AppointmentForm from "../../models/AppointmentForm";
-import Customer from "../../models/Customer";
 import InformationForm from "./InformationForm";
 import SelectGuideForm from "./SelectGuideForm";
 import SubmitForm from "./SubmitForm";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import convertToThaiDate from "../../hooks/convertToThaiDate";
+import { useMutation, useQuery } from "@apollo/client";
 import Appointment from "../../models/Appointment";
 
 interface AddAppointmentProps {
@@ -137,12 +134,6 @@ function AddAppointment({
           justify="center"
           alignItems="flex-start"
         >
-          {/* <Grid item xs={12} md={12} lg={12}>
-            <Typography variant="h4" className={classes.line}>
-              แบบเพิ่มนัดหมาย
-            </Typography>
-            <Divider variant="middle" />
-          </Grid> */}
           <Grid item xs={12} md={12} lg={12} className={classes.line}>
             {step === 1 ? (
               <InformationForm

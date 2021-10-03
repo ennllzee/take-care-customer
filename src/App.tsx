@@ -5,7 +5,6 @@ import LoginPage from "./components/Login/LoginPage";
 import "./App.css";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import RegisterPage from "./components/Register/RegisterPage";
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {

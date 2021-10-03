@@ -5,8 +5,6 @@ import LoginPage from "./components/Login/LoginPage";
 import "./App.css";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import RegisterPage from "./components/Register/RegisterPage";
-import TrackingRoute from "./components/Tracking/TrackingRoute";
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -51,7 +49,6 @@ function App() {
             <Route exact path="/" component={LoginPage} />
             <Route exact path="/register" component={RegisterPage} />
             <Route path="/" component={Home} />
-            {/* <Route path={`/tracking&=`} component={TrackingRoute}/> */}
           </Switch>
         </main>
       </div>

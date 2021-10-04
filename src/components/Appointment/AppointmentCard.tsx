@@ -26,6 +26,8 @@ import {
   PlayCircleFilled,
   Timer,
 } from "@material-ui/icons";
+import { useMutation } from "@apollo/client";
+import useCustomerApi from "../../hooks/customerhooks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -110,13 +112,35 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [changeGuide, setChangeGuide] = useState<boolean>(false);
 
+  const id = localStorage.getItem("_id");
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const { DELETE_APPOINTMENT, GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
+
+  const [deleteAppointmentAPI] = useMutation(DELETE_APPOINTMENT,{
+    onCompleted: (data) => {
+      console.log(data)
+    }
+  })
+
+
   const deleteAppointment = () => {
     setConfirmDelete(false);
-    //waiting for delete
+    deleteAppointmentAPI({
+      variables: {
+        deleteAppointmentId: appointment._id
+      },
+      refetchQueries: [
+        {
+          query: GET_ALLAPPOINTMENT_BY_CUSTOMER,
+          variables: { getAllAppointmentByCustomerCustomerId: id },
+        },
+      ],
+    });
+
   };
 
   const [success, setSuccess] = useState<boolean>(false);
@@ -135,9 +159,11 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
 
   const [startConfirm, setStartConfirm] = useState<boolean>(false);
 
+
   const start = () => {
     //waiting for start
     setStartConfirm(false);
+
   };
 
   return (

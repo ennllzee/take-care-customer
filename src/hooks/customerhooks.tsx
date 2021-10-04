@@ -267,11 +267,13 @@ const useCustomerApi = () => {
   const UPDATE_APPOINTMENT_GUIDE_REQUEST = gql`
     mutation UpdateAppointmentRequestGuideMutation(
       $updateAppointmentRequestGuideId: ID!
-      $updateAppointmentRequestGuideUpdateinput: UpdateAppointmentInput
+      $updateAppointmentRequestGuideScheduleId: ID!
+      $updateAppointmentRequestGuidePeriod: String!
     ) {
       updateAppointmentRequestGuide(
         _id: $updateAppointmentRequestGuideId
-        updateinput: $updateAppointmentRequestGuideUpdateinput
+        ScheduleId: $updateAppointmentRequestGuideScheduleId
+        Period: $updateAppointmentRequestGuidePeriod
       ) {
         _id
         AppointTime
@@ -280,7 +282,7 @@ const useCustomerApi = () => {
           LastName
           Email
         }
-        Dep {
+        Department {
           Name
         }
         Hospital {
@@ -308,6 +310,12 @@ const useCustomerApi = () => {
       ) {
         _id
       }
+    }
+  `;
+
+  const DELETE_APPOINTMENT = gql`
+    mutation DELETE_APPOINTMENT($deleteAppointmentId: ID!) {
+      deleteAppointment(_id: $deleteAppointmentId)
     }
   `;
 
@@ -548,6 +556,7 @@ const useCustomerApi = () => {
     GET_ALLAPPOINTMENT_BY_CUSTOMER,
     CREATE_APPOINTMENT,
     UPDATE_APPOINTMENT_GUIDE_REQUEST,
+    DELETE_APPOINTMENT,
     UPDATE_APPOINTMENT_REVIEW,
     CREATE_REPORT,
     GET_ALLHOSPITAL,

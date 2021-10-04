@@ -20,7 +20,7 @@ import Customer from "../../models/Customer";
 import InformationForm from "./InformationForm";
 import SelectGuideForm from "./SelectGuideForm";
 import SubmitForm from "./SubmitForm";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import Appointment from "../../models/Appointment";
 import ContactCard from "./ContactCard";
@@ -72,7 +72,7 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
   const classes = useStyles();
   const id = localStorage.getItem("_id");
 
-  const { GET_AVAILABLE_GUIDE } = useCustomerApi();
+  const { GET_AVAILABLE_GUIDE, UPDATE_APPOINTMENT_GUIDE_REQUEST, GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
 
   const { loading, error, data } = useQuery(GET_AVAILABLE_GUIDE, {
     variables: {
@@ -82,20 +82,28 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
     },
   });
 
+  const [postnewrequest] = useMutation(UPDATE_APPOINTMENT_GUIDE_REQUEST,{
+    onCompleted: (data) => {
+      console.log(data)
+    }
+  })
+
   const [alert, setAlert] = useState<boolean>(false);
   const [guideId, setGuideId] = useState<string | undefined>(
     appointment?.Guide?._id
   );
+  const [scheduleId, setscheduleId] = useState<string | undefined>()
 
   const [availableGuide, setAvailableGuide] = useState<any[]>(
     data !== undefined ? data.getAvailableGuide : []
   );
 
   const click = (g: any) => {
-    if (g?._id === guideId) {
+    if (g?.Createdby._id === guideId) {
       setGuideId(undefined);
     } else {
-      setGuideId(g?._id);
+      setGuideId(g?.Createdby._id);
+      setscheduleId(g?._id)
     }
   };
 
@@ -117,6 +125,19 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
 
   const updateGuide = () => {
     //waiting for update guide
+    postnewrequest({
+      variables: {
+        updateAppointmentRequestGuideId: appointment._id,
+        updateAppointmentRequestGuideScheduleId: scheduleId,
+        updateAppointmentRequestGuidePeriod: appointment.Period
+      },
+      refetchQueries: [
+        {
+          query: GET_ALLAPPOINTMENT_BY_CUSTOMER,
+          variables: { getAllAppointmentByCustomerCustomerId: id },
+        },
+      ],
+    });
     setConfirmSubmit(false)
     setSuccess(true)
     setOpen(false)
@@ -197,7 +218,7 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
                             >
                               <ContactCard
                                 user={g.Createdby}
-                                click={() => click(g.Createdby)}
+                                click={() => click(g)}
                               />
                             </Grid>
                           )}

@@ -16,6 +16,8 @@ import { useEffect, useState } from "react";
 import Appointment from "../../models/Appointment";
 import Record from "../../models/Record";
 import Alert from "../Alert/Alert";
+import { useMutation, useQuery } from "@apollo/client";
+import useCustomerApi from "../../hooks/customerhooks";
 
 interface ReviewProps {
   appointment: Appointment;
@@ -38,13 +40,26 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
   const [rate, setRate] = useState<number>(0);
   const [comment, setComment] = useState<string | undefined>();
   const [alertData, setAlertData] = useState<boolean>(false);
+
+  const { UPDATE_APPOINTMENT_REVIEW } = useCustomerApi();
+  const [addReview] = useMutation(UPDATE_APPOINTMENT_REVIEW, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+  });
   const submit = () => {
     if (rate !== 0) {
       let newReview = {
         Star: rate,
         Comment: comment
       }
-      //waiting for review
+
+      addReview({
+        variables: {
+          updateAppointmentRecordId: appointment._id,
+          updateAppointmentRecordRecordinput: {...newReview},
+      }});
+
       setAlert(true);
       setOpen(false)
     } else {

@@ -313,6 +313,21 @@ const useCustomerApi = () => {
     }
   `;
 
+  const UPDATE_APPOINTMENT_BEGINTIME = gql`
+    mutation UPDATE_APPOINTMENT_BEGINTIME(
+      $updateAppointmentBeginTimeId: ID!
+      $updateAppointmentBeginTimeBeginTime: String!
+    ) {
+      updateAppointmentBeginTime(
+        _id: $updateAppointmentBeginTimeId
+        BeginTime: $updateAppointmentBeginTimeBeginTime
+      ) {
+        _id
+        BeginTime
+      }
+    }
+  `;
+
   const DELETE_APPOINTMENT = gql`
     mutation DELETE_APPOINTMENT($deleteAppointmentId: ID!) {
       deleteAppointment(_id: $deleteAppointmentId)
@@ -557,6 +572,7 @@ const useCustomerApi = () => {
     CREATE_APPOINTMENT,
     UPDATE_APPOINTMENT_GUIDE_REQUEST,
     DELETE_APPOINTMENT,
+    UPDATE_APPOINTMENT_BEGINTIME,
     UPDATE_APPOINTMENT_REVIEW,
     CREATE_REPORT,
     GET_ALLHOSPITAL,

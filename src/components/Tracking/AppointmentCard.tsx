@@ -77,10 +77,6 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
     setExpanded(!expanded);
   };
 
-  const deleteAppointment = () => {
-    setConfirmDelete(false);
-    //waiting for delete
-  };
 
   const [success, setSuccess] = useState<boolean>(false);
 

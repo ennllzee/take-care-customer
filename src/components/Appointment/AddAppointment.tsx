@@ -81,7 +81,6 @@ function AddAppointment({
   });
 
   const submit = () => {
-    //wait for createAppointment
     console.log(newAppointment)
     createAppointment({
       variables: {

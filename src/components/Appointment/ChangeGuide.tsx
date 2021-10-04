@@ -124,7 +124,6 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
   };
 
   const updateGuide = () => {
-    //waiting for update guide
     postnewrequest({
       variables: {
         updateAppointmentRequestGuideId: appointment._id,

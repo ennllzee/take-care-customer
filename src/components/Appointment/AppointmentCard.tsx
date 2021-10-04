@@ -120,20 +120,23 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
     setExpanded(!expanded);
   };
 
-  const { DELETE_APPOINTMENT, GET_ALLAPPOINTMENT_BY_CUSTOMER, UPDATE_APPOINTMENT_BEGINTIME } = useCustomerApi();
+  const {
+    DELETE_APPOINTMENT,
+    GET_ALLAPPOINTMENT_BY_CUSTOMER,
+    UPDATE_APPOINTMENT_BEGINTIME,
+  } = useCustomerApi();
 
   const [deleteAppointmentAPI] = useMutation(DELETE_APPOINTMENT, {
     onCompleted: (data) => {
-      console.log(data)
-    }
-  })
+      console.log(data);
+    },
+  });
 
-  const [startAppointment] = useMutation(UPDATE_APPOINTMENT_BEGINTIME,{
+  const [startAppointment] = useMutation(UPDATE_APPOINTMENT_BEGINTIME, {
     onCompleted: (data) => {
-      console.log(data)
-    }
-  })
-
+      console.log(data);
+    },
+  });
 
   const deleteAppointment = () => {
     setConfirmDelete(false);
@@ -170,7 +173,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
     startAppointment({
       variables: {
         updateAppointmentBeginTimeId: appointment._id,
-        updateAppointmentBeginTimeBeginTime: new Date().toISOString()
+        updateAppointmentBeginTimeBeginTime: new Date().toISOString(),
       },
       refetchQueries: [
         {
@@ -178,7 +181,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           variables: { getAllAppointmentByCustomerCustomerId: id },
         },
       ],
-    })
+    });
     setStartConfirm(false);
   };
 

@@ -55,6 +55,7 @@ function AppointmentPage() {
   }, [accessToken]);
 
   const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
+  
   const id = localStorage.getItem("_id");
 
   const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {

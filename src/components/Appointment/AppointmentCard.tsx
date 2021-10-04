@@ -20,9 +20,11 @@ import {
   Announcement,
   Cancel,
   CheckCircle,
+  Delete,
   Error,
   FaceRounded,
   HighlightOff,
+  Person,
   PlayCircleFilled,
   Timer,
 } from "@material-ui/icons";
@@ -53,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     tuesday: {
-      backgroundColor: "#FF8FD4",
+      backgroundColor: "#EE9EC7",
       padding: "1%",
     },
     wednesday: {
@@ -118,20 +120,20 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
     setExpanded(!expanded);
   };
 
-  const { DELETE_APPOINTMENT, GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
+  const { DELETE_APPOINTMENT, GET_ALLAPPOINTMENT_BY_CUSTOMER } =
+    useCustomerApi();
 
-  const [deleteAppointmentAPI] = useMutation(DELETE_APPOINTMENT,{
+  const [deleteAppointmentAPI] = useMutation(DELETE_APPOINTMENT, {
     onCompleted: (data) => {
-      console.log(data)
-    }
-  })
-
+      console.log(data);
+    },
+  });
 
   const deleteAppointment = () => {
     setConfirmDelete(false);
     deleteAppointmentAPI({
       variables: {
-        deleteAppointmentId: appointment._id
+        deleteAppointmentId: appointment._id,
       },
       refetchQueries: [
         {
@@ -140,7 +142,6 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
         },
       ],
     });
-
   };
 
   const [success, setSuccess] = useState<boolean>(false);
@@ -159,11 +160,9 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
 
   const [startConfirm, setStartConfirm] = useState<boolean>(false);
 
-
   const start = () => {
     //waiting for start
     setStartConfirm(false);
-
   };
 
   return (
@@ -354,7 +353,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
       )}
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent style={{paddingTop: 0}}>
+        <CardContent style={{ paddingTop: 0 }}>
           <Grid
             container
             direction="row"
@@ -427,7 +426,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           appointment.Status.Tag === "Wait for Guide to Confirm") &&
           new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
             new Date(moment(new Date()).format("DD MMMM yyyy")))) && (
-        <CardContent style={{padding: '2%'}}>
+        <CardContent style={{ padding: "2%" }}>
           <Grid
             container
             direction="row"
@@ -446,17 +445,26 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                 <Button
                   type="button"
                   fullWidth={true}
-                  variant="contained"
+                  // variant="contained"
                   style={{ padding: "5%" }}
                   onClick={() => setConfirmDelete(true)}
                 >
-                  <Typography variant="body1">
-                    {new Date(
-                      moment(appointment.AppointTime).format("DD MMMM yyyy")
-                    ) > new Date(moment(new Date()).format("DD MMMM yyyy"))
-                      ? "ยกเลิกนัดหมาย"
-                      : "ลบ"}
-                  </Typography>
+                  <Grid
+                    container
+                    direction="row"
+                    spacing={1}
+                    justify="center"
+                    alignItems="center"
+                  >
+                    <Delete />
+                    <Typography variant="body1">
+                      {new Date(
+                        moment(appointment.AppointTime).format("DD MMMM yyyy")
+                      ) > new Date(moment(new Date()).format("DD MMMM yyyy"))
+                        ? "ยกเลิกนัดหมาย"
+                        : "ลบ"}
+                    </Typography>
+                  </Grid>
                 </Button>
               )}
             </Grid>
@@ -469,11 +477,20 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                   <Button
                     type="button"
                     fullWidth={true}
-                    variant="contained"
+                    // variant="contained"
                     style={{ padding: "5%" }}
                     onClick={() => setChangeGuide(true)}
                   >
-                    <Typography variant="body1">เปลี่ยนไกด์</Typography>
+                    <Grid
+                      container
+                      direction="row"
+                      spacing={1}
+                      justify="center"
+                      alignItems="center"
+                    >
+                      <Person />
+                      <Typography variant="body1"> เปลี่ยนไกด์</Typography>
+                    </Grid>
                   </Button>
                 )}
             </Grid>

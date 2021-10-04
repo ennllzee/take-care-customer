@@ -107,6 +107,10 @@ function AddAppointment({
   };
 
   useEffect(() => {
+    setStep(1)
+  }, [open])
+
+  useEffect(() => {
     if (!loading) {
       setNewAppointment({
         Customer: data.getCustomer,

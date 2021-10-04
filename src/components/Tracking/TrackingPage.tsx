@@ -1,7 +1,21 @@
 import { useQuery } from "@apollo/client";
-import { CircularProgress, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, withStyles } from "@material-ui/core";
+import {
+  CircularProgress,
+  Divider,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Theme,
+  Typography,
+  withStyles,
+} from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
+import convertToThaiDate from "../../hooks/convertToThaiDate";
 import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
 import TopBar from "../TopBar/TopBar";
@@ -32,31 +46,26 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "5%",
       marginBottom: "5%",
     },
+    line: {
+      padding: "2%",
+    },
+    card: {
+      paddingTop: "2%",
+      paddingBottom: "2%",
+    },
   })
 );
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: "#508F7F",
       color: theme.palette.common.white,
       fontSize: 12,
-    },
-    body: {
-      fontSize: 10,
+      padding: "3%",
     },
   })
 )(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "&:nth-of-type(odd)": {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  })
-)(TableRow);
 
 function TrackingPage({ id }: TrackingPageProps) {
   const classes = useStyles();
@@ -71,11 +80,11 @@ function TrackingPage({ id }: TrackingPageProps) {
   );
 
   useEffect(() => {
-    console.log(loading)
+    console.log(loading);
     if (!loading && data) {
       setAppointment(data.getAppointment);
     }
-    console.log(error)
+    console.log(error);
   }, [loading]);
 
   return (
@@ -91,12 +100,26 @@ function TrackingPage({ id }: TrackingPageProps) {
           <Grid
             container
             direction="row"
+            alignItems="center"
+            justify="flex-start"
+            className={classes.line}
+          >
+            <Grid item xs={10} md={11} lg={11}>
+              <Typography variant="h5">
+                {convertToThaiDate(new Date(appointment?.AppointTime))}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Divider variant="middle" />
+          <Grid
+            container
+            direction="row"
             alignItems="flex-start"
             justify="center"
           >
             {!loading ? (
               <>
-                <Grid item xs={12} md={12} lg={12}>
+                <Grid item xs={12} md={12} lg={12} className={classes.card}>
                   <AppointmentCard appointment={appointment} />
                 </Grid>
                 <Grid item xs={12} md={12} lg={12}>
@@ -104,8 +127,8 @@ function TrackingPage({ id }: TrackingPageProps) {
                     <Table>
                       <colgroup>
                         <col style={{ width: "20%" }} />
-                        <col style={{ width: "30%" }} />
-                        <col style={{ width: "50%" }} />
+                        <col style={{ width: "40%" }} />
+                        <col style={{ width: "40%" }} />
                       </colgroup>
                       <TableHead>
                         <TableRow>
@@ -120,7 +143,7 @@ function TrackingPage({ id }: TrackingPageProps) {
                       </TableHead>
                       <TableBody>
                         {appointment?.Record?.map((r, key) => {
-                          return <RecordRow key={key} record={r}/>;
+                          return <RecordRow key={key} record={r} />;
                         })}
                       </TableBody>
                     </Table>

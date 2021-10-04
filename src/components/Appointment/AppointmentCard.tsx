@@ -46,9 +46,6 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       backgroundColor: red[500],
     },
-    foot: {
-      padding: "5%",
-    },
     monday: {
       backgroundColor: "#FFD68F",
       padding: "1%",
@@ -234,6 +231,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                   size="small"
                   icon={<Timer style={{ color: "white" }} />}
                   label="รอการตอบรับจากไกด์"
+                  className={classes.wait}
                 />
               ) : appointment.Status.Tag === "Guide Confirm" &&
                 new Date(
@@ -330,7 +328,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
       )}
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
+        <CardContent style={{paddingTop: 0}}>
           <Grid
             container
             direction="row"
@@ -346,8 +344,8 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               >
                 <Grid item xs={4}>
                   <Image
-                    src={"https://pbs.twimg.com/media/D42rqfjU0AA0CBZ.jpg"}
-                    // src={appointment.Guide?.Avatar}
+                    // src={"https://pbs.twimg.com/media/D42rqfjU0AA0CBZ.jpg"}
+                    src={appointment.Guide?.Avatar}
                     cover={true}
                     // style={{padding: 0}}
                   />
@@ -395,77 +393,89 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           </Grid>
         </CardContent>
       </Collapse>
-      <CardContent className={classes.foot}>
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-          <Grid item xs={4}>
-            {(new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
-              new Date(
-                moment(new Date()).add(1, "days").format("DD MMMM yyyy")
-              ) ||
-              appointment.Status.Tag === "Guide Reject" ||
-              appointment.Status.Tag === "Wait for Guide to Confirm") && (
-              <Button
-                type="button"
-                fullWidth={true}
-                variant="contained"
-                style={{ padding: "5%" }}
-                onClick={() => setConfirmDelete(true)}
-              >
-                <Typography variant="body1">
-                  {new Date(
-                    moment(appointment.AppointTime).format("DD MMMM yyyy")
-                  ) > new Date(moment(new Date()).format("DD MMMM yyyy"))
-                    ? "ยกเลิกนัดหมาย"
-                    : "ลบ"}
-                </Typography>
-              </Button>
-            )}
-          </Grid>
-          <Grid item xs={4}>
-            {(appointment.Status.Tag === "Guide Reject" ||
-              appointment.Status.Tag === "Wait for Guide to Confirm") &&
-              new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
-                new Date(moment(new Date()).format("DD MMMM yyyy")) && (
+      {(new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
+        new Date(moment(new Date()).add(1, "days").format("DD MMMM yyyy")) ||
+        appointment.Status.Tag === "Guide Reject" ||
+        appointment.Status.Tag === "Wait for Guide to Confirm" ||
+        ((appointment.Status.Tag === "Guide Reject" ||
+          appointment.Status.Tag === "Wait for Guide to Confirm") &&
+          new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
+            new Date(moment(new Date()).format("DD MMMM yyyy")))) && (
+        <CardContent style={{padding: '2%'}}>
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <Grid item xs={4}>
+              {(new Date(
+                moment(appointment.AppointTime).format("DD MMMM yyyy")
+              ) >
+                new Date(
+                  moment(new Date()).add(1, "days").format("DD MMMM yyyy")
+                ) ||
+                appointment.Status.Tag === "Guide Reject" ||
+                appointment.Status.Tag === "Wait for Guide to Confirm") && (
                 <Button
                   type="button"
                   fullWidth={true}
                   variant="contained"
                   style={{ padding: "5%" }}
-                  onClick={() => setChangeGuide(true)}
+                  onClick={() => setConfirmDelete(true)}
                 >
-                  <Typography variant="body1">เปลี่ยนไกด์</Typography>
+                  <Typography variant="body1">
+                    {new Date(
+                      moment(appointment.AppointTime).format("DD MMMM yyyy")
+                    ) > new Date(moment(new Date()).format("DD MMMM yyyy"))
+                      ? "ยกเลิกนัดหมาย"
+                      : "ลบ"}
+                  </Typography>
                 </Button>
               )}
+            </Grid>
+            <Grid item xs={4}>
+              {(appointment.Status.Tag === "Guide Reject" ||
+                appointment.Status.Tag === "Wait for Guide to Confirm") &&
+                new Date(
+                  moment(appointment.AppointTime).format("DD MMMM yyyy")
+                ) > new Date(moment(new Date()).format("DD MMMM yyyy")) && (
+                  <Button
+                    type="button"
+                    fullWidth={true}
+                    variant="contained"
+                    style={{ padding: "5%" }}
+                    onClick={() => setChangeGuide(true)}
+                  >
+                    <Typography variant="body1">เปลี่ยนไกด์</Typography>
+                  </Button>
+                )}
+            </Grid>
           </Grid>
-        </Grid>
-        <ChangeGuide
-          open={changeGuide}
-          setOpen={setChangeGuide}
-          appointment={appointment}
-          setSuccess={setSuccess}
-        />
-        <Alert
-          closeAlert={() => setSuccess(false)}
-          alert={success}
-          title="สำเร็จ"
-          text="เปลี่ยนไกด์สำเร็จ กรุณารอการตอบรับจากไกด์"
-          buttonText="ตกลง"
-        />
-        <Submit
-          submit={confirmDelete}
-          title="ยกเลิกนัดหมาย"
-          text="ยืนยันการยกเลิกการนัดหมายหรือไม่?"
-          denyText="ปิด"
-          submitText="ยืนยัน"
-          denyAction={() => setConfirmDelete(false)}
-          submitAction={deleteAppointment}
-        />
-      </CardContent>
+          <ChangeGuide
+            open={changeGuide}
+            setOpen={setChangeGuide}
+            appointment={appointment}
+            setSuccess={setSuccess}
+          />
+          <Alert
+            closeAlert={() => setSuccess(false)}
+            alert={success}
+            title="สำเร็จ"
+            text="เปลี่ยนไกด์สำเร็จ กรุณารอการตอบรับจากไกด์"
+            buttonText="ตกลง"
+          />
+          <Submit
+            submit={confirmDelete}
+            title="ยกเลิกนัดหมาย"
+            text="ยืนยันการยกเลิกการนัดหมายหรือไม่?"
+            denyText="ปิด"
+            submitText="ยืนยัน"
+            denyAction={() => setConfirmDelete(false)}
+            submitAction={deleteAppointment}
+          />
+        </CardContent>
+      )}
     </Card>
   );
 }

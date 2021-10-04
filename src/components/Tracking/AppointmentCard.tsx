@@ -19,9 +19,6 @@ import { CheckCircle, FaceRounded, Cancel, Timer } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      paddingBottom: 0,
-    },
     expand: {
       transform: "rotate(0deg)",
       marginLeft: "auto",
@@ -70,19 +67,10 @@ interface AppointmentCardProps {
 function AppointmentCard({ appointment }: AppointmentCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
-  const [changeGuide, setChangeGuide] = useState<boolean>(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-
-  const [success, setSuccess] = useState<boolean>(false);
 
   return (
     <Card>
-      <CardContent className={classes.root}>
+      <CardContent style={{paddingBottom: 0, padding: '5%'}}>
         <Grid
           container
           direction="row"

@@ -84,8 +84,8 @@ function TrackingPage({ id }: TrackingPageProps) {
     if (!loading && data) {
       setAppointment(data.getAppointment);
     }
-    console.log(error);
-  }, [loading]);
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
 
   return (
     <Grid>

@@ -55,7 +55,7 @@ function AppointmentPage() {
   }, [accessToken]);
 
   const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
-  
+
   const id = localStorage.getItem("_id");
 
   const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
@@ -90,25 +90,30 @@ function AppointmentPage() {
             <>
               {appointment?.filter(
                 (a) =>
-                  new Date(moment(a.AppointTime).format('DD MMMM yyyy')) >= new Date(moment(new Date()).format('DD MMMM yyyy')) &&
-                  new Date(moment(a.AppointTime).format('DD MMMM yyyy')) <=
+                  new Date(moment(a.AppointTime).format("DD MMMM yyyy")) >=
+                    new Date(moment(new Date()).format("DD MMMM yyyy")) &&
+                  new Date(moment(a.AppointTime).format("DD MMMM yyyy")) <=
                     new Date(
                       moment(new Date()).add(7, "days").format("DD MMMM yyyy")
-                    )
+                    ) && a.Status.Tag !== "Completed" 
               ).length !== 0 ? (
                 <>
                   {appointment
                     ?.filter(
                       (a) =>
-                        new Date(moment(a.AppointTime).format('DD MMMM yyyy')) >= new Date(moment(new Date()).format('DD MMMM yyyy')) &&
-                        new Date(moment(a.AppointTime).format('DD MMMM yyyy')) <=
+                        new Date(
+                          moment(a.AppointTime).format("DD MMMM yyyy")
+                        ) >=
+                          new Date(moment(new Date()).format("DD MMMM yyyy")) &&
+                        new Date(
+                          moment(a.AppointTime).format("DD MMMM yyyy")
+                        ) <=
                           new Date(
                             moment(new Date())
                               .add(7, "days")
                               .format("DD MMMM yyyy")
-                          )
-                          &&
-                          a.Status.Tag !== "Completed"
+                          ) &&
+                        a.Status.Tag !== "Completed"
                     )
                     .slice()
                     .sort((a, b) => {
@@ -150,11 +155,7 @@ function AppointmentPage() {
                     })}
                 </>
               ) : (
-                <Typography
-                  align="center"
-                  variant="h6"
-                  color="textSecondary"
-                >
+                <Typography align="center" variant="h6" color="textSecondary">
                   ไม่มีนัดหมาย
                 </Typography>
               )}

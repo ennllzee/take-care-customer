@@ -1,7 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
 import {
   Button,
-  CircularProgress,
   createStyles,
   FormLabel,
   Grid,
@@ -20,7 +18,6 @@ import {
   PersonPin,
 } from "@material-ui/icons";
 import moment from "moment";
-import { useEffect, useState } from "react";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import AppointmentForm from "../../models/AppointmentForm";
 import ContactCard from "./ContactCard";

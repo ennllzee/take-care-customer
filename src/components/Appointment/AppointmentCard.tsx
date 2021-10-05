@@ -138,6 +138,8 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
     },
   });
 
+  const [alert, setAlert] = useState<boolean>(false)
+
   const deleteAppointment = () => {
     setConfirmDelete(false);
     deleteAppointmentAPI({
@@ -151,6 +153,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
         },
       ],
     });
+    setAlert(true)
   };
 
   const [success, setSuccess] = useState<boolean>(false);
@@ -251,7 +254,8 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               {appointment.Note !== null ? appointment.Note : "-"}
             </Typography>
           </Grid>
-          {appointment.OpenLink !== null && (
+          {(appointment.Status.Tag === "Guide Confirm" ||
+            appointment.Status.Tag === "In process") && (
             <>
               <Grid item xs={5}>
                 <Typography variant="body1" align="left">
@@ -259,9 +263,13 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                 </Typography>
               </Grid>
               <Grid item xs={7}>
-                <Link href={appointment.OpenLink}>
+                <Link
+                  rel="noopener noreferrer"
+                  href={`/tracking&=${appointment._id}`}
+                  target="_blank"
+                >
                   <Typography variant="body1" align="left">
-                    {appointment.OpenLink}
+                    click here
                   </Typography>
                 </Link>
               </Grid>
@@ -278,10 +286,35 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                   label="รอการตอบรับจากไกด์"
                   className={classes.wait}
                 />
+              ) : new Date(
+                  moment(appointment.AppointTime)
+                    .subtract(15, "minutes")
+                    .format("LLL")
+                ) <= new Date(time) &&
+                new Date(
+                  moment(appointment.AppointTime).add(1, "hours").format("LLL")
+                ) >= new Date(time) ? (
+                appointment.Status.Tag === "Guide Confirm" && (
+                  <Grid item xs={12}>
+                    <Typography align="center">
+                      <Button
+                        type="button"
+                        className={classes.confirm}
+                        onClick={() => setStartConfirm(true)}
+                      >
+                        <PlayCircleFilled />
+                        <Typography variant="button">เริ่มการบริการ</Typography>
+                      </Button>
+                    </Typography>
+                  </Grid>
+                )
               ) : appointment.Status.Tag === "Guide Confirm" &&
                 new Date(
                   moment(appointment.AppointTime).format("DD MMMM yyyy")
-                ) >= new Date(moment(new Date()).format("DD MMMM yyyy")) ? (
+                ) >= new Date(moment(new Date()).format("DD MMMM yyyy")) &&
+                new Date(
+                  moment(appointment.AppointTime).add(1, "hours").format("LLL")
+                ) >= new Date(time) ? (
                 <>
                   <Chip
                     size="small"
@@ -329,20 +362,6 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               )}
             </Typography>
           </Grid>
-          {new Date(appointment.AppointTime) <= new Date(time) &&
-            appointment.Status.Tag === "Guide Confirm" && (
-              <Grid item xs={12}>
-                <Button
-                  onClick={() => setStartConfirm(true)}
-                  style={{ backgroundColor: "#508F7F", color: "white" }}
-                >
-                  <Typography variant="button">
-                    <PlayCircleFilled />
-                    เริ่มต้นการบริการ
-                  </Typography>
-                </Button>
-              </Grid>
-            )}
         </Grid>
         <Submit
           submit={startConfirm}
@@ -352,6 +371,13 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           submitText="ยืนยัน"
           denyAction={() => setStartConfirm(false)}
           submitAction={start}
+        />
+        <Alert
+          closeAlert={() => setAlert(false)}
+          alert={alert}
+          title="สำเร็จ"
+          text="ยกเลิกการนัดหมายสำเร็จ"
+          buttonText="ตกลง"
         />
       </CardContent>
       {appointment.Status.Tag !== "Guide Reject" && (

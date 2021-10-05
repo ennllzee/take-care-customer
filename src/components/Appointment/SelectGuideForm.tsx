@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   createStyles,
   Grid,
   makeStyles,
@@ -81,10 +82,11 @@ function SelectGuideForm({
   };
 
   const back = () => {
-    if(guideId !== undefined){
+    if (guideId !== undefined) {
       setAppointment({
         ...appointment,
-        Guide: availableGuide.find((g) => g.Createdby._id === guideId).Createdby,
+        Guide: availableGuide.find((g) => g.Createdby._id === guideId)
+          .Createdby,
         ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId)
           ._id,
       });
@@ -102,8 +104,10 @@ function SelectGuideForm({
 
   useEffect(() => {
     if (!loading && data) {
-      console.log(data.getAvailableGuide);
       setAvailableGuide(data.getAvailableGuide);
+      if(!data.getAvailableGuide.find((e:any) => e._id === guideId)){
+        setGuideId(undefined)
+      }
     }
   }, [loading]);
 
@@ -130,54 +134,67 @@ function SelectGuideForm({
           justify="space-evenly"
           className={classes.body}
         >
-          {availableGuide.length !== 0 ? (
-            availableGuide.map((g) => {
-              return (
-                <>
-                  {g.Createdby._id === guideId && (
+          {!loading ? (
+            <>
+              {availableGuide.length !== 0 ? (
+                availableGuide.map((g) => {
+                  return (
                     <>
-                      <Grid
-                        item
-                        xs={12}
-                        md={4}
-                        lg={3}
-                        className={classes.card}
-                        // onClick={() => setGuideId(undefined)}
-                      >
-                        <ContactCard
-                          user={g.Createdby}
-                          check={true}
-                          click={() => click(undefined)}
-                        />
-                      </Grid>
+                      {g.Createdby._id === guideId && (
+                        <>
+                          <Grid
+                            item
+                            xs={12}
+                            md={4}
+                            lg={3}
+                            className={classes.card}
+                            // onClick={() => setGuideId(undefined)}
+                          >
+                            <ContactCard
+                              user={g.Createdby}
+                              check={true}
+                              click={() => click(undefined)}
+                            />
+                          </Grid>
+                        </>
+                      )}
+                      {g.Createdby._id !== guideId && (
+                        <Grid
+                          item
+                          xs={12}
+                          md={4}
+                          lg={3}
+                          className={classes.card}
+                          // onClick={() => click(g.Createdby)}
+                        >
+                          <ContactCard
+                            user={g.Createdby}
+                            click={() => click(g.Createdby)}
+                          />
+                        </Grid>
+                      )}
                     </>
-                  )}
-                  {g.Createdby._id !== guideId && (
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      lg={3}
-                      className={classes.card}
-                      // onClick={() => click(g.Createdby)}
-                    >
-                      <ContactCard
-                        user={g.Createdby}
-                        click={() => click(g.Createdby)}
-                      />
-                    </Grid>
-                  )}
-                </>
-              );
-            })
+                  );
+                })
+              ) : (
+                <Typography
+                  align="center"
+                  variant="body1"
+                  color="textSecondary"
+                >
+                  ขออภัย ระบบไม่พบไกด์ที่พร้อมบริการในช่วงเวลาที่ท่านเลือกได้
+                </Typography>
+              )}
+            </>
           ) : (
-            <Typography
-              align="center"
-              variant="body1"
-              color="textSecondary"
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justify="center"
             >
-              ขออภัย ระบบไม่พบไกด์ที่พร้อมบริการในช่วงเวลาที่ท่านเลือกได้
-            </Typography>
+              <CircularProgress disableShrink />
+            </Grid>
           )}
         </Grid>
         <Alert

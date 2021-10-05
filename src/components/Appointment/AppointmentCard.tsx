@@ -389,8 +389,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               >
                 <Grid item xs={4}>
                   <Image
-                    // src={"https://pbs.twimg.com/media/D42rqfjU0AA0CBZ.jpg"}
-                    src={appointment.Guide?.Avatar}
+                    src={`data:${appointment.Guide?.Avatar.mimetype};base64,${appointment.Guide?.Avatar.data}`}
                     cover={true}
                     // style={{padding: 0}}
                   />

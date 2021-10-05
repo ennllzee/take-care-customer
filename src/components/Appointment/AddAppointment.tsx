@@ -19,12 +19,13 @@ import SelectGuideForm from "./SelectGuideForm";
 import SubmitForm from "./SubmitForm";
 import { useMutation, useQuery } from "@apollo/client";
 import Appointment from "../../models/Appointment";
+import Submit from "../Submit/Submit";
 
 interface AddAppointmentProps {
   open: boolean;
   setOpen: any;
   setSuccess: any;
-  appointments: Appointment[]
+  appointments: Appointment[];
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,12 +54,11 @@ function AddAppointment({
   open,
   setOpen,
   setSuccess,
-  appointments
+  appointments,
 }: AddAppointmentProps) {
   const classes = useStyles();
   const [step, setStep] = useState<number>(1);
 
-  // const [openSubmit,setOpenSubmit] = useState<boolean>(false)
   const id = localStorage.getItem("_id");
 
   const {
@@ -80,8 +80,9 @@ function AddAppointment({
     Customer: data !== undefined ? data.getCustomer : undefined,
   });
 
+  const [confirm, setConfirm] = useState<boolean>(false);
+
   const submit = () => {
-    console.log(newAppointment)
     createAppointment({
       variables: {
         createAppointmentInput: {
@@ -106,8 +107,8 @@ function AddAppointment({
   };
 
   useEffect(() => {
-    setStep(1)
-  }, [open])
+    setStep(1);
+  }, [open]);
 
   useEffect(() => {
     if (!loading) {
@@ -115,6 +116,7 @@ function AddAppointment({
         Customer: data.getCustomer,
       });
     }
+    console.log(error)
   }, [loading]);
 
   useEffect(() => {
@@ -144,7 +146,6 @@ function AddAppointment({
                 setAppointment={setNewAppointment}
                 setStep={setStep}
                 appointments={appointments}
-                // date={date}
               />
             ) : step === 2 ? (
               <SelectGuideForm
@@ -156,10 +157,19 @@ function AddAppointment({
               <SubmitForm
                 appointment={newAppointment}
                 setStep={setStep}
-                submit={submit}
+                submit={() => setConfirm(true)}
               />
             )}
           </Grid>
+          <Submit
+            submit={confirm}
+            title="เพิ่มนัดหมาย"
+            text="ยืนยันข้อมูลการเพิ่มนัดหมายใช่หรือไม่?"
+            denyText="ยกเลิก"
+            submitText="ยืนยัน"
+            denyAction={() => setConfirm(false)}
+            submitAction={submit}
+          />
         </Grid>
       </Paper>
     </Modal>

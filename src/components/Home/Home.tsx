@@ -5,9 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
 import AppointmentPage from "../Appointment/AppointmentPage";
-import CustomerServicePage from "../CustomerService/CustomerServicePage";
 import HistoryPage from "../History/HistoryPage";
-import HospitalInformationPage from "../HospitalInformation/HospitalInformationPage";
 import ProfilePage from "../Profile/ProfilePage";
 import TrackingPage from "../Tracking/TrackingPage";
 
@@ -27,7 +25,7 @@ function Home() {
   const {GET_ALL_APPOINTMENT} = useCustomerApi()
 
   const { loading, error, data } = useQuery(GET_ALL_APPOINTMENT, {
-    // pollInterval: 1000,
+    pollInterval: 1000,
   });
 
   const [appointments,setAppointments] = useState<Appointment[]>(data !== undefined ? data.getAllAppointment : [])
@@ -37,7 +35,8 @@ function Home() {
     if (!loading && data) {
       setAppointments(data.getAllAppointment);
     }
-  }, [loading]);
+    console.log(error)
+  }, [loading, data]);
 
   return (
     <div className={classes.root}>
@@ -46,7 +45,6 @@ function Home() {
           <Route exact path={`/appointment&=${accessToken}`} component={AppointmentPage} />
           <Route exact path={`/history&=${accessToken}`} component={HistoryPage} />
           {appointments?.map((a) => {
-            console.log(a)
             return <Route exact path={`/tracking&=${a._id}`} component={() => <TrackingPage id={a._id}/>}/>
           })}
         </Switch>

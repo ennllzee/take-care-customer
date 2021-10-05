@@ -76,7 +76,8 @@ function LoginPage() {
         history.push("/register");
       }
     }
-  }, [loading]);
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, res, token, error, data.loginCustomer]);
 
   const responseGoogle = async (response: any) => {
     setRes(response);

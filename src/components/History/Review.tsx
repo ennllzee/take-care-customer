@@ -6,18 +6,16 @@ import {
   DialogActions,
   Button,
   Typography,
-  Grid,
+  Box,
 } from "@material-ui/core";
-import { AccessTime } from "@material-ui/icons";
 import { makeStyles, createStyles } from "@material-ui/styles";
-import moment from "moment";
 import { Theme } from "pretty-format";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Appointment from "../../models/Appointment";
-import Record from "../../models/Record";
 import Alert from "../Alert/Alert";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import useCustomerApi from "../../hooks/customerhooks";
+import { Rating } from "@material-ui/lab"
 
 interface ReviewProps {
   appointment: Appointment;
@@ -51,17 +49,18 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
     if (rate !== 0) {
       let newReview = {
         Star: rate,
-        Comment: comment
-      }
+        Comment: comment,
+      };
 
       addReview({
         variables: {
           updateAppointmentRecordId: appointment._id,
-          updateAppointmentRecordRecordinput: {...newReview},
-      }});
+          updateAppointmentRecordRecordinput: { ...newReview },
+        },
+      });
 
       setAlert(true);
-      setOpen(false)
+      setOpen(false);
     } else {
       setAlertData(true);
     }
@@ -78,6 +77,18 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
     >
       <DialogTitle id="alert-dialog-title">ประเมินความพึงพอใจ</DialogTitle>
       <DialogContent>
+        <Box>
+        <Typography variant="body1" component="legend">ระดับความพึงพอใจ</Typography>
+        <Rating
+          max={5}
+          value={rate}
+          onChange={(e,val) => {
+            if(val !== null){
+              setRate(val);
+            }
+          }}
+        />
+        </Box>
         <TextField
           type="text"
           label="ความคิดเห็น (ถ้ามี)"
@@ -96,7 +107,13 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
           </Button>
         </DialogActions>
       </DialogActions>
-      <Alert closeAlert={() => setAlertData(false)} alert={alertData} title="ข้อมูลไม่ครบ" text="โปรดให้คะแนน" buttonText="ตกลง"/>
+      <Alert
+        closeAlert={() => setAlertData(false)}
+        alert={alertData}
+        title="ข้อมูลไม่ครบ"
+        text="โปรดให้คะแนน"
+        buttonText="ตกลง"
+      />
     </Dialog>
   );
 }

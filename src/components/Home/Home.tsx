@@ -35,8 +35,8 @@ function Home() {
     if (!loading && data) {
       setAppointments(data.getAllAppointment);
     }
-    console.log(error)
-  }, [loading, data]);
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
 
   return (
     <div className={classes.root}>

@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
-import moment from "moment";
 import { useEffect } from "react";
 import { useState } from "react";
 import useCustomerApi from "../../hooks/customerhooks";
@@ -102,6 +101,11 @@ function AddAppointment({
         },
       ],
     });
+    while(mutationLoading){
+      console.log("loading...")
+    }
+    console.log(mutationData)
+    if(mutationError) console.log(mutationError?.graphQLErrors)
     setSuccess(true);
     setOpen(false);
   };
@@ -111,13 +115,13 @@ function AddAppointment({
   }, [open]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && data) {
       setNewAppointment({
         Customer: data.getCustomer,
       });
     }
-    console.log(error)
-  }, [loading]);
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
 
   useEffect(() => {
     setNewAppointment({

@@ -109,11 +109,8 @@ function SelectGuideForm({
         setGuideId(undefined)
       }
     }
-  }, [loading]);
-
-  useEffect(() => {
-    console.log(availableGuide.find((e) => e._id === guideId));
-  }, [guideId]);
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error, guideId]);
 
   return (
     <Grid container direction="row" alignItems="center" justify="flex-start">

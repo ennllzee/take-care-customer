@@ -1,10 +1,27 @@
 import Appointment from "../../models/Appointment";
 import { history } from "../../helper/history";
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, Popper, Fade, Paper, Divider, IconButton, Button } from "@material-ui/core";
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+  AppBar,
+  Toolbar,
+  Typography,
+  Popper,
+  Fade,
+  Paper,
+  Divider,
+  IconButton,
+  Button,
+  CircularProgress,
+  Grid,
+} from "@material-ui/core";
 import { ViewList } from "@material-ui/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleLogout } from "react-google-login";
 import moment from "moment";
+import { useQuery } from "@apollo/client";
+import useCustomerApi from "../../hooks/customerhooks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     customer: {
       backgroundColor: "#7C5D92",
-    }
+    },
   })
 );
 
@@ -40,7 +57,6 @@ function TopBar({ page }: TopBarProps) {
     null
   );
   const [open, setOpen] = React.useState(false);
-  const id = localStorage.getItem("_id");
 
   const handleClick = () => (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -49,7 +65,25 @@ function TopBar({ page }: TopBarProps) {
 
   const accessToken = localStorage.getItem("accessToken");
 
-const [appointment, setAppointment] = useState<Appointment[]>([]);
+  const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
+
+  const id = localStorage.getItem("_id");
+
+  const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
+    variables: { getAllAppointmentByCustomerCustomerId: id },
+    pollInterval: 1000,
+  });
+
+  const [appointment, setAppointment] = useState<Appointment[]>(
+    data !== undefined ? data.getAllAppointmentByCustomer : []
+  );
+
+  useEffect(() => {
+    if (!loading && data) {
+      setAppointment(data.getAllAppointmentByCustomer);
+    }
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
 
   const logout = () => {
     localStorage.clear();
@@ -58,10 +92,7 @@ const [appointment, setAppointment] = useState<Appointment[]>([]);
 
   return (
     <div className={classes.root}>
-      <AppBar
-        position="fixed"
-        className={classes.customer}
-      >
+      <AppBar position="fixed" className={classes.customer}>
         <Toolbar className={classes.bar}>
           <Typography variant="h4" className={classes.title}>
             {page}
@@ -77,49 +108,64 @@ const [appointment, setAppointment] = useState<Appointment[]>([]);
                 {({ TransitionProps }) => (
                   <Fade {...TransitionProps} timeout={350}>
                     <Paper className={classes.typography}>
-                      {appointment !== undefined &&
-                      appointment.find((a) => a.EndTime === null) ? (
-                        appointment
-                          ?.filter((a) => a.EndTime === null)
-                          .slice()
-                          .sort((a, b) => {
-                            return (
-                              new Date(a.AppointTime).getTime() -
-                              new Date(b.AppointTime).getTime()
-                            );
-                          })
-                          .map((a) => {
-                            return (
-                              <>
-                                <Typography>
-                                  {moment(new Date(a.AppointTime)).format(
-                                    "DD MMMM YYYY"
-                                  )}
-                                </Typography>
-                                <Divider />
-                                <Typography>
-                                  โรงพยาบาล: {a.Hospital.Name}
-                                </Typography>
-                                <Typography>
-                                  แผนก: {a.Department.Name}
-                                </Typography>
-                                <Typography>
-                                  เวลานัดหมาย:{" "}
-                                  {moment(new Date(a.AppointTime)).format(
-                                    "HH:mm"
-                                  )}
-                                </Typography>
-                              </>
-                            );
-                          })
+                      {!loading ? (
+                        <>
+                          {appointment !== undefined &&
+                          appointment.find(
+                            (a) => a.Status.Tag === "Guide Reject"
+                          ) ? (
+                            appointment
+                              ?.filter((a) => a.Status.Tag === "Guide Reject")
+                              .slice()
+                              .sort((a, b) => {
+                                return (
+                                  new Date(a.AppointTime).getTime() -
+                                  new Date(b.AppointTime).getTime()
+                                );
+                              })
+                              .map((a) => {
+                                return (
+                                  <>
+                                    <Typography>
+                                      {moment(new Date(a.AppointTime)).format(
+                                        "DD MMMM YYYY"
+                                      )}
+                                    </Typography>
+                                    <Divider />
+                                    <Typography>
+                                      โรงพยาบาล: {a.Hospital.Name}
+                                    </Typography>
+                                    <Typography>
+                                      แผนก: {a.Department.Name}
+                                    </Typography>
+                                    <Typography>
+                                      เวลานัดหมาย:{" "}
+                                      {moment(new Date(a.AppointTime)).format(
+                                        "HH:mm"
+                                      )}
+                                    </Typography>
+                                  </>
+                                );
+                              })
+                          ) : (
+                            <Typography
+                              align="center"
+                              variant="subtitle1"
+                              color="textSecondary"
+                            >
+                              ไม่มีการนัดหมาย
+                            </Typography>
+                          )}
+                        </>
                       ) : (
-                        <Typography
-                          align="center"
-                          variant="subtitle1"
-                          color="textSecondary"
+                        <Grid
+                          container
+                          direction="row"
+                          alignItems="center"
+                          justify="center"
                         >
-                          ไม่มีการนัดหมาย
-                        </Typography>
+                          <CircularProgress disableShrink />
+                        </Grid>
                       )}
                     </Paper>
                   </Fade>
@@ -146,7 +192,7 @@ const [appointment, setAppointment] = useState<Appointment[]>([]);
               icon={false}
             ></GoogleLogout>
           ) : (
-              <></>
+            <></>
           )}
         </Toolbar>
       </AppBar>

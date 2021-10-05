@@ -1,20 +1,14 @@
 import {
   Button,
-  CardMedia,
   createStyles,
   Fab,
-  FormControl,
   Grid,
-  InputLabel,
   makeStyles,
-  MenuItem,
-  Select,
   TextField,
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Person, Wc, Cake, Healing } from "@material-ui/icons";
-import moment from "moment";
+import { Healing } from "@material-ui/icons";
 import { useState } from "react";
 import CustomerForm from "../../models/CustomerForm";
 

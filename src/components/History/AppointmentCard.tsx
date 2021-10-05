@@ -15,6 +15,7 @@ import moment from "moment";
 import Appointment from "../../models/Appointment";
 import { RateReview } from "@material-ui/icons";
 import Review from "./Review";
+import Alert from "../Alert/Alert";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,9 +67,9 @@ const useStyles = makeStyles((theme: Theme) =>
     chip: {
       fontSize: 10,
       backgroundColor: "#508F7F",
-      color: 'white',
-      padding: '1%'
-    }
+      color: "white",
+      padding: "1%",
+    },
   })
 );
 
@@ -79,8 +80,8 @@ interface AppointmentCardProps {
 function AppointmentCard({ appointment }: AppointmentCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [review, setReview] = useState<boolean>(false)
-  const [alert, setAlert] = useState<boolean>(false)
+  const [review, setReview] = useState<boolean>(false);
+  const [alert, setAlert] = useState<boolean>(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -238,11 +239,29 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                 {appointment.Review?.Star !== null ? (
                   <>{appointment.Review?.Star}</>
                 ) : (
-                  <Chip size="small" icon={<RateReview style={{color: 'white'}}/>} label="ประเมินความพึงพอใจ" onClick={() => setReview(true)} className={classes.chip}/>
+                  <Chip
+                    size="small"
+                    icon={<RateReview style={{ color: "white" }} />}
+                    label="ประเมินความพึงพอใจ"
+                    onClick={() => setReview(true)}
+                    className={classes.chip}
+                  />
                 )}
               </Typography>
             </Grid>
-            <Review appointment={appointment} open={review} setOpen={setReview} setAlert={setAlert}/>
+            <Review
+              appointment={appointment}
+              open={review}
+              setOpen={setReview}
+              setAlert={setAlert}
+            />
+            <Alert
+              closeAlert={() => setAlert(false)}
+              alert={alert}
+              title="สำเร็จ"
+              text="ขอบคุณสำหรับความคิดเห็นของท่าน"
+              buttonText="ตกลง"
+            />
             {appointment.Review?.Star !== null && (
               <>
                 <Grid item xs={5}>

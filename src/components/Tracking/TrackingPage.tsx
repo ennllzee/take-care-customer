@@ -97,28 +97,28 @@ function TrackingPage({ id }: TrackingPageProps) {
         justify="flex-start"
       >
         <Grid item className={classes.main}>
-          <Grid
-            container
-            direction="row"
-            alignItems="center"
-            justify="flex-start"
-            className={classes.line}
-          >
-            <Grid item xs={10} md={11} lg={11}>
-              <Typography variant="h5">
-                {convertToThaiDate(new Date(appointment?.AppointTime))}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Divider variant="middle" />
-          <Grid
-            container
-            direction="row"
-            alignItems="flex-start"
-            justify="center"
-          >
-            {!loading ? (
-              <>
+          {!loading ? (
+            <>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justify="flex-start"
+                className={classes.line}
+              >
+                <Grid item xs={10} md={11} lg={11}>
+                  <Typography variant="h5">
+                    {convertToThaiDate(new Date(appointment?.AppointTime))}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Divider variant="middle" />
+              <Grid
+                container
+                direction="row"
+                alignItems="flex-start"
+                justify="center"
+              >
                 <Grid item xs={12} md={12} lg={12} className={classes.card}>
                   <AppointmentCard appointment={appointment} />
                 </Grid>
@@ -149,18 +149,18 @@ function TrackingPage({ id }: TrackingPageProps) {
                     </Table>
                   </TableContainer>
                 </Grid>
-              </>
-            ) : (
-              <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justify="center"
-              >
-                <CircularProgress disableShrink />
               </Grid>
-            )}
-          </Grid>
+            </>
+          ) : (
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justify="center"
+            >
+              <CircularProgress disableShrink />
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>

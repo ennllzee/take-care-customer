@@ -22,11 +22,8 @@ import {
   Phone,
   PhoneAndroid,
 } from "@material-ui/icons";
-import moment from "moment";
-import { useState } from "react";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import CustomerForm from "../../models/CustomerForm";
-import Submit from "../Submit/Submit";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -7,7 +7,6 @@ import { Router } from "react-router-dom";
 import { history } from "./helper/history";
 
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-import { BatchHttpLink } from "@apollo/client/link/batch-http";
 
 // const link = new BatchHttpLink({
 //   uri: "http://localhost:4000/graphql",

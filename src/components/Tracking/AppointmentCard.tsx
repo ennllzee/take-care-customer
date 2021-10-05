@@ -1,20 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Button, CardHeader, Chip, Grid } from "@material-ui/core";
+import { Chip, Grid } from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
-import Image from "material-ui-image";
-import Submit from "../Submit/Submit";
-import Alert from "../Alert/Alert";
 import { CheckCircle, FaceRounded, Cancel, Timer } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -66,7 +58,6 @@ interface AppointmentCardProps {
 
 function AppointmentCard({ appointment }: AppointmentCardProps) {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState<boolean>(false);
 
   return (
     <Card>

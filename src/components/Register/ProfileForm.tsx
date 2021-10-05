@@ -15,9 +15,8 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Person, Wc, Cake, Healing } from "@material-ui/icons";
+import { Person, Wc, Cake } from "@material-ui/icons";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import moment from "moment";
 import { useState } from "react";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import CustomerForm from "../../models/CustomerForm";
@@ -87,8 +86,6 @@ function ProfileForm({
   const [lastName, setLastName] = useState<string | undefined>(user.LastName);
   const [dob, setDOB] = useState<string | undefined>(user.DOB);
   const [gender, setGender] = useState<string | undefined>(user.Gender);
-  //   const [imgName, setImgName] = useState<any | undefined>(user.FirstName);
-  const [baseImage, setBaseImage] = useState<any | undefined>(user.Avatar);
   const [avatar, setavatar] = useState<any | undefined>(user.Avatar);
 
   const [alert,setAlert] = useState<boolean>(false)
@@ -98,9 +95,7 @@ function ProfileForm({
     setavatar(file);
 
     const base64 = await convertBase64(file);
-    setBaseImage(base64);
     setdisplayImg(base64);
-    console.log(displayImg);
   };
 
   const convertBase64 = (file: any) => {

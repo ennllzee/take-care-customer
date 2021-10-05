@@ -1,7 +1,6 @@
 import {
   Button,
   createStyles,
-  Divider,
   Grid,
   IconButton,
   makeStyles,
@@ -11,17 +10,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Close, PersonPin } from "@material-ui/icons";
-import moment from "moment";
 import { useEffect } from "react";
 import { useState } from "react";
 import useCustomerApi from "../../hooks/customerhooks";
-import AppointmentForm from "../../models/AppointmentForm";
-import Customer from "../../models/Customer";
-import InformationForm from "./InformationForm";
-import SelectGuideForm from "./SelectGuideForm";
-import SubmitForm from "./SubmitForm";
 import { useMutation, useQuery } from "@apollo/client";
-import convertToThaiDate from "../../hooks/convertToThaiDate";
 import Appointment from "../../models/Appointment";
 import ContactCard from "./ContactCard";
 import Alert from "../Alert/Alert";
@@ -111,7 +103,8 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
     if (!loading && data) {
       setAvailableGuide(data.getAvailableGuide);
     }
-  }, [loading]);
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
 
   const [confirmSubmit, setConfirmSubmit] = useState<boolean>(false);
 

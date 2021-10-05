@@ -32,7 +32,7 @@ import Department from "../../models/Department";
 import Hospital from "../../models/Hospital";
 import { useEffect } from "react";
 import moment from "moment";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Alert from "../Alert/Alert";
 import useCustomerApi from "../../hooks/customerhooks";
 import {
@@ -151,14 +151,14 @@ function InformationForm({
       setHos(data.getAllHospital);
       setDep(data.getAllDepartment);
     }
-    console.log(error)
-  }, [loading]);
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
 
   useEffect(() => {
     setDepId(
       dep.find((d) => d._id === depId)?.Hospital?._id ? depId : undefined
     );
-  }, [hosId]);
+  }, [hosId, dep, depId]);
 
   useEffect(() => {
     if (time !== undefined) {
@@ -173,7 +173,7 @@ function InformationForm({
         ).toISOString()
       );
     }
-  }, [date]);
+  }, [date, time]);
 
   const handleChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
     let minTime =
@@ -304,10 +304,11 @@ function InformationForm({
                         <MenuItem value={undefined} disabled>
                           ชื่อแผนก
                         </MenuItem>
-                        {dep?.map((d) => {
+                        {dep?.map((d, key) => {
                           if (d?.Hospital?._id === hosId) {
-                            return <MenuItem value={d._id}>{d.Name}</MenuItem>;
+                            return <MenuItem value={d._id} key={key}>{d.Name}</MenuItem>;
                           }
+                            return <></>
                         })}
                       </Select>
                     </FormControl>

@@ -17,13 +17,11 @@ import Submit from "../Submit/Submit";
 import ChangeGuide from "./ChangeGuide";
 import Alert from "../Alert/Alert";
 import {
-  Announcement,
   Cancel,
   CheckCircle,
   Delete,
   Error,
   FaceRounded,
-  HighlightOff,
   Person,
   PlayCircleFilled,
   Timer,

@@ -21,7 +21,6 @@ import {
   Email,
   Phone,
 } from "@material-ui/icons";
-import moment from "moment";
 import { useState, useEffect } from "react";
 import { history } from "../../helper/history";
 import Customer from "../../models/Customer";
@@ -29,12 +28,10 @@ import BottomBar from "../BottomBar/BottomBar";
 import TopBar from "../TopBar/TopBar";
 import ProfileCard from "./ProfileCard";
 import { useQuery } from "@apollo/client";
-
 import useCustomerApi from "../../hooks/customerhooks";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
   DatePicker,
 } from "@material-ui/pickers";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
@@ -106,7 +103,8 @@ function ProfilePage() {
           : undefined
       );
     }
-  }, [loading]);
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
 
   const [firstName, setFirstName] = useState<string | undefined>(
     user?.FirstName

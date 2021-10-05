@@ -77,7 +77,7 @@ function LoginPage() {
       }
     }
     if (error) console.log(error?.graphQLErrors);
-  }, [loading, res, token, error, data.loginCustomer]);
+  }, [loading, res, token, error, data]);
 
   const responseGoogle = async (response: any) => {
     setRes(response);

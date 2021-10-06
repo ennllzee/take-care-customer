@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
-      backgroundColor: "#508F7F",
+      backgroundColor: "#7C5D92",
       color: theme.palette.common.white,
       fontSize: 12,
       padding: "3%",

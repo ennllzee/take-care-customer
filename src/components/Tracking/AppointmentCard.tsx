@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "white",
     },
     wait: {
-      backgroundColor: "#F5B32E",
+      backgroundColor: "#E59B07",
       color: "white",
     },
   })

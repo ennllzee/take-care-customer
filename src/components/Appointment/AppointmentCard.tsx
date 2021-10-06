@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "2%",
     },
     wait: {
-      backgroundColor: "#F5B32E",
+      backgroundColor: "#E59B07",
       color: "white",
     },
     confirm: {

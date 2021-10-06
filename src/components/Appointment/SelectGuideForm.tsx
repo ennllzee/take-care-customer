@@ -77,12 +77,13 @@ function SelectGuideForm({
       });
       setStep(3);
     } else {
+      setGuideId(undefined)
       setAlert(true);
     }
   };
 
   const back = () => {
-    if (guideId !== undefined) {
+    if (availableGuide.find((g) => g.Createdby._id === guideId)) {
       setAppointment({
         ...appointment,
         Guide: availableGuide.find((g) => g.Createdby._id === guideId)
@@ -90,6 +91,8 @@ function SelectGuideForm({
         ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId)
           ._id,
       });
+    }else{
+      setGuideId(undefined)
     }
     setStep(1);
   };
@@ -105,12 +108,9 @@ function SelectGuideForm({
   useEffect(() => {
     if (!loading && data) {
       setAvailableGuide(data.getAvailableGuide);
-      if(!data.getAvailableGuide.find((e:any) => e._id === guideId)){
-        setGuideId(undefined)
-      }
     }
     if (error) console.log(error?.graphQLErrors);
-  }, [loading, data, error, guideId]);
+  }, [loading, data, error]);
 
   return (
     <Grid container direction="row" alignItems="center" justify="flex-start">

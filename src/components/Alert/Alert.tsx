@@ -18,12 +18,12 @@ import {
   function Alert({ closeAlert, alert, title, text, buttonText }: AlertProps) {
     return (
       <Dialog
-      //   onClose={closeAlert}
         aria-describedby="alert-dialog-description"
         aria-labelledby="alert-dialog-title"
         open={alert}
+    
       >
-        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+        <DialogTitle id="alert-dialog-title" style={{minWidth: '60vw'}}>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {text}

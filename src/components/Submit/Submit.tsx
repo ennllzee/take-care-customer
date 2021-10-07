@@ -31,8 +31,9 @@ import {
         aria-describedby="alert-dialog-description"
         aria-labelledby="alert-dialog-title"
         open={submit}
+        
       >
-        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+        <DialogTitle id="alert-dialog-title" style={{minWidth: '60vw'}}>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {text}

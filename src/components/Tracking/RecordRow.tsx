@@ -30,7 +30,7 @@ const StyledTableCell = withStyles((theme: Theme) =>
 function RecordRow({ key, record }: RecordRowProps) {
   return (
     <StyledTableRow key={key}>
-      <StyledTableCell align="center">{moment(record?.At).format('HH.mm น.')}</StyledTableCell>
+      <StyledTableCell align="center">{moment(record?.At).format('H.mm น.')}</StyledTableCell>
       <StyledTableCell align="center">{record?.Title}</StyledTableCell>
       <StyledTableCell align="center">{record?.Description}</StyledTableCell>
     </StyledTableRow>

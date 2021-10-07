@@ -12,7 +12,7 @@ import {
   Collapse,
   IconButton,
 } from "@material-ui/core";
-import { Minimize, ExpandMore } from "@material-ui/icons";
+import { Minimize, ExpandMore, Star } from "@material-ui/icons";
 import { useState } from "react";
 import clsx from "clsx";
 import Guide from "../../models/Guide";
@@ -21,7 +21,7 @@ interface ContactCardProps {
   user?: Guide;
   setOpen?: any;
   check?: boolean;
-  click?: any
+  click?: any;
   // guideId?: string
 }
 
@@ -80,7 +80,7 @@ function ContactCard({
   user,
   setOpen = undefined,
   check = false,
-  click = undefined
+  click = undefined,
 }: ContactCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -96,8 +96,8 @@ function ContactCard({
       return undefined;
     }
   };
-  const avatar = convertAvatar(user?.Avatar)
-  
+  const avatar = convertAvatar(user?.Avatar);
+
   return (
     <Card>
       <CardContent className={classes.card}>
@@ -105,7 +105,7 @@ function ContactCard({
           className={classes.cover}
           image={avatar}
           component="img"
-          height="100%"
+          // height="100%"
           // image={"https://pbs.twimg.com/media/D42rqfjU0AA0CBZ.jpg"}
           title={user?.FirstName}
         />
@@ -138,6 +138,15 @@ function ContactCard({
                 ? "หญิง"
                 : "อื่น ๆ"}
             </Typography>
+            <Grid container direction="row" alignItems="center">
+              <Star />
+              <Typography variant="body1">
+                {" "}
+                {user?.Rating !== undefined && user?.Rating !== 0
+                  ? user?.Rating
+                  : "new guide"}
+              </Typography>
+            </Grid>
           </CardContent>
         </div>
       </CardContent>
@@ -184,6 +193,12 @@ function ContactCard({
             </Grid>
             <Grid item xs={7}>
               <Typography variant="body1">{user?.PhoneNumber}</Typography>
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1">Tips:</Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <Typography variant="body1">{user?.Tips} บาท/ชั่วโมง</Typography>
             </Grid>
           </Grid>
         </CardContent>

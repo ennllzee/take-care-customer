@@ -41,6 +41,8 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "fixed",
       bottom: theme.spacing(10),
       right: theme.spacing(2),
+      backgroundColor: "#7C5D92",
+      color: "white",
     },
   })
 );

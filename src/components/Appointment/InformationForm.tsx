@@ -24,6 +24,7 @@ import {
   LocalHospital,
   MeetingRoom,
   Message,
+  Payment,
   Today,
 } from "@material-ui/icons";
 import { useState } from "react";
@@ -66,8 +67,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
-
 function InformationForm({
   appointment,
   setAppointment,
@@ -105,7 +104,9 @@ function InformationForm({
   const next = () => {
     if (
       appointments.find(
-        (d) => moment(d.AppointTime).format("DD MMMM yyyy") === moment(date).format("DD MMMM yyyy")
+        (d) =>
+          moment(d.AppointTime).format("DD MMMM yyyy") ===
+          moment(date).format("DD MMMM yyyy")
       )
     ) {
       setDateAlert(true);
@@ -135,8 +136,14 @@ function InformationForm({
     }
   };
 
-  function disableWeekends(d : any) {
-    return appointments.find(e => moment(e.AppointTime).format("DD MMMM yyyy") === moment(d).format("DD MMMM yyyy")) !== undefined
+  function disableWeekends(d: any) {
+    return (
+      appointments.find(
+        (e) =>
+          moment(e.AppointTime).format("DD MMMM yyyy") ===
+          moment(d).format("DD MMMM yyyy")
+      ) !== undefined
+    );
   }
 
   const [hos, setHos] = useState<Hospital[]>(
@@ -306,9 +313,13 @@ function InformationForm({
                         </MenuItem>
                         {dep?.map((d, key) => {
                           if (d?.Hospital?._id === hosId) {
-                            return <MenuItem value={d._id} key={key}>{d.Name}</MenuItem>;
+                            return (
+                              <MenuItem value={d._id} key={key}>
+                                {d.Name}
+                              </MenuItem>
+                            );
                           }
-                            return <></>
+                          return <></>;
                         })}
                       </Select>
                     </FormControl>
@@ -362,7 +373,7 @@ function InformationForm({
                               .format("DD MMMM yyyy")
                           )
                         }
-                        shouldDisableDate={disableWeekends} 
+                        shouldDisableDate={disableWeekends}
                         fullWidth={true}
                         TextFieldComponent={renderInput}
                       />
@@ -397,10 +408,10 @@ function InformationForm({
                               label={
                                 <>
                                   <Typography variant="body1">
-                                    ช่วงเช้า
+                                    ช่วงบ่าย
                                   </Typography>
                                   <Typography variant="caption">
-                                    (7.00-12.00 น.)
+                                    (13.00-18.00 น.)
                                   </Typography>
                                 </>
                               }
@@ -467,6 +478,26 @@ function InformationForm({
                         error={isWrongTime()}
                       />
                     </MuiPickersUtilsProvider>
+                  </Grid>
+                </Grid>
+              </div>
+              <div className={classes.margin}>
+                <Grid
+                  container
+                  spacing={1}
+                  justify="center"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Typography variant="h6">
+                      <Payment />
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <FormLabel>
+                      ค่าบริการเริ่มต้น:{" "}
+                      {period === "All-day" ? 300 : 175} บาท
+                    </FormLabel>
                   </Grid>
                 </Grid>
               </div>

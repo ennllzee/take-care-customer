@@ -15,6 +15,7 @@ import {
   Description,
   MeetingRoom,
   Message,
+  Payment,
   PersonPin,
 } from "@material-ui/icons";
 import moment from "moment";
@@ -111,11 +112,6 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           </div>
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="flex-end">
-              {/* <Grid item>
-                <Typography>
-                  <MeetingRoom />
-                </Typography>
-              </Grid> */}
               <Grid item xs={10}>
                 <TextField
                   label="วันนัดหมาย"
@@ -145,7 +141,7 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
               <Grid item xs={5}>
                 <TextField
                   label="เวลานัดหมาย"
-                  value={moment(appointment?.AppointTime).format("HH.mm น.")}
+                  value={moment(appointment?.AppointTime).format("H.mm น.")}
                   disabled={true}
                   fullWidth={true}
                 />
@@ -177,6 +173,18 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
                   rows={3}
                   variant="outlined"
                 />
+              </Grid>
+            </Grid>
+          </div>
+          <div className={classes.margin}>
+            <Grid container spacing={1} justify="center" alignItems="center">
+              <Grid item>
+                <Typography variant="h6">
+                  <Payment />
+                </Typography>
+              </Grid>
+              <Grid item xs={10}>
+                <FormLabel>ค่าบริการเริ่มต้น: {appointment?.Period === "All-day" ? 300 : 175} บาท</FormLabel>
               </Grid>
             </Grid>
           </div>

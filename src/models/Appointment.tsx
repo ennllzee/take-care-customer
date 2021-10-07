@@ -27,6 +27,7 @@ interface Appointment {
     Note? : string
     CreatedAt: any
     UpdatedAt: any
+    Price?: number
 }
 
 

@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     saturday: {
-      backgroundColor: "#C78FDC",
+      backgroundColor: "#D4B7DE",
       padding: "1%",
     },
     sunday: {
@@ -219,7 +219,12 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           </Grid>
           <Grid item xs={7}>
             <Typography variant="body1" align="left">
-              {moment(appointment.AppointTime).format("HH.mm น.")}
+              {moment(appointment.AppointTime).format("H.mm น.")}{" "}
+              {appointment.Period === "Morning"
+                ? "(เช้า)"
+                : appointment.Period === "Afternoon"
+                ? "(บ่าย)"
+                : "(ทั้งวัน)"}
             </Typography>
           </Grid>
           <Grid item xs={5}>
@@ -251,6 +256,12 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             <Typography variant="body1" align="left">
               {appointment.Note !== null ? appointment.Note : "-"}
             </Typography>
+          </Grid>
+          <Grid item xs={5}>
+            <Typography variant="body1">ค่าบริการเริ่มต้น:</Typography>
+          </Grid>
+          <Grid item xs={7}>
+            <Typography variant="body1">{appointment.Price} บาท</Typography>
           </Grid>
           {(appointment.Status.Tag === "Guide Confirm" ||
             appointment.Status.Tag === "In process") && (
@@ -455,6 +466,84 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                         {appointment.Guide?.PhoneNumber}
                       </Typography>
                     </Grid>
+                    <Grid item xs={5}>
+                      <Typography variant="body1">Tips:</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body1">
+                        {appointment.Guide?.Tips} บาท/ชั่วโมง
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  alignItems="center"
+                  style={{ padding: "1%" }}
+                >
+                  <Grid item xs={4}>
+                    {new Date(
+                      moment(appointment.AppointTime).format("DD MMMM yyyy")
+                    ) >
+                      new Date(
+                        moment(new Date()).add(1, "days").format("DD MMMM yyyy")
+                      ) && (
+                      <Button
+                        type="button"
+                        fullWidth={true}
+                        style={{
+                          backgroundColor: "#D86060",
+                          color: "white",
+                          padding: "3%",
+                        }}
+                        onClick={() => setConfirmDelete(true)}
+                      >
+                        <Grid
+                          container
+                          direction="row"
+                          spacing={1}
+                          justify="center"
+                          alignItems="center"
+                        >
+                          <Delete />
+                          <Typography variant="body1">ยกเลิกนัดหมาย</Typography>
+                        </Grid>
+                      </Button>
+                    )}
+                  </Grid>
+                  <Grid item xs={4}>
+                    {appointment.Status.Tag === "Wait for Guide to Confirm" &&
+                      new Date(
+                        moment(appointment.AppointTime).format("DD MMMM yyyy")
+                      ) >
+                        new Date(moment(new Date()).format("DD MMMM yyyy")) && (
+                        <Button
+                          type="button"
+                          fullWidth={true}
+                          style={{
+                            backgroundColor: "#4CB85C",
+                            color: "white",
+                            padding: "3%",
+                          }}
+                          onClick={() => setChangeGuide(true)}
+                        >
+                          <Grid
+                            container
+                            direction="row"
+                            spacing={1}
+                            justify="center"
+                            alignItems="center"
+                          >
+                            <Person />
+                            <Typography variant="body1">
+                              {" "}
+                              เปลี่ยนไกด์
+                            </Typography>
+                          </Grid>
+                        </Button>
+                      )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -462,10 +551,9 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           </Grid>
         </CardContent>
       </Collapse>
-      {(new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
-        new Date(moment(new Date()).add(1, "days").format("DD MMMM yyyy")) ||
-        appointment.Status.Tag === "Guide Reject" ||
-        appointment.Status.Tag === "Wait for Guide to Confirm" ||
+      {((new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >=
+        new Date(moment(new Date()).add(1, "days").format("DD MMMM yyyy")) &&
+        appointment.Status.Tag === "Guide Reject") ||
         appointment.Status.Tag === "Expired") && (
         <CardContent style={{ padding: "2%" }}>
           <Grid
@@ -475,19 +563,17 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             alignItems="center"
           >
             <Grid item xs={4}>
-              {(new Date(
+              {((new Date(
                 moment(appointment.AppointTime).format("DD MMMM yyyy")
               ) >
                 new Date(
                   moment(new Date()).add(1, "days").format("DD MMMM yyyy")
-                ) ||
-                appointment.Status.Tag === "Guide Reject" ||
-                appointment.Status.Tag === "Wait for Guide to Confirm" ||
+                ) &&
+                appointment.Status.Tag === "Guide Reject") ||
                 appointment.Status.Tag === "Expired") && (
                 <Button
                   type="button"
                   fullWidth={true}
-                  // variant="contained"
                   style={{
                     backgroundColor: "#D86060",
                     color: "white",
@@ -508,25 +594,23 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                         moment(appointment.AppointTime).format("DD MMMM yyyy")
                       ) > new Date(moment(new Date()).format("DD MMMM yyyy"))
                         ? "ยกเลิกนัดหมาย"
-                        : "ลบ"}
+                        : "ลบนัดหมาย"}
                     </Typography>
                   </Grid>
                 </Button>
               )}
             </Grid>
             <Grid item xs={4}>
-              {(appointment.Status.Tag === "Guide Reject" ||
-                appointment.Status.Tag === "Wait for Guide to Confirm") &&
+              {appointment.Status.Tag === "Guide Reject" &&
                 new Date(
                   moment(appointment.AppointTime).format("DD MMMM yyyy")
                 ) > new Date(moment(new Date()).format("DD MMMM yyyy")) && (
                   <Button
                     type="button"
                     fullWidth={true}
-                    // variant="contained"
                     style={{
-                      // backgroundColor: "#508F7F",
-                      // color: "white",
+                      backgroundColor: "#4CB85C",
+                      color: "white",
                       padding: "3%",
                     }}
                     onClick={() => setChangeGuide(true)}

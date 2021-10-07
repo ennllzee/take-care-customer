@@ -136,7 +136,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
     },
   });
 
-  const [alert, setAlert] = useState<boolean>(false)
+  const [alert, setAlert] = useState<boolean>(false);
 
   const deleteAppointment = () => {
     setConfirmDelete(false);
@@ -151,7 +151,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
         },
       ],
     });
-    setAlert(true)
+    setAlert(true);
   };
 
   const [success, setSuccess] = useState<boolean>(false);
@@ -378,23 +378,24 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
           buttonText="ตกลง"
         />
       </CardContent>
-      {appointment.Status.Tag !== "Guide Reject" && (
-        <CardActions disableSpacing>
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="แสดงข้อมูลเพิ่มเติม"
-          >
-            {!expanded && (
-              <Typography variant="body1">แสดงข้อมูลไกด์</Typography>
-            )}
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
-      )}
+      {appointment.Status.Tag !== "Guide Reject" &&
+        appointment.Status.Tag !== "Expired" && (
+          <CardActions disableSpacing>
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="แสดงข้อมูลเพิ่มเติม"
+            >
+              {!expanded && (
+                <Typography variant="body1">แสดงข้อมูลไกด์</Typography>
+              )}
+              <ExpandMoreIcon />
+            </IconButton>
+          </CardActions>
+        )}
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent style={{ paddingTop: 0 }}>
@@ -465,10 +466,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
         new Date(moment(new Date()).add(1, "days").format("DD MMMM yyyy")) ||
         appointment.Status.Tag === "Guide Reject" ||
         appointment.Status.Tag === "Wait for Guide to Confirm" ||
-        ((appointment.Status.Tag === "Guide Reject" ||
-          appointment.Status.Tag === "Wait for Guide to Confirm") &&
-          new Date(moment(appointment.AppointTime).format("DD MMMM yyyy")) >
-            new Date(moment(new Date()).format("DD MMMM yyyy")))) && (
+        appointment.Status.Tag === "Expired") && (
         <CardContent style={{ padding: "2%" }}>
           <Grid
             container
@@ -484,12 +482,17 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                   moment(new Date()).add(1, "days").format("DD MMMM yyyy")
                 ) ||
                 appointment.Status.Tag === "Guide Reject" ||
-                appointment.Status.Tag === "Wait for Guide to Confirm") && (
+                appointment.Status.Tag === "Wait for Guide to Confirm" ||
+                appointment.Status.Tag === "Expired") && (
                 <Button
                   type="button"
                   fullWidth={true}
                   // variant="contained"
-                  style={{ padding: "5%" }}
+                  style={{
+                    backgroundColor: "#D86060",
+                    color: "white",
+                    padding: "3%",
+                  }}
                   onClick={() => setConfirmDelete(true)}
                 >
                   <Grid
@@ -521,7 +524,11 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                     type="button"
                     fullWidth={true}
                     // variant="contained"
-                    style={{ padding: "5%" }}
+                    style={{
+                      // backgroundColor: "#508F7F",
+                      // color: "white",
+                      padding: "3%",
+                    }}
                     onClick={() => setChangeGuide(true)}
                   >
                     <Grid

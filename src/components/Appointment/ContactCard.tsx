@@ -139,7 +139,7 @@ function ContactCard({
                 : "อื่น ๆ"}
             </Typography>
             <Grid container direction="row" alignItems="center">
-              <Star />
+            <Star style={{color: "#FFC300"}}/>
               <Typography variant="body1">
                 {" "}
                 {user?.Rating !== undefined && user?.Rating !== 0

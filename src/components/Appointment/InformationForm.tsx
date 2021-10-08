@@ -408,10 +408,10 @@ function InformationForm({
                               label={
                                 <>
                                   <Typography variant="body1">
-                                    ช่วงบ่าย
+                                    ช่วงเช้า
                                   </Typography>
                                   <Typography variant="caption">
-                                    (13.00-18.00 น.)
+                                    (7.00-12.00 น.)
                                   </Typography>
                                 </>
                               }

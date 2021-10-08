@@ -54,26 +54,10 @@ const useCustomerApi = () => {
   const UPDATE_CUSTOMER = gql`
     mutation UPDATE_CUSTOMER(
       $updateCustomerId: ID!
-      $updateCustomerInput: PatienUpdateInput!
+      $updateCustomerInput: CustomerUpdateInput!
     ) {
       updateCustomer(_id: $updateCustomerId, input: $updateCustomerInput) {
         _id
-        FirstName
-        LastName
-        Gender
-        DOB
-        PhoneNumber
-        Email
-        EmergencyTel
-        GoogleId
-        Avatar {
-          filename
-          mimetype
-          data
-        }
-        CongenitalDisorders
-        Role
-        UpdatedAt
       }
     }
   `;

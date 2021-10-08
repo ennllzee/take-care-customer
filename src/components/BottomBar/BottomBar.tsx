@@ -1,15 +1,20 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import { Grid, IconButton, Typography } from "@material-ui/core";
-import { 
-  // Business, 
-  Event, 
-  // Help, 
-  History, 
-  Person } 
-from "@material-ui/icons";
+import { Badge, Grid, IconButton, Typography } from "@material-ui/core";
+import {
+  // Business,
+  Event,
+  // Help,
+  History,
+  Person,
+} from "@material-ui/icons";
 import { history } from "../../helper/history";
+import { useQuery } from "@apollo/client";
+import { useState, useEffect } from "react";
+import useCustomerApi from "../../hooks/customerhooks";
+import Appointment from "../../models/Appointment";
+import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,6 +53,25 @@ function BottomBar({ page }: BottomBarProps) {
   const classes = useStyles();
   const accessToken = localStorage.getItem("accessToken");
 
+  const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
+
+  const id = localStorage.getItem("_id");
+
+  const { loading, error, data, refetch } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
+    variables: { getAllAppointmentByCustomerCustomerId: id },
+    pollInterval: 60000,
+  });
+  const [appointment, setAppointment] = useState<Appointment[]>(
+    data !== undefined ? data.getAllAppointmentByCustomer : []
+  );
+
+  useEffect(() => {
+    if (!loading && data) {
+      setAppointment(data.getAllAppointmentByCustomer);
+    }
+    if (error) console.log(error?.graphQLErrors);
+  }, [loading, data, error]);
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.posCustomer}>
@@ -55,7 +79,10 @@ function BottomBar({ page }: BottomBarProps) {
           <Grid container direction="row" justify="space-around">
             <IconButton
               color="inherit"
-              onClick={() => history.push(`/profile&=${accessToken}`)}
+              onClick={() => {
+                refetch()
+                history.push(`/profile&=${accessToken}`)
+              }}
               className={classes.icon}
             >
               <Typography>
@@ -67,11 +94,37 @@ function BottomBar({ page }: BottomBarProps) {
             </IconButton>
             <IconButton
               color="inherit"
-              onClick={() => history.push(`/appointment&=${accessToken}`)}
+              onClick={() => {
+                refetch() 
+                history.push(`/appointment&=${accessToken}`)
+              }}
               className={classes.icon}
             >
               <Typography>
-                <Event />
+                <Badge
+                  badgeContent={
+                    appointment.filter(
+                      (a) => 
+                        new Date(
+                          moment(a.AppointTime).format("DD MMMM yyyy")
+                        ) >=
+                          new Date(moment(new Date()).format("DD MMMM yyyy")) &&
+                        new Date(
+                          moment(a.AppointTime).format("DD MMMM yyyy")
+                        ) <=
+                          new Date(
+                            moment(new Date())
+                              .add(7, "days")
+                              .format("DD MMMM yyyy")
+                          ) &&
+                        a.Status.Tag !== "Completed"
+                    ).length
+                  }
+                  color="error"
+                >
+                  <Event />
+                </Badge>
+
                 {page === "Appointment" && (
                   <Typography style={{ fontSize: 8 }}>appointment</Typography>
                 )}
@@ -79,7 +132,10 @@ function BottomBar({ page }: BottomBarProps) {
             </IconButton>
             <IconButton
               color="inherit"
-              onClick={() => history.push(`/history&=${accessToken}`)}
+              onClick={() => {
+                refetch()
+                history.push(`/history&=${accessToken}`)
+              }}
               className={classes.icon}
             >
               <Typography>

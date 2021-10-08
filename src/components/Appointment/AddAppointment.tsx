@@ -1,4 +1,6 @@
 import {
+  Backdrop,
+  CircularProgress,
   createStyles,
   Grid,
   IconButton,
@@ -19,12 +21,14 @@ import SubmitForm from "./SubmitForm";
 import { useMutation, useQuery } from "@apollo/client";
 import Appointment from "../../models/Appointment";
 import Submit from "../Submit/Submit";
+import Alert from "../Alert/Alert";
 
 interface AddAppointmentProps {
   open: boolean;
   setOpen: any;
   setSuccess: any;
   appointments: Appointment[];
+  refresh: any
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,6 +58,7 @@ function AddAppointment({
   setOpen,
   setSuccess,
   appointments,
+  refresh
 }: AddAppointmentProps) {
   const classes = useStyles();
   const [step, setStep] = useState<number>(1);
@@ -80,9 +85,10 @@ function AddAppointment({
   });
 
   const [confirm, setConfirm] = useState<boolean>(false);
+  const [failed, setFailed] = useState<boolean>(false);
 
-  const submit = () => {
-    createAppointment({
+  const submit = async () => {
+    await createAppointment({
       variables: {
         createAppointmentInput: {
           AppointTime: newAppointment.AppointTime,
@@ -101,13 +107,15 @@ function AddAppointment({
         },
       ],
     });
-    while(mutationLoading){
-      console.log("loading...")
+    console.log(mutationData);
+    if (mutationError) {
+      console.log(mutationError?.graphQLErrors);
+      setFailed(true);
+    } else {
+      setSuccess(true);
+      refresh()
+      setOpen(false);
     }
-    console.log(mutationData)
-    if(mutationError) console.log(mutationError?.graphQLErrors)
-    setSuccess(true);
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -174,6 +182,16 @@ function AddAppointment({
             denyAction={() => setConfirm(false)}
             submitAction={submit}
           />
+          <Alert
+            closeAlert={() => setFailed(false)}
+            alert={failed}
+            title="ผิดพลาด"
+            text="กรุณาลองใหม่อีกครั้ง"
+            buttonText="ปิด"
+          />
+          <Backdrop open={mutationLoading}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </Grid>
       </Paper>
     </Modal>

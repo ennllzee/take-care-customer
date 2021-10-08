@@ -15,6 +15,7 @@ import {
   Description,
   MeetingRoom,
   Message,
+  NavigateBefore,
   Payment,
   PersonPin,
 } from "@material-ui/icons";
@@ -34,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       padding: "2%",
+    },
+    button: {
+      padding: "3%",
     },
   })
 );
@@ -101,12 +105,12 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="center">
               <Grid item>
-                <Typography>
+                <Typography align="center">
                   <AlarmAdd />
                 </Typography>
               </Grid>
               <Grid item xs={10}>
-                <FormLabel component="legend">ช่วงเวลานัดหมาย</FormLabel>
+                <Typography variant="body1">ช่วงเวลานัดหมาย</Typography>
               </Grid>
             </Grid>
           </div>
@@ -148,7 +152,6 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
               </Grid>
             </Grid>
           </div>
-          <br />
           <div className={classes.margin}>
             <Grid
               container
@@ -179,12 +182,14 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="center">
               <Grid item>
-                <Typography variant="h6">
+                <Typography align="center">
                   <Payment />
                 </Typography>
               </Grid>
               <Grid item xs={10}>
-                <FormLabel>ค่าบริการเริ่มต้น: {appointment?.Period === "All-day" ? 300 : 175} บาท</FormLabel>
+                <Typography variant="body1">
+                  ค่าบริการเริ่มต้น: {appointment?.Period === "All-day" ? 300 : 175} บาท
+                </Typography>
               </Grid>
             </Grid>
           </div>
@@ -207,32 +212,60 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
               </Grid>
             </Grid>
           </div>
-          <Grid container justify="space-between" alignItems="center">
-            <Grid item xs={4} md={4} lg={4}>
-              <Typography align="left">
+          <div className={classes.margin}>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+              className={classes.button}
+            >
+              <Grid item xs={3} md={3} lg={2}>
                 <Button
+                  fullWidth={true}
                   type="button"
-                  variant="contained"
-                  color="primary"
                   onClick={back}
+                  style={{
+                    padding: "7%",
+                    color: "black",
+                  }}
                 >
-                  ก่อนหน้า
+                  <Grid
+                    container
+                    direction="row"
+                    spacing={1}
+                    justify="center"
+                    alignItems="center"
+                  >
+                    <NavigateBefore />
+                    <Typography variant="body1">ก่อนหน้า</Typography>
+                  </Grid>
                 </Button>
-              </Typography>
-            </Grid>
-            <Grid item xs={4} md={4} lg={4}>
-              <Typography align="right">
+              </Grid>
+              <Grid item xs={4} md={3} lg={2}>
                 <Button
+                  fullWidth={true}
                   type="button"
-                  variant="contained"
-                  color="primary"
                   onClick={submit}
+                  style={{
+                    padding: "7%",
+                    backgroundColor: "#7C5D92",
+                    color: "white",
+                  }}
                 >
-                  ยืนยัน
+                  <Grid
+                    container
+                    direction="row"
+                    spacing={1}
+                    justify="center"
+                    alignItems="center"
+                  >
+                    <Typography variant="body1">ยืนยัน</Typography>
+                  </Grid>
                 </Button>
-              </Typography>
+              </Grid>
             </Grid>
-          </Grid>
+          </div>
         </Paper>
       </Grid>
     </Grid>

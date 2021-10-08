@@ -57,7 +57,8 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: "1 0 auto",
       paddingRight: "0",
       alignItems: "center",
-      backgroundColor: "#7DC4B2",
+      backgroundColor: "#508F7F",
+      color: "white"
     },
     expand: {
       transform: "rotate(0deg)",

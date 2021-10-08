@@ -76,9 +76,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface AppointmentCardProps {
   appointment: Appointment;
+  refresh: any
 }
 
-function AppointmentCard({ appointment }: AppointmentCardProps) {
+function AppointmentCard({ appointment, refresh }: AppointmentCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
   const [review, setReview] = useState<boolean>(false);
@@ -267,13 +268,14 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               open={review}
               setOpen={setReview}
               setAlert={setAlert}
+              refresh={() => refresh()}
             />
             <Alert
               closeAlert={() => setAlert(false)}
               alert={alert}
               title="สำเร็จ"
               text="ขอบคุณสำหรับความคิดเห็นของท่าน"
-              buttonText="ตกลง"
+              buttonText="ปิด"
             />
             {appointment.Review?.Star !== null && (
               <>

@@ -1,57 +1,65 @@
 import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-  } from "@material-ui/core";
-  
-  interface AlertProps {
-    submit: boolean;
-    title: string;
-    text: string;
-    denyText: string;
-    submitText: string;
-    denyAction: any;
-    submitAction: any;
-  }
-  
-  function Submit({
-    submit,
-    title,
-    text,
-    denyText,
-    submitText,
-    denyAction,
-    submitAction,
-  }: AlertProps) {
-    return (
-      <Dialog
-        aria-describedby="alert-dialog-description"
-        aria-labelledby="alert-dialog-title"
-        open={submit}
-        
-      >
-        <DialogTitle id="alert-dialog-title" style={{minWidth: '60vw'}}>{title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {text}
-          </DialogContentText>
-        </DialogContent>
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@material-ui/core";
+
+interface AlertProps {
+  submit: boolean;
+  title: string;
+  text: string;
+  denyText: string;
+  submitText: string;
+  denyAction: any;
+  submitAction: any;
+}
+
+function Submit({
+  submit,
+  title,
+  text,
+  denyText,
+  submitText,
+  denyAction,
+  submitAction,
+}: AlertProps) {
+  return (
+    <Dialog
+      aria-describedby="alert-dialog-description"
+      aria-labelledby="alert-dialog-title"
+      open={submit}
+    >
+      <DialogTitle id="alert-dialog-title">
+        {title}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {text}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
         <DialogActions>
-          <DialogActions>
-            <Button onClick={denyAction} color="primary">
-              {denyText}
-            </Button>
-            <Button onClick={submitAction} color="primary">
-              {submitText}
-            </Button>
-          </DialogActions>
+          <Button
+            onClick={denyAction}
+          >
+            {denyText}
+          </Button>
+          <Button
+            onClick={submitAction}
+            style={{
+              backgroundColor: "#7C5D92",
+              color: "white",
+            }}
+          >
+            {submitText}
+          </Button>
         </DialogActions>
-      </Dialog>
-    );
-  }
-  
-  export default Submit;
-  
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+export default Submit;

@@ -61,12 +61,13 @@ function AppointmentPage() {
 
   const id = localStorage.getItem("_id");
 
-  const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
+  const { loading, error, data, refetch } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
     variables: { getAllAppointmentByCustomerCustomerId: id },
     pollInterval: 1000,
   });
 
   const [add, setAdd] = useState<boolean>(false);
+  const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
   const [appointment, setAppointment] = useState<Appointment[]>(
     data !== undefined ? data.getAllAppointmentByCustomer : []
   );
@@ -98,7 +99,8 @@ function AppointmentPage() {
                   new Date(moment(a.AppointTime).format("DD MMMM yyyy")) <=
                     new Date(
                       moment(new Date()).add(7, "days").format("DD MMMM yyyy")
-                    ) && a.Status.Tag !== "Completed" 
+                    ) &&
+                  a.Status.Tag !== "Completed"
               ).length !== 0 ? (
                 <>
                   {appointment
@@ -150,7 +152,11 @@ function AppointmentPage() {
                             className={classes.card}
                           >
                             <Grid item xs={12} md={10} lg={8}>
-                              <AppointmentCard appointment={a} />
+                              <AppointmentCard
+                                appointment={a}
+                                setDeleteAlert={setDeleteAlert}
+                                refresh={() => refetch()}
+                              />
                             </Grid>
                           </Grid>
                         </>
@@ -184,13 +190,21 @@ function AppointmentPage() {
         alert={success}
         title="สำเร็จ"
         text="เพิ่มนัดหมายสำเร็จ"
-        buttonText="ตกลง"
+        buttonText="ปิด"
+      />
+      <Alert
+        closeAlert={() => setDeleteAlert(false)}
+        alert={deleteAlert}
+        title="สำเร็จ"
+        text="ยกเลิกนัดหมายสำเร็จ"
+        buttonText="ปิด"
       />
       <AddAppointment
         open={add}
         setOpen={setAdd}
         setSuccess={setSuccess}
         appointments={appointment}
+        refresh={() => refetch()}
       />
     </Grid>
   );

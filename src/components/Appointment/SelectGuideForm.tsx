@@ -7,7 +7,7 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { PersonPin } from "@material-ui/icons";
+import { NavigateBefore, NavigateNext, PersonPin } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import ContactCard from "./ContactCard";
 import AppointmentForm from "../../models/AppointmentForm";
@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     body: {
       padding: "2%",
+    },
+    button: {
+      padding:"3%"
+    },
+    margin: {
+      margin: theme.spacing(1),
     },
   })
 );
@@ -77,7 +83,7 @@ function SelectGuideForm({
       });
       setStep(3);
     } else {
-      setGuideId(undefined)
+      setGuideId(undefined);
       setAlert(true);
     }
   };
@@ -91,8 +97,8 @@ function SelectGuideForm({
         ScheuleGuideId: availableGuide.find((g) => g.Createdby._id === guideId)
           ._id,
       });
-    }else{
-      setGuideId(undefined)
+    } else {
+      setGuideId(undefined);
     }
     setStep(1);
   };
@@ -201,32 +207,61 @@ function SelectGuideForm({
           text="กรุณาเลือกไกด์"
           buttonText="ตกลง"
         />
-        <Grid container justify="space-between" alignItems="center">
-          <Grid item xs={4} md={4} lg={4}>
-            <Typography align="left">
+        <div className={classes.margin}>
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+            className={classes.button}
+          >
+            <Grid item xs={3} md={3} lg={2}>
               <Button
+                fullWidth={true}
                 type="button"
-                variant="contained"
-                color="primary"
                 onClick={back}
+                style={{
+                  padding: "7%",
+                  color: "black",
+                }}
               >
-                ก่อนหน้า
+                <Grid
+                  container
+                  direction="row"
+                  spacing={1}
+                  justify="center"
+                  alignItems="center"
+                >
+                  <NavigateBefore />
+                  <Typography variant="body1">ก่อนหน้า</Typography>
+                </Grid>
               </Button>
-            </Typography>
-          </Grid>
-          <Grid item xs={4} md={4} lg={4}>
-            <Typography align="right">
+            </Grid>
+            <Grid item xs={4} md={3} lg={2}>
               <Button
+                fullWidth={true}
                 type="button"
-                variant="contained"
-                color="primary"
                 onClick={next}
+                style={{
+                  padding: "7%",
+                  backgroundColor: "#7C5D92",
+                  color: "white",
+                }}
               >
-                ถัดไป
+                <Grid
+                  container
+                  direction="row"
+                  spacing={1}
+                  justify="center"
+                  alignItems="center"
+                >
+                  <Typography variant="body1">ถัดไป</Typography>
+                  <NavigateNext />
+                </Grid>
               </Button>
-            </Typography>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </Grid>
     </Grid>
   );

@@ -64,7 +64,7 @@ function ProfilePage() {
   const accessToken = localStorage.getItem("accessToken");
   const id = localStorage.getItem("_id");
 
-  const { GET_SINGLE_CUSTOMER, UPDATE_CUSTOMER } = useCustomerApi();
+  const { GET_SINGLE_CUSTOMER, UPDATE_CUSTOMER, UPLOAD_PROFILE } = useCustomerApi();
 
   const { loading, error, data } = useQuery(GET_SINGLE_CUSTOMER, {
     variables: { getCustomerId: id },
@@ -180,6 +180,12 @@ function ProfilePage() {
     },
   });
 
+  const [updateProfileImg] = useMutation(UPLOAD_PROFILE, {
+    onCompleted: (data: any) => {
+      console.log(data);
+    },
+  });
+
   const editProfile = () => {
     if (
       firstName !== "" &&
@@ -189,6 +195,14 @@ function ProfilePage() {
       gender !== "" &&
       email !== ""
     ) {
+      if(avatar.type){
+        updateProfileImg({ 
+          variables: {
+            addCustomerProfileFile: avatar,
+            addCustomerProfileCustomerId: id,
+          },
+        });
+      }
       updateProfile({
         variables: {
           updateCustomerId: id,

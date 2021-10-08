@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(10),
       paddingRight: "5%",
       paddingLeft: "5%",
-      minWidth: "80vw",
+      minWidth: "100vw",
       maxWidth: "100vw",
     },
     form: {
@@ -105,6 +105,11 @@ function ProfilePage() {
           ? `data:${data.getCustomer?.Avatar?.mimetype};base64,${data.getCustomer?.Avatar?.data}`
           : undefined
       );
+      setProfile(
+        data.getGuide?.Avatar !== null
+          ? `data:${data.getCustomer?.Avatar?.mimetype};base64,${data.getCustomer?.Avatar?.data}`
+          : undefined
+      );
     }
     if (error) console.log(error?.graphQLErrors);
   }, [loading, data, error]);
@@ -130,6 +135,11 @@ function ProfilePage() {
       ? `data:${user?.Avatar?.mimetype};base64,${user?.Avatar?.data}`
       : undefined
   );
+  const [profile, setProfile] = useState<any | undefined>(
+    user?.Avatar !== null
+      ? `data:${user?.Avatar?.mimetype};base64,${user?.Avatar?.data}`
+      : undefined
+  );
   const [edit, setEdit] = useState<boolean>(false);
 
   useEffect(() => {
@@ -137,6 +147,28 @@ function ProfilePage() {
       history.push("/");
     }
   }, [accessToken, id]);
+
+  const uploadImage = async (e: any) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setAvatar(file);
+    setProfile(base64);
+  };
+
+  const convertBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   const [confirmEdit, setConfirmEdit] = useState<boolean>(false);
   const [alert, setAlert] = useState<boolean>(false);
@@ -183,9 +215,58 @@ function ProfilePage() {
                 <ProfileCard
                   name={user?.FirstName + " " + user?.LastName}
                   gmail={user?.Gmail}
-                  img={avatar}
+                  img={profile}
                 />
               </Grid>
+              {edit &&
+              <Grid item xs={12} md={10} lg={8} style={{paddingTop: '5%'}}>
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="center"
+                  justify="flex-start"
+                >
+                  <Grid item xs={12}>
+                    <Typography align="center">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="contained-button-file"
+                        onChange={(e: any) => {
+                          uploadImage(e);
+                        }}
+                        hidden
+                      />
+                      <label htmlFor="contained-button-file">
+                        <Button
+                          component="span"
+                          style={{
+                            padding: "2%",
+                            backgroundColor: "#7C5D92",
+                            color: "white",
+                          }}
+                        >
+                          <Grid
+                            container
+                            direction="row"
+                            spacing={1}
+                            justify="center"
+                            alignItems="center"
+                          >
+                            <Typography variant="body1">
+                              อัปโหลดรูปโปรไฟล์
+                            </Typography>
+                          </Grid>
+                        </Button>
+                      </label>
+                      {avatar !== undefined
+                        ? " อัปโหลดสำเร็จ"
+                        : " ยังไม่ได้อัปโหลดไฟล์"}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              }
               <Grid item xs={12} md={10} lg={8}>
                 <form className={classes.form}>
                   <div className={classes.margin}>

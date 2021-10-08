@@ -1,6 +1,5 @@
 import {
   Button,
-  CardMedia,
   createStyles,
   Fab,
   FormControl,
@@ -21,27 +20,16 @@ import {
   Email,
   Phone,
   PhoneAndroid,
+  NavigateBefore,
 } from "@material-ui/icons";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import CustomerForm from "../../models/CustomerForm";
+import Image from "material-ui-image";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    sub: {
-      minHeight: "15vh",
-    },
-    main: {
-      minHeight: "70vh",
-      paddingRight: "5%",
-      paddingLeft: "5%",
-      minWidth: "80vw",
-      maxWidth: "100vw",
-    },
     form: {
-      paddingTop: "5%",
+      paddingTop: "2%",
     },
     margin: {
       margin: theme.spacing(1),
@@ -80,7 +68,7 @@ function RegisterSubmit({
   setUser,
   setStep,
   setSubmit,
-  displayImg
+  displayImg,
 }: RegisterSubmitProps) {
   const classes = useStyles();
 
@@ -123,7 +111,7 @@ function RegisterSubmit({
           <Grid item xs={1}>
             <Typography align="center">3</Typography>
           </Grid> */}
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Grid
               container
               spacing={2}
@@ -157,8 +145,12 @@ function RegisterSubmit({
             alignItems="center"
             className={classes.card}
           >
-            <Grid item xs={4}>
-              <CardMedia image={displayImg} className={classes.img} />
+            <Grid item xs={5} md={4} lg={2}  style={{backgroundColor: "#EFEFEF"}}>
+              <Image
+                src={displayImg}
+                loading={displayImg === undefined ? false : true}
+                cover={true}
+              />
             </Grid>
           </Grid>
         </div>
@@ -305,10 +297,12 @@ function RegisterSubmit({
             <Grid item xs={10}>
               <TextField
                 id="input-with-icon-grid"
-                label="เบอร์ติดต่อกรณีฉุกเฉิน"
+                label="เบอร์โทรกรณีฉุกเฉิน (ถ้ามี)"
                 fullWidth={true}
                 value={
-                  user.EmergencyTel !== undefined ? user.EmergencyTel : "-"
+                  user.EmergencyTel !== undefined || user.EmergencyTel !== ""
+                    ? user.EmergencyTel
+                    : "ไม่มี"
                 }
                 type="text"
                 disabled={true}
@@ -323,26 +317,50 @@ function RegisterSubmit({
           alignItems="center"
           className={classes.button}
         >
-          <Grid item xs={4} md={3} lg={2}>
+          <Grid item xs={3} md={3} lg={2}>
             <Button
               fullWidth={true}
               type="button"
-              onClick={back}
               // color="primary"
-              variant="contained"
+              onClick={back}
+              style={{
+                padding: "7%",
+                // backgroundColor: "#508F7F",
+                color: "black",
+              }}
             >
-              ก่อนหน้า
+              <Grid
+                container
+                direction="row"
+                spacing={1}
+                justify="center"
+                alignItems="center"
+              >
+                <NavigateBefore />
+                <Typography variant="body1">ก่อนหน้า</Typography>
+              </Grid>
             </Button>
           </Grid>
-          <Grid item xs={4} md={3} lg={2}>
+          <Grid item xs={3} md={3} lg={2}>
             <Button
               fullWidth={true}
               type="button"
               onClick={() => setSubmit(true)}
-              // color="primary"
-              variant="contained"
+              style={{
+                padding: "7%",
+                backgroundColor: "#7C5D92",
+                color: "white",
+              }}
             >
-              ยืนยัน
+              <Grid
+                container
+                direction="row"
+                spacing={1}
+                justify="center"
+                alignItems="center"
+              >
+                <Typography variant="body1">ยืนยัน</Typography>
+              </Grid>
             </Button>
           </Grid>
         </Grid>

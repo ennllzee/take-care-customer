@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core";
 import {
   Email,
+  NavigateBefore,
+  NavigateNext,
   Phone,
   PhoneAndroid,
 } from "@material-ui/icons";
@@ -19,21 +21,8 @@ import Alert from "../Alert/Alert";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    sub: {
-      minHeight: "15vh",
-    },
-    main: {
-      minHeight: "70vh",
-      paddingRight: "5%",
-      paddingLeft: "5%",
-      minWidth: "80vw",
-      maxWidth: "100vw",
-    },
     form: {
-      paddingTop: "5%",
+      paddingTop: "2%",
     },
     margin: {
       margin: theme.spacing(1),
@@ -70,7 +59,9 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
   const [phoneNum, setPhoneNum] = useState<string | undefined>(
     user.PhoneNumber
   );
-  const [email, setEmail] = useState<string | undefined>(user.Email);
+
+  const gmail = localStorage.getItem("gmail")
+  const [email, setEmail] = useState<string | undefined | null>(user.Email !== undefined ? user.Email : gmail);
   const [emerNum, setEmerNum] = useState<string | undefined>(user.EmergencyTel);
   const [alert,setAlert] = useState<boolean>(false)
 
@@ -107,13 +98,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
           alignItems="center"
           justify="space-between"
         >
-          {/* <Grid item xs={1}>
-            <Typography align="center">1</Typography>
-          </Grid>
-          <Grid item xs={1}>
-            <Typography align="center">2</Typography>
-          </Grid> */}
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Grid
               container
               spacing={2}
@@ -137,11 +122,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
               </Grid>
             </Grid>
           </Grid>
-          {/* <Grid item xs={1}>
-            <Typography align="center">4</Typography>
-          </Grid> */}
         </Grid>
-        {/* <Typography variant="h4">ช่องทางการติดต่อ</Typography> */}
         <div className={classes.margin}>
           <Grid container spacing={2} justify="center" alignItems="flex-end">
             <Grid item>
@@ -155,7 +136,7 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
                 value={phoneNum}
                 onChange={(e) => setPhoneNum(e.target.value)}
                 required
-                type="text"
+                type="number"
               />
             </Grid>
           </Grid>
@@ -186,11 +167,11 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
             <Grid item xs={10}>
               <TextField
                 id="input-with-icon-grid"
-                label="เบอร์ติดต่อกรณีฉุกเฉิน(ไม่จำเป็น)"
+                label="เบอร์โทรกรณีฉุกเฉิน (ถ้ามี)"
                 fullWidth={true}
                 value={emerNum}
                 onChange={(e) => setEmerNum(e.target.value)}
-                type="text"
+                type="number"
               />
             </Grid>
           </Grid>
@@ -202,39 +183,63 @@ function ContactForm({ user, setUser, setStep }: ContactFormProps) {
           alignItems="center"
           className={classes.button}
         >
-          <Grid item xs={4} md={3} lg={2}>
+          <Grid item xs={3} md={3} lg={2}>
             <Button
               fullWidth={true}
               type="button"
-              onClick={back}
               // color="primary"
-              variant="contained"
+              onClick={back}
+              style={{
+                padding: "7%",
+                // backgroundColor: "#508F7F",
+                color: "black",
+              }}
             >
-              ก่อนหน้า
+              <Grid
+                container
+                direction="row"
+                spacing={1}
+                justify="center"
+                alignItems="center"
+              >
+                <NavigateBefore/>
+                <Typography variant="body1">ก่อนหน้า</Typography>
+              </Grid>
             </Button>
           </Grid>
-          <Grid item xs={4} md={3} lg={2}>
+          <Grid item xs={3} md={3} lg={2}>
             <Button
               fullWidth={true}
-              type="button"
-              onClick={next}
+              type="submit"
               // color="primary"
-              variant="contained"
+              onClick={next}
+              style={{
+                padding: "7%",
+                backgroundColor: "#7C5D92",
+                color: "white",
+              }}
             >
-              ถัดไป
+              <Grid
+                container
+                direction="row"
+                spacing={1}
+                justify="center"
+                alignItems="center"
+              >
+                <Typography variant="body1">ถัดไป</Typography>
+                <NavigateNext/>
+              </Grid>
             </Button>
           </Grid>
         </Grid>
       </form>
-      {alert && (
-        <Alert
-          closeAlert={() => setAlert(false)}
-          alert={alert}
-          title="ข้อมูลการนัดหมาย"
-          text="กรุณากรอกข้อมูลให้ครบ"
-          buttonText="ตกลง"
-        />
-      )}
+      <Alert
+        closeAlert={() => setAlert(false)}
+        alert={alert}
+        title="ข้อมูลไม่ครบ"
+        text="กรุณากรอกข้อมูลที่จำเป็นให้ครบ"
+        buttonText="ปิด"
+      />
     </Grid>
   );
 }

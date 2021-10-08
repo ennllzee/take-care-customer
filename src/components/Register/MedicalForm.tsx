@@ -8,27 +8,14 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Healing } from "@material-ui/icons";
+import { Healing, NavigateBefore, NavigateNext } from "@material-ui/icons";
 import { useState } from "react";
 import CustomerForm from "../../models/CustomerForm";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    sub: {
-      minHeight: "15vh",
-    },
-    main: {
-      minHeight: "70vh",
-      paddingRight: "5%",
-      paddingLeft: "5%",
-      minWidth: "80vw",
-      maxWidth: "100vw",
-    },
     form: {
-      paddingTop: "5%",
+      paddingTop: "2%",
     },
     margin: {
       margin: theme.spacing(1),
@@ -89,13 +76,10 @@ function MedicalForm({ user, setUser, setStep }: ProfileFormProps) {
         <Grid
           container
           direction="row"
-          alignItems="center"
+          alignItems="flex-start"
           justify="space-between"
         >
-          {/* <Grid item xs={1}>
-            <Typography align="center">1</Typography>
-          </Grid> */}
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Grid
               container
               spacing={2}
@@ -119,12 +103,6 @@ function MedicalForm({ user, setUser, setStep }: ProfileFormProps) {
               </Grid>
             </Grid>
           </Grid>
-          {/* <Grid item xs={1}>
-            <Typography align="center">3</Typography>
-          </Grid>
-          <Grid item xs={1}>
-            <Typography align="center">4</Typography>
-          </Grid> */}
         </Grid>
         <div className={classes.margin}>
           <Grid container spacing={2} justify="center" alignItems="flex-end">
@@ -134,7 +112,7 @@ function MedicalForm({ user, setUser, setStep }: ProfileFormProps) {
             <Grid item xs={10}>
               <TextField
                 id="input-with-icon-grid"
-                label="โรคประจำตัว(ไม่จำเป็น)"
+                label="โรคประจำตัว (ถ้ามี)"
                 fullWidth={true}
                 value={disorder}
                 onChange={(e) => setDisorder(e.target.value)}
@@ -151,26 +129,49 @@ function MedicalForm({ user, setUser, setStep }: ProfileFormProps) {
           alignItems="center"
           className={classes.button}
         >
-          <Grid item xs={4} md={3} lg={2}>
+          <Grid item xs={3} md={3} lg={2}>
             <Button
               fullWidth={true}
               type="button"
               onClick={back}
-              // color="primary"
-              variant="contained"
+              style={{
+                padding: "7%",
+                color: "black",
+              }}
             >
-              ก่อนหน้า
+              <Grid
+                container
+                direction="row"
+                spacing={1}
+                justify="center"
+                alignItems="center"
+              >
+                <NavigateBefore/>
+                <Typography variant="body1">ก่อนหน้า</Typography>
+              </Grid>
             </Button>
           </Grid>
-          <Grid item xs={4} md={3} lg={2}>
+          <Grid item xs={3} md={3} lg={2}>
             <Button
               fullWidth={true}
               type="submit"
-              // color="primary"
               onClick={next}
-              variant="contained"
+              style={{
+                padding: "7%",
+                backgroundColor: "#7C5D92",
+                color: "white",
+              }}
             >
-              ถัดไป
+              <Grid
+                container
+                direction="row"
+                spacing={1}
+                justify="center"
+                alignItems="center"
+              >
+                <Typography variant="body1">ถัดไป</Typography>
+                <NavigateNext/>
+              </Grid>
             </Button>
           </Grid>
         </Grid>

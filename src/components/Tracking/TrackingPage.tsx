@@ -62,7 +62,7 @@ const StyledTableCell = withStyles((theme: Theme) =>
       backgroundColor: "#7C5D92",
       color: theme.palette.common.white,
       fontSize: 12,
-      padding: "3%",
+      padding: "1%",
     },
   })
 )(TableCell);

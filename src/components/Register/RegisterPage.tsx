@@ -1,9 +1,4 @@
-import {
-  createStyles,
-  Grid,
-  makeStyles,
-  Theme,
-} from "@material-ui/core";
+import { Backdrop, CircularProgress, createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useGoogleLogout } from "react-google-login";
 import { history } from "../../helper/history";
@@ -92,6 +87,8 @@ function RegisterPage() {
     onCompleted: (data) => console.log(data),
   });
 
+  const [failed, setFailed] = useState<boolean>(false);
+
   const [createCustomer, { loading: mutationLoading, error: mutationError }] =
     useMutation(SIGNUP_CUSTOMER, {
       onCompleted: (data) => {
@@ -107,10 +104,14 @@ function RegisterPage() {
 
   //NEEDED BACKEND
   const onSubmit = async () => {
-    createCustomer({
+    await createCustomer({
       variables: { createdCustomerInput: { ...user, Avatar: null } },
     });
-    setAlert(true)
+    if(mutationError){
+      setFailed(true)
+    }else{
+      setAlert(true);
+    }
   };
 
   return (
@@ -169,15 +170,23 @@ function RegisterPage() {
         />
         <Submit
           submit={submit}
-          title="ยืนยันการลงทะเบียน?"
+          title="ยืนยันการลงทะเบียน"
           text="กรุณาตรวจสอบความถูกต้องก่อนกดยืนยัน"
           denyText="ยกเลิก"
           submitText="ยืนยัน"
           denyAction={() => setSubmit(false)}
           submitAction={onSubmit}
         />
-        {mutationLoading && <p>Loading...</p>}
-        {mutationError && <p>Error :( Please try again</p>}
+        <Backdrop open={mutationLoading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <Alert
+          closeAlert={() => setFailed(false)}
+          alert={failed}
+          title="ผิดพลาด"
+          text="กรุณาลองใหม่อีกครั้ง"
+          buttonText="ปิด"
+        />
       </Grid>
     </Grid>
   );

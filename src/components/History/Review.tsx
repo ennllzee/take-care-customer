@@ -7,6 +7,8 @@ import {
   Button,
   Typography,
   Box,
+  Backdrop,
+  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/styles";
 import { Theme } from "pretty-format";
@@ -15,7 +17,7 @@ import Appointment from "../../models/Appointment";
 import Alert from "../Alert/Alert";
 import { useMutation } from "@apollo/client";
 import useCustomerApi from "../../hooks/customerhooks";
-import { Rating } from "@material-ui/lab"
+import { Rating } from "@material-ui/lab";
 
 interface ReviewProps {
   appointment: Appointment;
@@ -38,29 +40,35 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
   const [rate, setRate] = useState<number>(0);
   const [comment, setComment] = useState<string | undefined>();
   const [alertData, setAlertData] = useState<boolean>(false);
+  const [failed, setFailed] = useState<boolean>(false);
 
   const { UPDATE_APPOINTMENT_REVIEW } = useCustomerApi();
-  const [addReview] = useMutation(UPDATE_APPOINTMENT_REVIEW, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-  });
-  const submit = () => {
+  const [addReview, { loading: mutationLoading, error: mutationError }] =
+    useMutation(UPDATE_APPOINTMENT_REVIEW, {
+      onCompleted: (data) => {
+        console.log(data);
+      },
+    });
+  const submit = async () => {
     if (rate !== 0) {
       let newReview = {
         Star: rate,
         Comment: comment,
       };
 
-      addReview({
+      await addReview({
         variables: {
           updateAppointmentRecordId: appointment._id,
           updateAppointmentRecordRecordinput: { ...newReview },
         },
       });
 
-      setAlert(true);
-      setOpen(false);
+      if (mutationError) {
+        setFailed(true)
+      } else {
+        setAlert(true);
+        setOpen(false);
+      }
     } else {
       setAlertData(true);
     }
@@ -78,17 +86,19 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
       <DialogTitle id="alert-dialog-title">ประเมินความพึงพอใจ</DialogTitle>
       <DialogContent>
         <Box>
-        <Typography variant="body1" component="legend">ระดับความพึงพอใจ</Typography>
-        <Rating
-          max={5}
-          value={rate}
-          onChange={(e,val) => {
-            if(val !== null){
-              setRate(val);
-            }
-          }}
-          style={{ color: "#FFC300" }}
-        />
+          <Typography variant="body1" component="legend">
+            ระดับความพึงพอใจ
+          </Typography>
+          <Rating
+            max={5}
+            value={rate}
+            onChange={(e, val) => {
+              if (val !== null) {
+                setRate(val);
+              }
+            }}
+            style={{ color: "#FFC300" }}
+          />
         </Box>
         <TextField
           type="text"
@@ -108,12 +118,22 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
           </Button>
         </DialogActions>
       </DialogActions>
+      <Backdrop open={mutationLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Alert
+        closeAlert={() => setFailed(false)}
+        alert={failed}
+        title="ผิดพลาด"
+        text="กรุณาลองใหม่อีกครั้ง"
+        buttonText="ปิด"
+      />
       <Alert
         closeAlert={() => setAlertData(false)}
         alert={alertData}
         title="ข้อมูลไม่ครบ"
-        text="โปรดให้คะแนน"
-        buttonText="ตกลง"
+        text="กรุณาใส่คะแนน"
+        buttonText="ปิด"
       />
     </Dialog>
   );

@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       minHeight: "100vh",
       backgroundColor: "#C3A3DB",
+      minWidth: "100vw",
+      maxWidth: "100vw",
     },
     paper: {
       background: "white",

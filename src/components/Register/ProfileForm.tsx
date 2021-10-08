@@ -1,7 +1,6 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
   Button,
-  CardMedia,
   createStyles,
   Fab,
   FormControl,
@@ -15,30 +14,18 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Person, Wc, Cake } from "@material-ui/icons";
+import { Person, Wc, Cake, NavigateNext } from "@material-ui/icons";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import { useState } from "react";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import CustomerForm from "../../models/CustomerForm";
 import Alert from "../Alert/Alert";
+import Image from "material-ui-image";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    sub: {
-      minHeight: "15vh",
-    },
-    main: {
-      minHeight: "70vh",
-      paddingRight: "5%",
-      paddingLeft: "5%",
-      minWidth: "80vw",
-      maxWidth: "100vw",
-    },
     form: {
-      paddingTop: "5%",
+      paddingTop: "2%",
     },
     margin: {
       margin: theme.spacing(1),
@@ -88,7 +75,7 @@ function ProfileForm({
   const [gender, setGender] = useState<string | undefined>(user.Gender);
   const [avatar, setavatar] = useState<any | undefined>(user.Avatar);
 
-  const [alert,setAlert] = useState<boolean>(false)
+  const [alert, setAlert] = useState<boolean>(false);
 
   const uploadImage = async (e: any) => {
     const file = e.target.files[0];
@@ -130,7 +117,7 @@ function ProfileForm({
       });
       setStep(2);
     } else {
-      setAlert(true)
+      setAlert(true);
     }
   };
 
@@ -155,10 +142,10 @@ function ProfileForm({
         <Grid
           container
           direction="row"
-          alignItems="center"
+          alignItems="flex-start"
           justify="space-between"
         >
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Grid
               container
               spacing={2}
@@ -182,17 +169,7 @@ function ProfileForm({
               </Grid>
             </Grid>
           </Grid>
-          {/* <Grid item xs={1}>
-            <Typography align="center">2</Typography>
-          </Grid>
-          <Grid item xs={1}>
-            <Typography align="center">3</Typography>
-          </Grid>
-          <Grid item xs={1}>
-            <Typography align="center">4</Typography>
-          </Grid> */}
         </Grid>
-        {/* <Typography variant="h4">ข้อมูลส่วนตัว</Typography> */}
         <div className={classes.margin}>
           <Grid
             container
@@ -201,8 +178,12 @@ function ProfileForm({
             alignItems="center"
             className={classes.card}
           >
-            <Grid item xs={4}>
-              <CardMedia image={displayImg} className={classes.img} />
+            <Grid item xs={4} style={{ backgroundColor: "#EFEFEF" }}>
+              <Image
+                src={displayImg}
+                loading={displayImg === undefined ? false : true}
+                cover={true}
+              />
             </Grid>
             <Grid item xs={6}>
               <Typography align="center">
@@ -210,18 +191,36 @@ function ProfileForm({
                   type="file"
                   accept="image/*"
                   id="contained-button-file"
-                  //   key={imgName}
                   onChange={(e: any) => {
-                    // setImgName(e.currentTarget.files[0].name);
                     uploadImage(e);
                   }}
                   hidden
                 />
                 <label htmlFor="contained-button-file">
-                  <Button variant="contained" color="primary" component="span">
-                    อัปโหลด
+                  <Button
+                    component="span"
+                    style={{
+                      padding: "7%",
+                      backgroundColor: "#7C5D92",
+                      color: "white",
+                    }}
+                  >
+                    <Grid
+                      container
+                      direction="row"
+                      spacing={1}
+                      justify="center"
+                      alignItems="center"
+                    >
+                      <Typography variant="body1">อัปโหลดรูปโปรไฟล์</Typography>
+                    </Grid>
                   </Button>
                 </label>
+              </Typography>
+              <Typography variant="body1" align="center">
+                {avatar !== undefined
+                  ? " อัปโหลดสำเร็จ"
+                  : " ยังไม่ได้อัปโหลดไฟล์"}
               </Typography>
             </Grid>
           </Grid>
@@ -296,7 +295,6 @@ function ProfileForm({
                   onChange={(e) => setDOB(e?.toISOString())}
                   openTo="year"
                   views={["year", "month", "date"]}
-                  // required
                   disableFuture
                   fullWidth={true}
                   TextFieldComponent={renderInput}
@@ -312,28 +310,38 @@ function ProfileForm({
           alignItems="center"
           className={classes.button}
         >
-          <Grid item xs={4} md={3} lg={2}>
+          <Grid item xs={3} md={3} lg={2}>
             <Button
               fullWidth={true}
               type="button"
-              // color="primary"
               onClick={next}
-              variant="contained"
+              style={{
+                padding: "7%",
+                backgroundColor: "#7C5D92",
+                color: "white",
+              }}
             >
-              ถัดไป
+              <Grid
+                container
+                direction="row"
+                spacing={1}
+                justify="center"
+                alignItems="center"
+              >
+                <Typography variant="body1">ถัดไป</Typography>
+                <NavigateNext />
+              </Grid>
             </Button>
           </Grid>
         </Grid>
       </form>
-      {alert && (
-        <Alert
-          closeAlert={() => setAlert(false)}
-          alert={alert}
-          title="ข้อมูลการนัดหมาย"
-          text="กรุณากรอกข้อมูลให้ครบ"
-          buttonText="ตกลง"
-        />
-      )}
+      <Alert
+        closeAlert={() => setAlert(false)}
+        alert={alert}
+        title="ข้อมูลไม่ครบ"
+        text="กรุณากรอกข้อมูลที่จำเป็นให้ครบ"
+        buttonText="ปิด"
+      />
     </Grid>
   );
 }

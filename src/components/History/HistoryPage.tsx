@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingRight: "5%",
       paddingLeft: "5%",
       minWidth: "100vw",
+      maxWidth: "100vw",
     },
     line: {
       padding: "2%",

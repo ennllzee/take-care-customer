@@ -87,6 +87,7 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
               setRate(val);
             }
           }}
+          style={{ color: "#FFC300" }}
         />
         </Box>
         <TextField

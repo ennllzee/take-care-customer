@@ -14,24 +14,18 @@ import TopBar from "../TopBar/TopBar";
 import ContactForm from "./ContactForm";
 import ProfileForm from "./ProfileForm";
 import RegisterSubmit from "./RegisterSubmit";
-
 import { useMutation } from "@apollo/client";
 import useCustomerApi from "../../hooks/customerhooks";
 import MedicalForm from "./MedicalForm";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    sub: {
-      minHeight: "15vh",
-    },
     main: {
-      minHeight: "70vh",
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(10),
       paddingRight: "5%",
       paddingLeft: "5%",
-      minWidth: "80vw",
+      minWidth: "100vw",
       maxWidth: "100vw",
     },
     form: {
@@ -43,9 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
     box: {
       padding: "5%",
       marginBottom: "5%",
-    },
-    end: {
-      minHeight: "5vh",
     },
     img: {
       height: "20vh",
@@ -64,11 +55,12 @@ function RegisterPage() {
   const accessToken = localStorage.getItem("accessToken");
   const gmail = localStorage.getItem("gmail");
   const token = localStorage.getItem("token");
+  const id = localStorage.getItem("_id");
 
   const [alert, setAlert] = useState<boolean>(false);
 
   const logout = () => {
-    setAlert(true);
+    history.push("/");
   };
 
   const { signOut } = useGoogleLogout({
@@ -78,13 +70,13 @@ function RegisterPage() {
   });
 
   useEffect(() => {
-    if (accessToken !== null) {
+    if (accessToken !== null && id !== null) {
       history.push(`/appointment&=${accessToken}`);
     }
     if (gmail === null) {
       history.push("/");
     }
-  }, [accessToken, gmail]);
+  }, [accessToken, gmail, id]);
 
   const [submit, setSubmit] = useState<boolean>(false);
 
@@ -118,8 +110,7 @@ function RegisterPage() {
     createCustomer({
       variables: { createdCustomerInput: { ...user, Avatar: null } },
     });
-
-    signOut();
+    setAlert(true)
   };
 
   return (
@@ -130,9 +121,7 @@ function RegisterPage() {
         direction="column"
         alignItems="center"
         justify="flex-start"
-        className={classes.root}
       >
-        <Grid item className={classes.sub}></Grid>
         <Grid item className={classes.main}>
           <Grid
             container
@@ -140,35 +129,6 @@ function RegisterPage() {
             alignItems="flex-start"
             justify="center"
           >
-            <Grid item xs={12} md={12} lg={12}>
-              {/* <Paper className={classes.box}>         */}
-              {/* <div className={classes.margin}>
-                <Grid
-                  container
-                  spacing={2}
-                  justify="center"
-                  alignItems="flex-end"
-                >
-                  <Grid item>
-                    <AccountCircle />
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField
-                      id="input-with-icon-grid"
-                      label="Google Account"
-                      fullWidth={true}
-                      value={gmail}
-                      type="text"
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-              </div> */}
-              {/* </Paper> */}
-              {/* </form> */}
-            </Grid>
             <Grid item xs={12} md={12} lg={12}>
               {step === 1 && (
                 <ProfileForm
@@ -200,17 +160,17 @@ function RegisterPage() {
         <Alert
           closeAlert={() => {
             setAlert(false);
-            history.push("/");
+            signOut();
           }}
           alert={alert}
-          title="ลงทะเบียนสำเร็จ"
-          text="โปรดยืนยันตัวตนอีกครั้งผ่านแบบฟอร์มที่ส่งไปยังอีเมล์ที่ติดต่อได้ของท่าน"
+          title="สำเร็จ"
+          text="ลงทะเบียนสำเร็จ กรุณาลงชื่อเข้าระบเพื่อเริ่มใช้งาน"
           buttonText="ตกลง"
         />
         <Submit
           submit={submit}
           title="ยืนยันการลงทะเบียน?"
-          text="กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนกดยืนยัน"
+          text="กรุณาตรวจสอบความถูกต้องก่อนกดยืนยัน"
           denyText="ยกเลิก"
           submitText="ยืนยัน"
           denyAction={() => setSubmit(false)}
@@ -218,7 +178,6 @@ function RegisterPage() {
         />
         {mutationLoading && <p>Loading...</p>}
         {mutationError && <p>Error :( Please try again</p>}
-        <Grid item className={classes.end}></Grid>
       </Grid>
     </Grid>
   );

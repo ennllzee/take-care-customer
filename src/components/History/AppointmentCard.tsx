@@ -16,6 +16,7 @@ import Appointment from "../../models/Appointment";
 import { RateReview } from "@material-ui/icons";
 import Review from "./Review";
 import Alert from "../Alert/Alert";
+import { Rating } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -248,7 +249,13 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             <Grid item xs={7}>
               <Typography variant="body1" align="left">
                 {appointment.Review?.Star !== null ? (
-                  <>{appointment.Review?.Star}</>
+                  <>
+                    <Rating
+                      max={5}
+                      value={appointment.Review?.Star}
+                      style={{ color: "#FFC300" }}
+                    />
+                  </>
                 ) : (
                   <Chip
                     size="small"

@@ -8,10 +8,14 @@ import {
   Typography,
   Card,
   Button,
+  Backdrop,
+  CircularProgress,
 } from "@material-ui/core";
 import { history } from "../../helper/history";
 import { useGoogleLogout } from "react-google-login";
 import { ExitToApp } from "@material-ui/icons";
+import { useState } from "react";
+import Submit from "../Submit/Submit";
 
 interface ProfileCardProps {
   name: string;
@@ -46,11 +50,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function ProfileCard({ name, gmail, img }: ProfileCardProps) {
   const classes = useStyles();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const logout = () => {
-    localStorage.clear();
+  const logout = async () => {
+    setLoading(true);
+    await localStorage.clear();
+    setLoading(false);
     history.push("/");
   };
+
+  const [confirm, setConfirm] = useState<boolean>(false);
 
   const { signOut } = useGoogleLogout({
     clientId:
@@ -72,10 +81,7 @@ function ProfileCard({ name, gmail, img }: ProfileCardProps) {
           </Typography>
         </CardContent>
         <Grid container justify="flex-end" className={classes.logout}>
-          <Button
-            onClick={signOut}
-            style={{padding: '3%'}}
-          >
+          <Button onClick={() => setConfirm(true)} style={{ padding: "3%" }}>
             <Grid
               container
               direction="row"
@@ -84,13 +90,23 @@ function ProfileCard({ name, gmail, img }: ProfileCardProps) {
               alignItems="center"
             >
               <ExitToApp />
-              <Typography variant="body1">
-                ลงชื่อออก
-              </Typography>
+              <Typography variant="body1">ลงชื่อออก</Typography>
             </Grid>
           </Button>
         </Grid>
       </div>
+      <Backdrop open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Submit
+        submit={confirm}
+        title="ลงชื่อออก"
+        text="ต้องการลงชื่อออกระบบใช่หรือไม่"
+        denyText="ยกเลิก"
+        submitText="ยืนยัน"
+        denyAction={() => setConfirm(false)}
+        submitAction={signOut}
+      />
     </Card>
   );
 }

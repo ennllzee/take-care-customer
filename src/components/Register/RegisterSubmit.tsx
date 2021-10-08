@@ -145,7 +145,7 @@ function RegisterSubmit({
             alignItems="center"
             className={classes.card}
           >
-            <Grid item xs={5} md={4} lg={2}  style={{backgroundColor: "#EFEFEF"}}>
+            <Grid item xs={4} md={3} lg={2}  style={{backgroundColor: "#EFEFEF"}}>
               <Image
                 src={displayImg}
                 loading={displayImg === undefined ? false : true}

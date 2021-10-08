@@ -210,11 +210,6 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               </Typography>
             </Grid>
             <Grid item xs={7}>
-              {/* <Link href={appointment.OpenLink}>
-                <Typography variant="body1" align="left">
-                  {appointment.OpenLink}
-                </Typography>
-              </Link> */}
               <Link
                 rel="noopener noreferrer"
                 href={`/tracking&=${appointment._id}`}

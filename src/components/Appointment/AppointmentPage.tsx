@@ -63,7 +63,7 @@ function AppointmentPage() {
 
   const { loading, error, data, refetch } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
     variables: { getAllAppointmentByCustomerCustomerId: id },
-    pollInterval: 1000,
+    pollInterval: 60000,
   });
 
   const [add, setAdd] = useState<boolean>(false);

@@ -139,7 +139,19 @@ function BottomBar({ page }: BottomBarProps) {
               className={classes.icon}
             >
               <Typography>
-                <History />
+              <Badge
+                  badgeContent={
+                    appointment.filter(
+                      (a) => 
+                        a.Review?.Star === null  
+                      &&
+                        a.Status.Tag === "Completed"
+                    ).length
+                  }
+                  color="error"
+                >
+                  <History />
+                </Badge>
                 {page === "History" && (
                   <Typography style={{ fontSize: 8 }}>history</Typography>
                 )}

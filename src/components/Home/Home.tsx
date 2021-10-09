@@ -31,7 +31,6 @@ function Home() {
   const [appointments,setAppointments] = useState<Appointment[]>(data !== undefined ? data.getAllAppointment : [])
 
   useEffect(() => {
-    console.log(loading)
     if (!loading && data) {
       setAppointments(data.getAllAppointment);
     }

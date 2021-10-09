@@ -65,7 +65,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     formControlLabel: { fontSize: "0.6rem", "& label": { fontSize: "0.6rem" } },
     button: {
-      padding: "3%",
+      paddingTop: "3%",
+      paddingBottom: "3%",
     },
   })
 );
@@ -407,7 +408,7 @@ function InformationForm({
                           <Grid item xs={10} md={4} lg={4}>
                             <FormControlLabel
                               value="Morning"
-                              control={<Radio style={{ color: "#7C5D92" }} />}
+                              control={<Radio style={{ color: "black" }} />}
                               label={
                                 <>
                                   <Typography variant="body1">
@@ -423,7 +424,7 @@ function InformationForm({
                           <Grid item xs={10} md={4} lg={4}>
                             <FormControlLabel
                               value="Afternoon"
-                              control={<Radio style={{ color: "#7C5D92" }} />}
+                              control={<Radio style={{ color: "black" }} />}
                               label={
                                 <>
                                   <Typography variant="body1">
@@ -439,7 +440,7 @@ function InformationForm({
                           <Grid item xs={10} md={4} lg={4}>
                             <FormControlLabel
                               value="All-day"
-                              control={<Radio style={{ color: "#7C5D92" }} />}
+                              control={<Radio style={{ color: "black" }} />}
                               label={
                                 <>
                                   <Typography variant="body1">
@@ -552,39 +553,40 @@ function InformationForm({
                 text="มีนัดหมายในวันดังกล่าวแล้ว ไม่สามารถเพิ่มนัดหมายอีกได้"
                 buttonText="ปิด"
               />
-              <div className={classes.margin}>
-                <Grid
-                  container
-                  direction="row"
-                  justify="flex-end"
-                  alignItems="center"
-                  className={classes.button}
-                >
-                  <Grid item xs={4} md={3} lg={2}>
-                    <Button
-                      fullWidth={true}
-                      type="button"
-                      onClick={next}
-                      style={{
-                        padding: "7%",
-                        backgroundColor: "#7C5D92",
-                        color: "white",
-                      }}
-                    >
-                      <Grid
-                        container
-                        direction="row"
-                        spacing={1}
-                        justify="center"
-                        alignItems="center"
+            
+              <Grid xs={12} md={12} lg={12}>
+                <div className={classes.margin}>
+                  <Grid
+                    container
+                    direction="row"
+                    justify="flex-end"
+                    alignItems="center"
+                    className={classes.button}
+                  >
+                    <Grid item>
+                      <Button
+                        type="button"
+                        onClick={next}
+                        style={{
+                          // padding: "7%",
+                          backgroundColor: "#7C5D92",
+                          color: "white",
+                        }}
                       >
-                        <Typography variant="body1">ถัดไป</Typography>
-                        <NavigateNext />
-                      </Grid>
-                    </Button>
+                        <Grid
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="center"
+                        >
+                          <Typography variant="body1">ถัดไป</Typography>
+                          <NavigateNext />
+                        </Grid>
+                      </Button>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div>
+                </div>
+              </Grid>
             </form>
           ) : (
             <CircularProgress disableShrink />

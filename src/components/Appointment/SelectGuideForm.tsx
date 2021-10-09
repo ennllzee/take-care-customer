@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "2%",
     },
     button: {
-      padding:"3%"
+      paddingTop: "3%",
+      paddingBottom: "3%",
     },
     margin: {
       margin: theme.spacing(1),
@@ -207,6 +208,8 @@ function SelectGuideForm({
           text="กรุณาเลือกไกด์"
           buttonText="ตกลง"
         />
+      </Grid>
+      <Grid xs={12} md={12} lg={12}>
         <div className={classes.margin}>
           <Grid
             container
@@ -215,20 +218,19 @@ function SelectGuideForm({
             alignItems="center"
             className={classes.button}
           >
-            <Grid item xs={3} md={3} lg={2}>
+            <Grid item>
               <Button
-                fullWidth={true}
+                
                 type="button"
                 onClick={back}
                 style={{
-                  padding: "7%",
+                  // padding: "7%",
                   color: "black",
                 }}
               >
                 <Grid
                   container
                   direction="row"
-                  spacing={1}
                   justify="center"
                   alignItems="center"
                 >
@@ -237,13 +239,12 @@ function SelectGuideForm({
                 </Grid>
               </Button>
             </Grid>
-            <Grid item xs={4} md={3} lg={2}>
+            <Grid item>
               <Button
-                fullWidth={true}
                 type="button"
                 onClick={next}
                 style={{
-                  padding: "7%",
+                  // padding: "7%",
                   backgroundColor: "#7C5D92",
                   color: "white",
                 }}
@@ -251,7 +252,6 @@ function SelectGuideForm({
                 <Grid
                   container
                   direction="row"
-                  spacing={1}
                   justify="center"
                   alignItems="center"
                 >

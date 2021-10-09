@@ -26,7 +26,7 @@ interface ChangeGuideProps {
   setOpen: any;
   appointment: Appointment;
   setSuccess: any;
-  refresh: any
+  refresh: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,10 +38,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
+      // border: "2px solid #000",
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
-      height: "80vh",
+      height: "85vh",
       width: "80vw",
       overflow: "auto",
     },
@@ -60,6 +60,10 @@ const useStyles = makeStyles((theme: Theme) =>
     body: {
       padding: "2%",
     },
+    button: {
+      paddingTop: "3%",
+      paddingBottom: "3%",
+    },
   })
 );
 
@@ -68,7 +72,7 @@ function ChangeGuide({
   setOpen,
   appointment,
   setSuccess,
-  refresh
+  refresh,
 }: ChangeGuideProps) {
   const classes = useStyles();
   const id = localStorage.getItem("_id");
@@ -151,7 +155,7 @@ function ChangeGuide({
       setFailed(true);
     } else {
       setSuccess(true);
-      refresh()
+      refresh();
       setOpen(false);
     }
     setConfirmSubmit(false);
@@ -270,18 +274,35 @@ function ChangeGuide({
                   denyAction={() => setConfirmSubmit(false)}
                   submitAction={updateGuide}
                 />
-                <Grid container justify="flex-end" alignItems="center">
-                  <Grid item xs={4} md={4} lg={4}>
-                    <Typography align="right">
-                      <Button
-                        type="button"
-                        variant="contained"
-                        color="primary"
-                        onClick={submit}
+              </Grid>
+
+              <Grid xs={12} md={12} lg={12}>
+                <Grid
+                  container
+                  direction="row"
+                  justify="flex-end"
+                  alignItems="center"
+                  className={classes.button}
+                >
+                  <Grid item>
+                    <Button
+                      type="button"
+                      onClick={submit}
+                      style={{
+                        // padding: "7%",
+                        backgroundColor: "#7C5D92",
+                        color: "white",
+                      }}
+                    >
+                      <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
                       >
-                        ยืนยัน
-                      </Button>
-                    </Typography>
+                        <Typography variant="body1">ยืนยัน</Typography>
+                      </Grid>
+                    </Button>
                   </Grid>
                 </Grid>
               </Grid>

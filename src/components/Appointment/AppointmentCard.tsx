@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: red[500],
     },
     monday: {
-      backgroundColor: "#FFD68F",
+      backgroundColor: "#FFDF8E",
       padding: "1%",
     },
     tuesday: {
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     thursday: {
-      backgroundColor: "#F3BE95",
+      backgroundColor: "#FFD0AC",
       padding: "1%",
     },
     friday: {
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     sunday: {
-      backgroundColor: "#EA7C7C",
+      backgroundColor: "#FF9A9A",
       padding: "1%",
     },
     deny: {
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "2%",
     },
     wait: {
-      backgroundColor: "#E59B07",
+      backgroundColor: "#FFBD17",
       color: "white",
     },
     confirm: {
@@ -429,7 +429,7 @@ function AppointmentCard({
         )}
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent style={{ paddingTop: 0 }}>
+        <CardContent style={{ padding: '2%', paddingTop: 0 }}>
           <Grid
             container
             direction="row"
@@ -501,7 +501,7 @@ function AppointmentCard({
                   direction="row"
                   justify="space-between"
                   alignItems="center"
-                  style={{ padding: "1%" }}
+                  style={{ paddingTop: "2%" }}
                 >
                   <Grid item xs={4}>
                     {(new Date(
@@ -524,9 +524,9 @@ function AppointmentCard({
                         type="button"
                         fullWidth={true}
                         style={{
-                          backgroundColor: "#D86060",
-                          color: "white",
-                          padding: "3%",
+                          // backgroundColor: "#D86060",
+                          // color: "white",
+                          // padding: "3%",
                         }}
                         onClick={() => setConfirmDelete(true)}
                       >
@@ -553,9 +553,9 @@ function AppointmentCard({
                           type="button"
                           fullWidth={true}
                           style={{
-                            backgroundColor: "#4CB85C",
-                            color: "white",
-                            padding: "3%",
+                            // backgroundColor: "#4CB85C",
+                            // color: "white",
+                            // padding: "3%",
                           }}
                           onClick={() => setChangeGuide(true)}
                         >
@@ -605,9 +605,9 @@ function AppointmentCard({
                   type="button"
                   fullWidth={true}
                   style={{
-                    backgroundColor: "#D86060",
-                    color: "white",
-                    padding: "3%",
+                    // backgroundColor: "#D86060",
+                    // color: "#D86060",
+                    // padding: "3%",
                   }}
                   onClick={() => setConfirmDelete(true)}
                 >
@@ -639,9 +639,9 @@ function AppointmentCard({
                     type="button"
                     fullWidth={true}
                     style={{
-                      backgroundColor: "#4CB85C",
-                      color: "white",
-                      padding: "3%",
+                      // backgroundColor: "#4CB85C",
+                      // color: "white",
+                      // padding: "3%",
                     }}
                     onClick={() => setChangeGuide(true)}
                   >

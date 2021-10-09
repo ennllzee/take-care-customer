@@ -19,6 +19,7 @@ import {
     return (
       <Dialog
         open={alert}
+        fullWidth={true}
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
@@ -27,7 +28,7 @@ import {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeAlert}>
+          <Button onClick={closeAlert} style={{padding: '3%'}}>
             {buttonText}
           </Button>
         </DialogActions>

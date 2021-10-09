@@ -31,6 +31,7 @@ function Submit({
       aria-describedby="alert-dialog-description"
       aria-labelledby="alert-dialog-title"
       open={submit}
+      fullWidth={true}
     >
       <DialogTitle id="alert-dialog-title">
         {title}

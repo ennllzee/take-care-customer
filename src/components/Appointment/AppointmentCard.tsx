@@ -9,7 +9,15 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Button, CardHeader, Chip, Grid, Link } from "@material-ui/core";
+import {
+  Backdrop,
+  Button,
+  CardHeader,
+  Chip,
+  CircularProgress,
+  Grid,
+  Link,
+} from "@material-ui/core";
 import moment from "moment";
 import Appointment from "../../models/Appointment";
 import Image from "material-ui-image";
@@ -49,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: red[500],
     },
     monday: {
-      backgroundColor: "#FFD68F",
+      backgroundColor: "#FFDF8E",
       padding: "1%",
     },
     tuesday: {
@@ -61,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     thursday: {
-      backgroundColor: "#F3BE95",
+      backgroundColor: "#FFD0AC",
       padding: "1%",
     },
     friday: {
@@ -73,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     sunday: {
-      backgroundColor: "#EA7C7C",
+      backgroundColor: "#FF9A9A",
       padding: "1%",
     },
     deny: {
@@ -84,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "2%",
     },
     wait: {
-      backgroundColor: "#E59B07",
+      backgroundColor: "#FFBD17",
       color: "white",
     },
     confirm: {
@@ -104,9 +112,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface AppointmentCardProps {
   appointment: Appointment;
+  setDeleteAlert: any;
+  refresh: any;
 }
 
-function AppointmentCard({ appointment }: AppointmentCardProps) {
+function AppointmentCard({
+  appointment,
+  setDeleteAlert,
+  refresh,
+}: AppointmentCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
@@ -124,23 +138,31 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
     UPDATE_APPOINTMENT_BEGINTIME,
   } = useCustomerApi();
 
-  const [deleteAppointmentAPI] = useMutation(DELETE_APPOINTMENT, {
+  const [
+    deleteAppointmentAPI,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(DELETE_APPOINTMENT, {
     onCompleted: (data) => {
       console.log(data);
     },
   });
 
-  const [startAppointment] = useMutation(UPDATE_APPOINTMENT_BEGINTIME, {
+  const [
+    startAppointment,
+    { loading: mutationStartLoading, error: mutationStartError },
+  ] = useMutation(UPDATE_APPOINTMENT_BEGINTIME, {
     onCompleted: (data) => {
       console.log(data);
     },
   });
 
   const [alert, setAlert] = useState<boolean>(false);
+  const [failed, setFailed] = useState<boolean>(false);
+  const [failedStart, setFailedStart] = useState<boolean>(false);
 
-  const deleteAppointment = () => {
+  const deleteAppointment = async () => {
     setConfirmDelete(false);
-    deleteAppointmentAPI({
+    await deleteAppointmentAPI({
       variables: {
         deleteAppointmentId: appointment._id,
       },
@@ -151,7 +173,13 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
         },
       ],
     });
-    setAlert(true);
+    if (mutationError) {
+      console.log(mutationError?.graphQLErrors);
+      setFailed(true);
+    } else {
+      setDeleteAlert(true);
+      refresh();
+    }
   };
 
   const [success, setSuccess] = useState<boolean>(false);
@@ -170,8 +198,8 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
 
   const [startConfirm, setStartConfirm] = useState<boolean>(false);
 
-  const start = () => {
-    startAppointment({
+  const start = async () => {
+    await startAppointment({
       variables: {
         updateAppointmentBeginTimeId: appointment._id,
         updateAppointmentBeginTimeBeginTime: new Date().toISOString(),
@@ -183,11 +211,19 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
         },
       ],
     });
+    if (mutationStartError) {
+      console.log(mutationStartError.graphQLErrors);
+      setFailedStart(true);
+    }
+    refresh();
     setStartConfirm(false);
   };
 
   return (
     <Card>
+      <Backdrop open={mutationLoading || mutationStartLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <CardHeader
         className={
           new Date(appointment.AppointTime).getDay() === 0
@@ -372,22 +408,6 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             </Typography>
           </Grid>
         </Grid>
-        <Submit
-          submit={startConfirm}
-          title="เริ่มนัดหมาย"
-          text="ยืนยันเริ่มการใช้บริการหรือไม่?"
-          denyText="ปิด"
-          submitText="ยืนยัน"
-          denyAction={() => setStartConfirm(false)}
-          submitAction={start}
-        />
-        <Alert
-          closeAlert={() => setAlert(false)}
-          alert={alert}
-          title="สำเร็จ"
-          text="ยกเลิกการนัดหมายสำเร็จ"
-          buttonText="ตกลง"
-        />
       </CardContent>
       {appointment.Status.Tag !== "Guide Reject" &&
         appointment.Status.Tag !== "Expired" && (
@@ -409,7 +429,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
         )}
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent style={{ paddingTop: 0 }}>
+        <CardContent style={{ padding: '2%', paddingTop: 0 }}>
           <Grid
             container
             direction="row"
@@ -423,11 +443,11 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                 alignItems="center"
                 justify="space-between"
               >
-                <Grid item xs={4}>
+                <Grid item xs={4} md={3} lg={2} style={{ backgroundColor: "#EFEFEF" }}>
                   <Image
-                    src={`data:${appointment.Guide?.Avatar.mimetype};base64,${appointment.Guide?.Avatar.data}`}
+                    src={appointment.Guide?.Avatar!==null ? `data:${appointment.Guide?.Avatar.mimetype};base64,${appointment.Guide?.Avatar.data}` : ""}
+                    loading={appointment.Guide?.Avatar!==null ? false : true}
                     cover={true}
-                    // style={{padding: 0}}
                   />
                 </Grid>
                 <Grid item xs={8}>
@@ -481,22 +501,32 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                   direction="row"
                   justify="space-between"
                   alignItems="center"
-                  style={{ padding: "1%" }}
+                  style={{ paddingTop: "2%" }}
                 >
                   <Grid item xs={4}>
-                    {new Date(
+                    {(new Date(
                       moment(appointment.AppointTime).format("DD MMMM yyyy")
                     ) >
                       new Date(
                         moment(new Date()).add(1, "days").format("DD MMMM yyyy")
-                      ) && (
+                      ) ||
+                      (new Date(
+                        moment(appointment.AppointTime).format("DD MMMM yyyy")
+                      ) >=
+                        new Date(
+                          moment(new Date())
+                            .add(1, "days")
+                            .format("DD MMMM yyyy")
+                        ) &&
+                        appointment.Status.Tag ===
+                          "Wait for Guide to Confirm")) && (
                       <Button
                         type="button"
                         fullWidth={true}
                         style={{
-                          backgroundColor: "#D86060",
-                          color: "white",
-                          padding: "3%",
+                          // backgroundColor: "#D86060",
+                          // color: "white",
+                          // padding: "3%",
                         }}
                         onClick={() => setConfirmDelete(true)}
                       >
@@ -523,9 +553,9 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                           type="button"
                           fullWidth={true}
                           style={{
-                            backgroundColor: "#4CB85C",
-                            color: "white",
-                            padding: "3%",
+                            // backgroundColor: "#4CB85C",
+                            // color: "white",
+                            // padding: "3%",
                           }}
                           onClick={() => setChangeGuide(true)}
                         >
@@ -565,7 +595,7 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
             <Grid item xs={4}>
               {((new Date(
                 moment(appointment.AppointTime).format("DD MMMM yyyy")
-              ) >
+              ) >=
                 new Date(
                   moment(new Date()).add(1, "days").format("DD MMMM yyyy")
                 ) &&
@@ -575,9 +605,9 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                   type="button"
                   fullWidth={true}
                   style={{
-                    backgroundColor: "#D86060",
-                    color: "white",
-                    padding: "3%",
+                    // backgroundColor: "#D86060",
+                    // color: "#D86060",
+                    // padding: "3%",
                   }}
                   onClick={() => setConfirmDelete(true)}
                 >
@@ -609,9 +639,9 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                     type="button"
                     fullWidth={true}
                     style={{
-                      backgroundColor: "#4CB85C",
-                      color: "white",
-                      padding: "3%",
+                      // backgroundColor: "#4CB85C",
+                      // color: "white",
+                      // padding: "3%",
                     }}
                     onClick={() => setChangeGuide(true)}
                   >
@@ -629,30 +659,61 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
                 )}
             </Grid>
           </Grid>
-          <ChangeGuide
-            open={changeGuide}
-            setOpen={setChangeGuide}
-            appointment={appointment}
-            setSuccess={setSuccess}
-          />
-          <Alert
-            closeAlert={() => setSuccess(false)}
-            alert={success}
-            title="สำเร็จ"
-            text="เปลี่ยนไกด์สำเร็จ กรุณารอการตอบรับจากไกด์"
-            buttonText="ตกลง"
-          />
-          <Submit
-            submit={confirmDelete}
-            title="ยกเลิกนัดหมาย"
-            text="ยืนยันการยกเลิกการนัดหมายหรือไม่?"
-            denyText="ปิด"
-            submitText="ยืนยัน"
-            denyAction={() => setConfirmDelete(false)}
-            submitAction={deleteAppointment}
-          />
         </CardContent>
       )}
+      <Submit
+        submit={startConfirm}
+        title="เริ่มนัดหมาย"
+        text="ยืนยันเริ่มการใช้บริการหรือไม่?"
+        denyText="ปิด"
+        submitText="ยืนยัน"
+        denyAction={() => setStartConfirm(false)}
+        submitAction={start}
+      />
+      <ChangeGuide
+        open={changeGuide}
+        setOpen={setChangeGuide}
+        appointment={appointment}
+        setSuccess={setSuccess}
+        refresh={() => refresh()}
+      />
+      <Alert
+        closeAlert={() => setSuccess(false)}
+        alert={success}
+        title="สำเร็จ"
+        text="เปลี่ยนไกด์สำเร็จ กรุณารอการตอบรับจากไกด์"
+        buttonText="ตกลง"
+      />
+      <Submit
+        submit={confirmDelete}
+        title="ยกเลิกนัดหมาย"
+        text="ยืนยันการยกเลิกการนัดหมายหรือไม่?"
+        denyText="ปิด"
+        submitText="ยืนยัน"
+        denyAction={() => setConfirmDelete(false)}
+        submitAction={deleteAppointment}
+      />
+      <Alert
+        closeAlert={() => setAlert(false)}
+        alert={alert}
+        title="สำเร็จ"
+        text="ยกเลิกการนัดหมายสำเร็จ"
+        buttonText="ตกลง"
+      />
+      <Alert
+        closeAlert={() => setFailed(false)}
+        alert={failed}
+        title="ผิดพลาด"
+        text="กรุณาลองใหม่อีกครั้ง"
+        buttonText="ปิด"
+      />
+      <Alert
+        closeAlert={() => setFailedStart(false)}
+        alert={failedStart}
+        title="ผิดพลาด"
+        text="กรุณาลองใหม่อีกครั้ง"
+        buttonText="ปิด"
+      />
     </Card>
   );
 }

@@ -1,5 +1,7 @@
 import {
+  Backdrop,
   Button,
+  CircularProgress,
   createStyles,
   Grid,
   IconButton,
@@ -23,7 +25,8 @@ interface ChangeGuideProps {
   open: boolean;
   setOpen: any;
   appointment: Appointment;
-  setSuccess: any
+  setSuccess: any;
+  refresh: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,10 +38,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
+      // border: "2px solid #000",
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
-      height: "80vh",
+      height: "85vh",
       width: "80vw",
       overflow: "auto",
     },
@@ -57,14 +60,28 @@ const useStyles = makeStyles((theme: Theme) =>
     body: {
       padding: "2%",
     },
+    button: {
+      paddingTop: "3%",
+      paddingBottom: "3%",
+    },
   })
 );
 
-function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProps) {
+function ChangeGuide({
+  open,
+  setOpen,
+  appointment,
+  setSuccess,
+  refresh,
+}: ChangeGuideProps) {
   const classes = useStyles();
   const id = localStorage.getItem("_id");
 
-  const { GET_AVAILABLE_GUIDE, UPDATE_APPOINTMENT_GUIDE_REQUEST, GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
+  const {
+    GET_AVAILABLE_GUIDE,
+    UPDATE_APPOINTMENT_GUIDE_REQUEST,
+    GET_ALLAPPOINTMENT_BY_CUSTOMER,
+  } = useCustomerApi();
 
   const { loading, error, data } = useQuery(GET_AVAILABLE_GUIDE, {
     variables: {
@@ -74,17 +91,20 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
     },
   });
 
-  const [postnewrequest] = useMutation(UPDATE_APPOINTMENT_GUIDE_REQUEST,{
-    onCompleted: (data) => {
-      console.log(data)
-    }
-  })
+  const [failed, setFailed] = useState<boolean>(false);
+
+  const [postnewrequest, { loading: mutationLoading, error: mutationError }] =
+    useMutation(UPDATE_APPOINTMENT_GUIDE_REQUEST, {
+      onCompleted: (data) => {
+        console.log(data);
+      },
+    });
 
   const [alert, setAlert] = useState<boolean>(false);
   const [guideId, setGuideId] = useState<string | undefined>(
     appointment?.Guide?._id
   );
-  const [scheduleId, setscheduleId] = useState<string | undefined>()
+  const [scheduleId, setscheduleId] = useState<string | undefined>();
 
   const [availableGuide, setAvailableGuide] = useState<any[]>(
     data !== undefined ? data.getAvailableGuide : []
@@ -95,7 +115,7 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
       setGuideId(undefined);
     } else {
       setGuideId(g?.Createdby._id);
-      setscheduleId(g?._id)
+      setscheduleId(g?._id);
     }
   };
 
@@ -116,12 +136,12 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
     }
   };
 
-  const updateGuide = () => {
-    postnewrequest({
+  const updateGuide = async () => {
+    await postnewrequest({
       variables: {
         updateAppointmentRequestGuideId: appointment._id,
         updateAppointmentRequestGuideScheduleId: scheduleId,
-        updateAppointmentRequestGuidePeriod: appointment.Period
+        updateAppointmentRequestGuidePeriod: appointment.Period,
       },
       refetchQueries: [
         {
@@ -130,10 +150,16 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
         },
       ],
     });
-    setConfirmSubmit(false)
-    setSuccess(true)
-    setOpen(false)
-  }
+    if (mutationError) {
+      console.log(mutationError.graphQLErrors);
+      setFailed(true);
+    } else {
+      setSuccess(true);
+      refresh();
+      setOpen(false);
+    }
+    setConfirmSubmit(false);
+  };
 
   return (
     <Modal open={open} className={classes.modal}>
@@ -149,12 +175,6 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
           justify="center"
           alignItems="flex-start"
         >
-          {/* <Grid item xs={12} md={12} lg={12}>
-            <Typography variant="h4" className={classes.line}>
-              แบบเพิ่มนัดหมาย
-            </Typography>
-            <Divider variant="middle" />
-          </Grid> */}
           <Grid item xs={12} md={12} lg={12} className={classes.line}>
             <Grid
               container
@@ -228,34 +248,61 @@ function ChangeGuide({ open, setOpen, appointment, setSuccess }: ChangeGuideProp
                     </Typography>
                   )}
                 </Grid>
+                <Backdrop open={mutationLoading}>
+                  <CircularProgress color="inherit" />
+                </Backdrop>
+                <Alert
+                  closeAlert={() => setFailed(false)}
+                  alert={failed}
+                  title="ผิดพลาด"
+                  text="กรุณาลองใหม่อีกครั้ง"
+                  buttonText="ปิด"
+                />
                 <Alert
                   closeAlert={() => setAlert(false)}
                   alert={alert}
-                  title="เลือกไกด์"
+                  title="ข้อมูลไม่ครบ"
                   text="กรุณาเลือกไกด์"
-                  buttonText="ตกลง"
+                  buttonText="ปิด"
                 />
                 <Submit
                   submit={confirmSubmit}
                   title="เลือกไกด์"
-                  text="ยืนยันการเปลี่ยนไกด์หรือไม่?"
+                  text="ยืนยันการเปลี่ยนไกด์หรือไม่"
                   denyText="ปิด"
                   submitText="ยืนยัน"
                   denyAction={() => setConfirmSubmit(false)}
                   submitAction={updateGuide}
                 />
-                <Grid container justify="flex-end" alignItems="center">
-                  <Grid item xs={4} md={4} lg={4}>
-                    <Typography align="right">
-                      <Button
-                        type="button"
-                        variant="contained"
-                        color="primary"
-                        onClick={submit}
+              </Grid>
+
+              <Grid xs={12} md={12} lg={12}>
+                <Grid
+                  container
+                  direction="row"
+                  justify="flex-end"
+                  alignItems="center"
+                  className={classes.button}
+                >
+                  <Grid item>
+                    <Button
+                      type="button"
+                      onClick={submit}
+                      style={{
+                        // padding: "7%",
+                        backgroundColor: "#7C5D92",
+                        color: "white",
+                      }}
+                    >
+                      <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
                       >
-                        ยืนยัน
-                      </Button>
-                    </Typography>
+                        <Typography variant="body1">ยืนยัน</Typography>
+                      </Grid>
+                    </Button>
                   </Grid>
                 </Grid>
               </Grid>

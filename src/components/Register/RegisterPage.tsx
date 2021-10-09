@@ -108,6 +108,7 @@ function RegisterPage() {
       variables: { createdCustomerInput: { ...user, Avatar: null } },
     });
     if(mutationError){
+      console.log(mutationError?.graphQLErrors);
       setFailed(true)
     }else{
       setAlert(true);

@@ -4,7 +4,6 @@ import {
   createStyles,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
   InputLabel,
   makeStyles,
@@ -26,6 +25,7 @@ import {
   Message,
   Payment,
   Today,
+  NavigateNext,
 } from "@material-ui/icons";
 import { useState } from "react";
 import AppointmentForm from "../../models/AppointmentForm";
@@ -64,6 +64,10 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "5%",
     },
     formControlLabel: { fontSize: "0.6rem", "& label": { fontSize: "0.6rem" } },
+    button: {
+      paddingTop: "3%",
+      paddingBottom: "3%",
+    },
   })
 );
 
@@ -334,19 +338,19 @@ function InformationForm({
                   alignItems="center"
                 >
                   <Grid item>
-                    <Typography>
+                    <Typography align="center">
                       <AlarmAdd />
                     </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <FormLabel component="legend">ช่วงเวลานัดหมาย</FormLabel>
+                    <Typography variant="body1">ช่วงเวลานัดหมาย</Typography>
                   </Grid>
                 </Grid>
               </div>
               <div className={classes.margin}>
                 <Grid
                   container
-                  spacing={2}
+                  spacing={1}
                   justify="center"
                   alignItems="flex-end"
                 >
@@ -404,7 +408,7 @@ function InformationForm({
                           <Grid item xs={10} md={4} lg={4}>
                             <FormControlLabel
                               value="Morning"
-                              control={<Radio />}
+                              control={<Radio style={{ color: "black" }} />}
                               label={
                                 <>
                                   <Typography variant="body1">
@@ -420,7 +424,7 @@ function InformationForm({
                           <Grid item xs={10} md={4} lg={4}>
                             <FormControlLabel
                               value="Afternoon"
-                              control={<Radio />}
+                              control={<Radio style={{ color: "black" }} />}
                               label={
                                 <>
                                   <Typography variant="body1">
@@ -436,7 +440,7 @@ function InformationForm({
                           <Grid item xs={10} md={4} lg={4}>
                             <FormControlLabel
                               value="All-day"
-                              control={<Radio />}
+                              control={<Radio style={{ color: "black" }} />}
                               label={
                                 <>
                                   <Typography variant="body1">
@@ -489,15 +493,14 @@ function InformationForm({
                   alignItems="center"
                 >
                   <Grid item>
-                    <Typography variant="h6">
+                    <Typography align="center">
                       <Payment />
                     </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <FormLabel>
-                      ค่าบริการเริ่มต้น:{" "}
-                      {period === "All-day" ? 300 : 175} บาท
-                    </FormLabel>
+                    <Typography variant="body1">
+                      ค่าบริการเริ่มต้น: {period === "All-day" ? 300 : 175} บาท
+                    </Typography>
                   </Grid>
                 </Grid>
               </div>
@@ -532,40 +535,58 @@ function InformationForm({
               <Alert
                 closeAlert={() => setAlert(false)}
                 alert={alert}
-                title="ข้อมูลการนัดหมาย"
+                title="ข้อมูลไม่ครบ"
                 text="กรุณากรอกข้อมูลให้ครบ"
-                buttonText="ตกลง"
+                buttonText="ปิด"
               />
               <Alert
                 closeAlert={() => setTimeAlert(false)}
                 alert={timeAlert}
                 title="ช่วงเวลาไม่ถูกต้อง"
                 text="กรุณากำหนดเวลานัดหมายให้ตรงช่วงเวลาที่กำหนด"
-                buttonText="ตกลง"
+                buttonText="ปิด"
               />
               <Alert
                 closeAlert={() => setDateAlert(false)}
                 alert={dateAlert}
                 title="วันที่ไม่ถูกต้อง"
                 text="มีนัดหมายในวันดังกล่าวแล้ว ไม่สามารถเพิ่มนัดหมายอีกได้"
-                buttonText="ตกลง"
+                buttonText="ปิด"
               />
-              <div className={classes.margin}>
-                <Grid container justify="flex-end" alignItems="center">
-                  <Grid item xs={4} md={4} lg={4}>
-                    <Typography align="right">
+            
+              <Grid xs={12} md={12} lg={12}>
+                <div className={classes.margin}>
+                  <Grid
+                    container
+                    direction="row"
+                    justify="flex-end"
+                    alignItems="center"
+                    className={classes.button}
+                  >
+                    <Grid item>
                       <Button
                         type="button"
                         onClick={next}
-                        variant="contained"
-                        color="primary"
+                        style={{
+                          // padding: "7%",
+                          backgroundColor: "#7C5D92",
+                          color: "white",
+                        }}
                       >
-                        ถัดไป
+                        <Grid
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="center"
+                        >
+                          <Typography variant="body1">ถัดไป</Typography>
+                          <NavigateNext />
+                        </Grid>
                       </Button>
-                    </Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div>
+                </div>
+              </Grid>
             </form>
           ) : (
             <CircularProgress disableShrink />

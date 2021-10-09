@@ -236,7 +236,6 @@ function ProfilePage() {
   return (
     <Grid>
       <TopBar page="ข้อมูลส่วนตัว" />
-
       <Grid
         container
         direction="column"
@@ -258,55 +257,44 @@ function ProfilePage() {
                   img={profile}
                 />
               </Grid>
-              {edit &&
-              <Grid item xs={12} md={10} lg={8} style={{paddingTop: '5%'}}>
-                <Grid
-                  container
-                  direction="row"
-                  alignItems="center"
-                  justify="flex-start"
-                >
-                  <Grid item xs={12}>
-                    <Typography align="center">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id="contained-button-file"
-                        onChange={(e: any) => {
-                          uploadImage(e);
+              {edit && (
+                <Grid item xs={12} md={10} lg={8} style={{ paddingTop: "3%" }}>
+                  <Typography align="center">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="contained-button-file"
+                      onChange={(e: any) => {
+                        uploadImage(e);
+                      }}
+                      hidden
+                    />
+                    <label htmlFor="contained-button-file">
+                      <Button
+                        component="span"
+                        style={{
+                          backgroundColor: "#7C5D92",
+                          color: "white",
                         }}
-                        hidden
-                      />
-                      <label htmlFor="contained-button-file">
-                        <Button
-                          component="span"
-                          style={{
-                            padding: "2%",
-                            backgroundColor: "#7C5D92",
-                            color: "white",
-                          }}
+                      >
+                        <Grid
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="center"
                         >
-                          <Grid
-                            container
-                            direction="row"
-                            spacing={1}
-                            justify="center"
-                            alignItems="center"
-                          >
-                            <Typography variant="body1">
-                              อัปโหลดรูปโปรไฟล์
-                            </Typography>
-                          </Grid>
-                        </Button>
-                      </label>
-                      {avatar !== undefined
-                        ? " อัปโหลดสำเร็จ"
-                        : " ยังไม่ได้อัปโหลดไฟล์"}
-                    </Typography>
-                  </Grid>
+                          <Typography variant="body1">
+                            อัปโหลดรูปโปรไฟล์
+                          </Typography>
+                        </Grid>
+                      </Button>
+                    </label>
+                    {avatar !== undefined
+                      ? " อัปโหลดสำเร็จ"
+                      : " ยังไม่ได้อัปโหลดไฟล์"}
+                  </Typography>
                 </Grid>
-              </Grid>
-              }
+              )}
               <Grid item xs={12} md={10} lg={8}>
                 <form className={classes.form}>
                   <div className={classes.margin}>
@@ -570,86 +558,6 @@ function ProfilePage() {
                 </form>
                 {/* <div className={classes.margin}> */}
                 <Divider variant="middle" />
-                <Grid
-                  container
-                  direction="row"
-                  justify="space-between"
-                  alignItems="center"
-                  style={{ padding: "3%" }}
-                >
-                  <Grid item xs={3}>
-                    {edit && (
-                      <Button
-                        onClick={() => setEdit(false)}
-                        type="button"
-                        fullWidth={true}
-                        style={{
-                          backgroundColor: "#D86060",
-                          color: "white",
-                          padding: "7%",
-                        }}
-                      >
-                        <Grid
-                          container
-                          direction="row"
-                          spacing={1}
-                          justify="center"
-                          alignItems="center"
-                        >
-                          {/* <ExitToApp /> */}
-                          <Typography variant="body1">ยกเลิก</Typography>
-                        </Grid>
-                      </Button>
-                    )}
-                  </Grid>
-                  <Grid item xs={3}>
-                    {edit ? (
-                      <Button
-                        onClick={() => setConfirmEdit(true)}
-                        type="button"
-                        fullWidth={true}
-                        style={{
-                          padding: "7%",
-                          backgroundColor: "#4CB85C",
-                          color: "white",
-                        }}
-                      >
-                        <Grid
-                          container
-                          direction="row"
-                          spacing={1}
-                          justify="center"
-                          alignItems="center"
-                        >
-                          {/* <ExitToApp /> */}
-                          <Typography variant="body1">ยืนยัน</Typography>
-                        </Grid>
-                      </Button>
-                    ) : (
-                      <Button
-                        onClick={() => setEdit(true)}
-                        type="button"
-                        fullWidth={true}
-                        style={{
-                          padding: "7%",
-                          backgroundColor: "#7C5D92",
-                          color: "white",
-                        }}
-                      >
-                        <Grid
-                          container
-                          direction="row"
-                          spacing={1}
-                          justify="center"
-                          alignItems="center"
-                        >
-                          <Edit />
-                          <Typography variant="body1">แก้ไขข้อมูล</Typography>
-                        </Grid>
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
                 {/* </div> */}
                 <Alert
                   closeAlert={() => setAlert(false)}
@@ -674,6 +582,76 @@ function ProfilePage() {
                   denyAction={() => setConfirmEdit(false)}
                   submitAction={editProfile}
                 />
+              </Grid>
+              <Grid xs={12} md={10} lg={8}>
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  alignItems="center"
+                  style={{ padding: "2%" }}
+                >
+                  <Grid item >
+                    {edit && (
+                      <Button
+                        onClick={() => setEdit(false)}
+                        type="button"
+                        // fullWidth={true}
+                      >
+                        <Grid
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="center"
+                        >
+                          <Typography variant="body1">ยกเลิก</Typography>
+                        </Grid>
+                      </Button>
+                    )}
+                  </Grid>
+                  <Grid item>
+                    {edit ? (
+                      <Button
+                        onClick={() => setConfirmEdit(true)}
+                        type="button"
+                        style={{
+                          backgroundColor: "#7C5D92",
+                          color: "white",
+                        }}
+                      >
+                        <Grid
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="center"
+                        >
+                          {/* <ExitToApp /> */}
+                          <Typography variant="body1">ยืนยัน</Typography>
+                        </Grid>
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => setEdit(true)}
+                        type="button"
+                        fullWidth={true}
+                        style={{
+                          backgroundColor: "#7C5D92",
+                          color: "white",
+                        }}
+                      >
+                        <Grid
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="center"
+                        >
+                          <Edit />
+                          <Typography variant="body1">แก้ไขข้อมูล</Typography>
+                        </Grid>
+                      </Button>
+                    )}
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           ) : (

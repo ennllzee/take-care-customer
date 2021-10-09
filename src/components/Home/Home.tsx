@@ -25,7 +25,7 @@ function Home() {
   const {GET_ALL_APPOINTMENT} = useCustomerApi()
 
   const { loading, error, data } = useQuery(GET_ALL_APPOINTMENT, {
-    pollInterval: 1000,
+    pollInterval: 60000,
   });
 
   const [appointments,setAppointments] = useState<Appointment[]>(data !== undefined ? data.getAllAppointment : [])

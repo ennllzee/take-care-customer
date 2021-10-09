@@ -24,6 +24,7 @@ interface ReviewProps {
   open: boolean;
   setOpen: any;
   setAlert: any;
+  refresh: any
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
+function Review({ appointment, open, setOpen, setAlert, refresh }: ReviewProps) {
   const classes = useStyles();
 
   const [rate, setRate] = useState<number>(0);
@@ -64,9 +65,11 @@ function Review({ appointment, open, setOpen, setAlert }: ReviewProps) {
       });
 
       if (mutationError) {
+        console.log(mutationError?.graphQLErrors);
         setFailed(true)
       } else {
         setAlert(true);
+        refresh()
         setOpen(false);
       }
     } else {

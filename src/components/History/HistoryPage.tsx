@@ -49,10 +49,10 @@ function HistoryPage() {
   const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
   const id = localStorage.getItem("_id");
 
-  const { loading, error, data } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
+  const { loading, error, data, refetch } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
     variables: {
       getAllAppointmentByCustomerCustomerId: id,
-    },
+    },pollInterval: 60000,
   });
 
   const [appointment, setAppointment] = useState<Appointment[]>(
@@ -117,6 +117,7 @@ function HistoryPage() {
                           <Grid item xs={12} md={10} lg={8}>
                             <AppointmentCard
                               appointment={a}
+                              refresh={() => refetch()}
                             />
                           </Grid>
                         </Grid>

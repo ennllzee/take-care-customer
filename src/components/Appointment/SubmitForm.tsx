@@ -1,7 +1,6 @@
 import {
   Button,
   createStyles,
-  FormLabel,
   Grid,
   makeStyles,
   Paper,
@@ -15,6 +14,7 @@ import {
   Description,
   MeetingRoom,
   Message,
+  NavigateBefore,
   Payment,
   PersonPin,
 } from "@material-ui/icons";
@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       padding: "2%",
+    },
+    button: {
+      paddingTop: "3%",
+      paddingBottom: "3%",
     },
   })
 );
@@ -101,12 +105,12 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="center">
               <Grid item>
-                <Typography>
+                <Typography align="center">
                   <AlarmAdd />
                 </Typography>
               </Grid>
               <Grid item xs={10}>
-                <FormLabel component="legend">ช่วงเวลานัดหมาย</FormLabel>
+                <Typography variant="body1">ช่วงเวลานัดหมาย</Typography>
               </Grid>
             </Grid>
           </div>
@@ -148,7 +152,6 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
               </Grid>
             </Grid>
           </div>
-          <br />
           <div className={classes.margin}>
             <Grid
               container
@@ -179,24 +182,27 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="center">
               <Grid item>
-                <Typography variant="h6">
+                <Typography align="center">
                   <Payment />
                 </Typography>
               </Grid>
               <Grid item xs={10}>
-                <FormLabel>ค่าบริการเริ่มต้น: {appointment?.Period === "All-day" ? 300 : 175} บาท</FormLabel>
+                <Typography variant="body1">
+                  ค่าบริการเริ่มต้น:{" "}
+                  {appointment?.Period === "All-day" ? 300 : 175} บาท
+                </Typography>
               </Grid>
             </Grid>
           </div>
           <div className={classes.margin}>
             <Grid container spacing={1} justify="center" alignItems="center">
               <Grid item>
-                <Typography variant="h6">
+                <Typography align="center">
                   <PersonPin />
                 </Typography>
               </Grid>
               <Grid item xs={10}>
-                <FormLabel component="legend">ไกด์</FormLabel>
+                <Typography variant="body1">ไกด์</Typography>
               </Grid>
             </Grid>
           </div>
@@ -207,31 +213,57 @@ function SubmitForm({ appointment, setStep, submit }: SubmitFormProps) {
               </Grid>
             </Grid>
           </div>
-          <Grid container justify="space-between" alignItems="center">
-            <Grid item xs={4} md={4} lg={4}>
-              <Typography align="left">
-                <Button
-                  type="button"
-                  variant="contained"
-                  color="primary"
-                  onClick={back}
-                >
-                  ก่อนหน้า
-                </Button>
-              </Typography>
-            </Grid>
-            <Grid item xs={4} md={4} lg={4}>
-              <Typography align="right">
-                <Button
-                  type="button"
-                  variant="contained"
-                  color="primary"
-                  onClick={submit}
-                >
-                  ยืนยัน
-                </Button>
-              </Typography>
-            </Grid>
+          <Grid xs={12} md={12} lg={12}>
+            <div className={classes.margin}>
+              <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+                className={classes.button}
+              >
+                <Grid item>
+                  <Button
+                    type="button"
+                    onClick={back}
+                    style={{
+                      // padding: "7%",
+                      color: "black",
+                    }}
+                  >
+                    <Grid
+                      container
+                      direction="row"
+                      justify="center"
+                      alignItems="center"
+                    >
+                      <NavigateBefore />
+                      <Typography variant="body1">ก่อนหน้า</Typography>
+                    </Grid>
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    type="button"
+                    onClick={submit}
+                    style={{
+                      // padding: "7%",
+                      backgroundColor: "#7C5D92",
+                      color: "white",
+                    }}
+                  >
+                    <Grid
+                      container
+                      direction="row"
+                      justify="center"
+                      alignItems="center"
+                    >
+                      <Typography variant="body1">ยืนยัน</Typography>
+                    </Grid>
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
           </Grid>
         </Paper>
       </Grid>

@@ -18,19 +18,17 @@ import {
   function Alert({ closeAlert, alert, title, text, buttonText }: AlertProps) {
     return (
       <Dialog
-        aria-describedby="alert-dialog-description"
-        aria-labelledby="alert-dialog-title"
         open={alert}
-    
+        fullWidth={true}
       >
-        <DialogTitle id="alert-dialog-title" style={{minWidth: '60vw'}}>{title}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {text}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={closeAlert} color="primary">
+          <Button onClick={closeAlert} style={{padding: '3%'}}>
             {buttonText}
           </Button>
         </DialogActions>

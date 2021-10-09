@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: red[500],
     },
     monday: {
-      backgroundColor: "#FFD68F",
+      backgroundColor: "#FFDF8E",
       padding: "1%",
     },
     tuesday: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     thursday: {
-      backgroundColor: "#F3BE95",
+      backgroundColor: "#FFD0AC",
       padding: "1%",
     },
     friday: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "1%",
     },
     sunday: {
-      backgroundColor: "#EA7C7C",
+      backgroundColor: "#FF9A9A",
       padding: "1%",
     },
     chip: {
@@ -76,9 +76,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface AppointmentCardProps {
   appointment: Appointment;
+  refresh: any
 }
 
-function AppointmentCard({ appointment }: AppointmentCardProps) {
+function AppointmentCard({ appointment, refresh }: AppointmentCardProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(false);
   const [review, setReview] = useState<boolean>(false);
@@ -267,13 +268,14 @@ function AppointmentCard({ appointment }: AppointmentCardProps) {
               open={review}
               setOpen={setReview}
               setAlert={setAlert}
+              refresh={() => refresh()}
             />
             <Alert
               closeAlert={() => setAlert(false)}
               alert={alert}
               title="สำเร็จ"
               text="ขอบคุณสำหรับความคิดเห็นของท่าน"
-              buttonText="ตกลง"
+              buttonText="ปิด"
             />
             {appointment.Review?.Star !== null && (
               <>

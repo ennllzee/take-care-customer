@@ -126,7 +126,7 @@ function LoginPage() {
                 justify="center"
               >
                 <Grid item xs={6} md={6} lg={6}>
-                  <Image src="./logo_trans.png" cover={true} />
+                  <Image src="/logo.png" cover={true} />
                 </Grid>
                 <Grid item xs={12} md={12} lg={12} className={classes.form}>
                   <Typography

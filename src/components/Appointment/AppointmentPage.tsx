@@ -61,10 +61,14 @@ function AppointmentPage() {
 
   const id = localStorage.getItem("_id");
 
-  const { loading, error, data, refetch } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
-    variables: { getAllAppointmentByCustomerCustomerId: id },
-    pollInterval: 60000,
-  });
+  const { loading, error, data, refetch } = useQuery(
+    GET_ALLAPPOINTMENT_BY_CUSTOMER,
+    {
+      variables: { getAllAppointmentByCustomerCustomerId: id },
+      pollInterval: 60000,
+    }
+  );
+  const [failed, setFailed] = useState<boolean>(false);
 
   const [add, setAdd] = useState<boolean>(false);
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
@@ -77,12 +81,22 @@ function AppointmentPage() {
     if (!loading && data) {
       setAppointment(data.getAllAppointmentByCustomer);
     }
-    if (error) console.log(error?.graphQLErrors);
+    if (error) {
+      setFailed(true)
+      console.log(error?.graphQLErrors)
+    };
   }, [loading, data, error]);
 
   return (
     <Grid>
       <TopBar page="การนัดหมาย" />
+      <Alert
+        closeAlert={() => setFailed(false)}
+        alert={failed}
+        title="ผิดพลาด"
+        text="กรุณาลองใหม่อีกครั้ง"
+        buttonText="ปิด"
+      />
       <Grid
         container
         direction="column"

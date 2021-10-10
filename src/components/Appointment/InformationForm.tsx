@@ -139,7 +139,7 @@ function InformationForm({
       }
     }
   };
-
+  const [failed, setFailed] = useState<boolean>(false);
   function disableWeekends(d: any) {
     return (
       appointments.find(
@@ -162,7 +162,10 @@ function InformationForm({
       setHos(data.getAllHospital);
       setDep(data.getAllDepartment);
     }
-    if (error) console.log(error?.graphQLErrors);
+    if (error) {
+      setFailed(true);
+      console.log(error?.graphQLErrors);
+    }
   }, [loading, data, error]);
 
   useEffect(() => {
@@ -239,6 +242,13 @@ function InformationForm({
 
   return (
     <Grid container direction="row" alignItems="center" justify="flex-start">
+      <Alert
+        closeAlert={() => setFailed(false)}
+        alert={failed}
+        title="ผิดพลาด"
+        text="กรุณาลองใหม่อีกครั้ง"
+        buttonText="ปิด"
+      />
       <Grid container spacing={1} alignItems="center">
         <Grid item>
           <LocalHospital fontSize="large" />
@@ -553,7 +563,7 @@ function InformationForm({
                 text="มีนัดหมายในวันดังกล่าวแล้ว ไม่สามารถเพิ่มนัดหมายอีกได้"
                 buttonText="ปิด"
               />
-            
+
               <Grid xs={12} md={12} lg={12}>
                 <div className={classes.margin}>
                   <Grid

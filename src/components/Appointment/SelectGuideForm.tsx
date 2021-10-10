@@ -111,16 +111,26 @@ function SelectGuideForm({
       setGuideId(g?._id);
     }
   };
-
+  const [failed, setFailed] = useState<boolean>(false)
   useEffect(() => {
     if (!loading && data) {
       setAvailableGuide(data.getAvailableGuide);
     }
-    if (error) console.log(error?.graphQLErrors);
+    if (error) {
+      setFailed(true)
+      console.log(error?.graphQLErrors)
+    };
   }, [loading, data, error]);
 
   return (
     <Grid container direction="row" alignItems="center" justify="flex-start">
+      <Alert
+        closeAlert={() => setFailed(false)}
+        alert={failed}
+        title="ผิดพลาด"
+        text="กรุณาลองใหม่อีกครั้ง"
+        buttonText="ปิด"
+      />
       <Grid container spacing={1} alignItems="center">
         <Grid item>
           <PersonPin fontSize="large" />

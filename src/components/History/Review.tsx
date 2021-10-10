@@ -10,8 +10,6 @@ import {
   Backdrop,
   CircularProgress,
 } from "@material-ui/core";
-import { makeStyles, createStyles } from "@material-ui/styles";
-import { Theme } from "pretty-format";
 import { useState } from "react";
 import Appointment from "../../models/Appointment";
 import Alert from "../Alert/Alert";
@@ -24,11 +22,16 @@ interface ReviewProps {
   open: boolean;
   setOpen: any;
   setAlert: any;
-  refresh: any
+  refresh: any;
 }
 
-function Review({ appointment, open, setOpen, setAlert, refresh }: ReviewProps) {
-
+function Review({
+  appointment,
+  open,
+  setOpen,
+  setAlert,
+  refresh,
+}: ReviewProps) {
   const [rate, setRate] = useState<number>(0);
   const [comment, setComment] = useState<string | undefined>();
   const [alertData, setAlertData] = useState<boolean>(false);
@@ -41,26 +44,28 @@ function Review({ appointment, open, setOpen, setAlert, refresh }: ReviewProps) 
         console.log(data);
       },
     });
-  const submit = () => {
+
+  const submit = async () => {
     if (rate !== 0) {
       let newReview = {
         Star: rate,
         Comment: comment,
       };
 
-      addReview({
+      await addReview({
         variables: {
           id: appointment._id,
           reviewinput: { ...newReview },
         },
       });
+      while (mutationLoading) {}
 
       if (mutationError) {
         console.log(mutationError?.graphQLErrors);
-        setFailed(true)
+        setFailed(true);
       } else {
         setAlert(true);
-        refresh()
+        refresh();
         setOpen(false);
       }
     } else {
@@ -103,10 +108,14 @@ function Review({ appointment, open, setOpen, setAlert, refresh }: ReviewProps) 
       </DialogContent>
       <DialogActions>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
-            ยกเลิก
-          </Button>
-          <Button onClick={submit} color="primary">
+          <Button onClick={() => setOpen(false)}>ยกเลิก</Button>
+          <Button
+            onClick={submit}
+            style={{
+              backgroundColor: "#7C5D92",
+              color: "white",
+            }}
+          >
             ยืนยัน
           </Button>
         </DialogActions>

@@ -13,6 +13,7 @@ import { history } from "../../helper/history";
 import convertToThaiDate from "../../hooks/convertToThaiDate";
 import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
+import Alert from "../Alert/Alert";
 import BottomBar from "../BottomBar/BottomBar";
 import TopBar from "../TopBar/TopBar";
 import AppointmentCard from "./AppointmentCard";
@@ -49,21 +50,28 @@ function HistoryPage() {
   const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
   const id = localStorage.getItem("_id");
 
-  const { loading, error, data, refetch } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
-    variables: {
-      getAllAppointmentByCustomerCustomerId: id,
-    },pollInterval: 60000,
-  });
+  const { loading, error, data, refetch } = useQuery(
+    GET_ALLAPPOINTMENT_BY_CUSTOMER,
+    {
+      variables: {
+        getAllAppointmentByCustomerCustomerId: id,
+      },
+      pollInterval: 60000,
+    }
+  );
 
   const [appointment, setAppointment] = useState<Appointment[]>(
     data !== undefined ? data.getAllAppointmentByCustomer : []
   );
-
+  const [failed, setFailed] = useState<boolean>(false);
   useEffect(() => {
     if (!loading && data) {
       setAppointment(data.getAllAppointmentByCustomer);
     }
-    if (error) console.log(error?.graphQLErrors);
+    if (error) {
+      setFailed(true);
+      console.log(error?.graphQLErrors);
+    }
   }, [loading, data, error]);
 
   return (
@@ -75,6 +83,13 @@ function HistoryPage() {
         alignItems="center"
         justify="space-between"
       >
+        <Alert
+          closeAlert={() => setFailed(false)}
+          alert={failed}
+          title="ผิดพลาด"
+          text="กรุณาลองใหม่อีกครั้ง"
+          buttonText="ปิด"
+        />
         <Grid item className={classes.main}>
           {!loading ? (
             <>

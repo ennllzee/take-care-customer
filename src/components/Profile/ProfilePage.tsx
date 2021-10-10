@@ -13,6 +13,7 @@ import {
   TextFieldProps,
   Typography,
   Divider,
+  Backdrop,
 } from "@material-ui/core";
 import {
   Person,
@@ -64,7 +65,8 @@ function ProfilePage() {
   const accessToken = localStorage.getItem("accessToken");
   const id = localStorage.getItem("_id");
 
-  const { GET_SINGLE_CUSTOMER, UPDATE_CUSTOMER, UPLOAD_PROFILE } = useCustomerApi();
+  const { GET_SINGLE_CUSTOMER, UPDATE_CUSTOMER, UPLOAD_PROFILE } =
+    useCustomerApi();
 
   const { loading, error, data } = useQuery(GET_SINGLE_CUSTOMER, {
     variables: { getCustomerId: id },
@@ -89,6 +91,10 @@ function ProfilePage() {
     />
   );
 
+  const [edit, setEdit] = useState<boolean>(false);
+
+  const [failed, setFailed] = useState<boolean>(false);
+
   useEffect(() => {
     if (!loading && data) {
       setUser(data.getCustomer);
@@ -100,19 +106,18 @@ function ProfilePage() {
       setGender(data.getCustomer?.Gender);
       setDisorder(data.getCustomer?.CongenitalDisorders);
       setEmerNum(data.getCustomer?.EmergencyTel);
-      setAvatar(
-        data.getCustomer.Avatar !== null
-          ? `data:${data.getCustomer?.Avatar?.mimetype};base64,${data.getCustomer?.Avatar?.data}`
-          : `data:${undefined};base64,${undefined}`
-      );
+      setAvatar(undefined);
       setProfile(
         data.getGuide?.Avatar !== null
           ? `data:${data.getCustomer?.Avatar?.mimetype};base64,${data.getCustomer?.Avatar?.data}`
           : `data:${undefined};base64,${undefined}`
       );
     }
-    if (error) console.log(error?.graphQLErrors);
-  }, [loading, data, error]);
+    if (error) {
+      setFailed(true);
+      console.log(error?.graphQLErrors);
+    }
+  }, [loading, data, error, edit]);
 
   const [firstName, setFirstName] = useState<string | undefined>(
     user?.FirstName
@@ -130,17 +135,13 @@ function ProfilePage() {
     user?.CongenitalDisorders
   );
   const [gender, setGender] = useState<string | undefined>(user?.Gender);
-  const [avatar, setAvatar] = useState<any | undefined>(
-    user?.Avatar !== null
-      ? `data:${user?.Avatar?.mimetype};base64,${user?.Avatar?.data}`
-      : `data:${undefined};base64,${undefined}`
-  );
+  const [avatar, setAvatar] = useState<any | undefined>(undefined);
   const [profile, setProfile] = useState<any | undefined>(
     user?.Avatar !== null
       ? `data:${user?.Avatar?.mimetype};base64,${user?.Avatar?.data}`
       : `data:${undefined};base64,${undefined}`
   );
-  const [edit, setEdit] = useState<boolean>(false);
+  
 
   useEffect(() => {
     if (accessToken === null || id === null) {
@@ -174,19 +175,23 @@ function ProfilePage() {
   const [alert, setAlert] = useState<boolean>(false);
   const [alertData, setAlertData] = useState<boolean>(false);
 
-  const [updateProfile] = useMutation(UPDATE_CUSTOMER, {
+  const [updateProfile, { loading: mutationLoading, error: mutationError }] =
+    useMutation(UPDATE_CUSTOMER, {
+      onCompleted: (data: any) => {
+        console.log(data);
+      },
+    });
+
+  const [
+    updateProfileImg,
+    { loading: mutationImgLoading, error: mutationImgError },
+  ] = useMutation(UPLOAD_PROFILE, {
     onCompleted: (data: any) => {
       console.log(data);
     },
   });
 
-  const [updateProfileImg] = useMutation(UPLOAD_PROFILE, {
-    onCompleted: (data: any) => {
-      console.log(data);
-    },
-  });
-
-  const editProfile = () => {
+  const editProfile = async () => {
     if (
       firstName !== "" &&
       lastName !== "" &&
@@ -195,15 +200,15 @@ function ProfilePage() {
       gender !== "" &&
       email !== ""
     ) {
-      if(avatar.type){
-        updateProfileImg({ 
+      if (avatar) {
+        await updateProfileImg({
           variables: {
             addCustomerProfileFile: avatar,
             addCustomerProfileCustomerId: id,
           },
         });
       }
-      updateProfile({
+      await updateProfile({
         variables: {
           updateCustomerId: id,
           updateCustomerInput: {
@@ -223,19 +228,49 @@ function ProfilePage() {
           },
         ],
       });
-
-      setAlert(true);
-      setConfirmEdit(false);
-      setEdit(false);
+      while (mutationImgLoading || mutationLoading) {}
+      if (mutationImgError || mutationError) {
+        if(mutationImgError) console.log(mutationImgError.graphQLErrors)
+        if(mutationError) console.log(mutationError.graphQLErrors)
+        setFailed(true)
+      } else {
+        setAlert(true);
+        setConfirmEdit(false);
+        setEdit(false);
+      }
     } else {
       setAlertData(true);
       setConfirmEdit(false);
     }
   };
+  const [close,setClose] = useState<boolean>(false)
 
   return (
     <Grid>
       <TopBar page="ข้อมูลส่วนตัว" />
+      <Submit
+          submit={close}
+          title="ข้อมูลส่วนตัว"
+          text="ต้องการปิดตารางงานใช่หรือไม่? ข้อมูลที่ทำการแก้ไขจะไม่ถูกบันทึก กรุณาทำการบันทึกก่อนออกจากโหมดแก้ไข"
+          denyText="กลับ"
+          submitText="ออก"
+          denyAction={() => setClose(false)}
+          submitAction={() => setEdit(false)}
+        />
+      <Backdrop
+        open={
+          mutationLoading || mutationImgLoading
+        }
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Alert
+        closeAlert={() => setFailed(false)}
+        alert={failed}
+        title="ผิดพลาด"
+        text="กรุณาลองใหม่อีกครั้ง"
+        buttonText="ปิด"
+      />
       <Grid
         container
         direction="column"
@@ -591,10 +626,10 @@ function ProfilePage() {
                   alignItems="center"
                   style={{ padding: "2%" }}
                 >
-                  <Grid item >
+                  <Grid item>
                     {edit && (
                       <Button
-                        onClick={() => setEdit(false)}
+                        onClick={() => setClose(true)}
                         type="button"
                         // fullWidth={true}
                       >

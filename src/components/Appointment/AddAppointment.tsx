@@ -107,11 +107,15 @@ function AddAppointment({
         },
       ],
     });
-    console.log(mutationData);
+    while(mutationLoading){
+
+    }
+    
     if (mutationError) {
       console.log(mutationError?.graphQLErrors);
       setFailed(true);
     } else {
+      console.log(mutationData)
       setSuccess(true);
       refresh()
       setOpen(false);
@@ -128,7 +132,10 @@ function AddAppointment({
         Customer: data.getCustomer,
       });
     }
-    if (error) console.log(error?.graphQLErrors);
+    if (error) {
+      console.log(error?.graphQLErrors)
+      setFailed(true)
+    };
   }, [loading, data, error]);
 
   useEffect(() => {

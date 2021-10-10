@@ -83,7 +83,7 @@ function RegisterPage() {
 
   const { SIGNUP_CUSTOMER, UPLOAD_PROFILE } = useCustomerApi();
 
-  const [setUploadFile] = useMutation(UPLOAD_PROFILE, {
+  const [setUploadFile, { loading: mutationFileLoading, error: mutationFileError }] = useMutation(UPLOAD_PROFILE, {
     onCompleted: (data) => console.log(data),
   });
 
@@ -93,7 +93,7 @@ function RegisterPage() {
     useMutation(SIGNUP_CUSTOMER, {
       onCompleted: (data) => {
         console.log(data);
-        setUploadFile({
+        setUploadFile({ 
           variables: {
             addCustomerProfileFile: user.Avatar,
             addCustomerProfileCustomerId: data.createdCustomer._id,
@@ -107,8 +107,12 @@ function RegisterPage() {
     await createCustomer({
       variables: { createdCustomerInput: { ...user, Avatar: null } },
     });
-    if(mutationError){
-      console.log(mutationError?.graphQLErrors);
+    while(mutationLoading || mutationFileLoading){
+
+    }
+    if(mutationError || mutationFileError){
+      if(mutationFileError) console.log(mutationFileError.graphQLErrors)
+        if(mutationError) console.log(mutationError.graphQLErrors)
       setFailed(true)
     }else{
       setAlert(true);
@@ -178,7 +182,7 @@ function RegisterPage() {
           denyAction={() => setSubmit(false)}
           submitAction={onSubmit}
         />
-        <Backdrop open={mutationLoading}>
+        <Backdrop open={mutationLoading || mutationFileLoading}>
           <CircularProgress color="inherit" />
         </Backdrop>
         <Alert

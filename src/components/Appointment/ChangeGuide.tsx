@@ -123,7 +123,10 @@ function ChangeGuide({
     if (!loading && data) {
       setAvailableGuide(data.getAvailableGuide);
     }
-    if (error) console.log(error?.graphQLErrors);
+    if (error) {
+      setFailed(true)
+      console.log(error?.graphQLErrors)
+    };
   }, [loading, data, error]);
 
   const [confirmSubmit, setConfirmSubmit] = useState<boolean>(false);
@@ -150,6 +153,9 @@ function ChangeGuide({
         },
       ],
     });
+    while(mutationLoading){
+
+    }
     if (mutationError) {
       console.log(mutationError.graphQLErrors);
       setFailed(true);

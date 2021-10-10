@@ -173,6 +173,9 @@ function AppointmentCard({
         },
       ],
     });
+    while(mutationLoading){
+
+    }
     if (mutationError) {
       console.log(mutationError?.graphQLErrors);
       setFailed(true);
@@ -211,12 +214,14 @@ function AppointmentCard({
         },
       ],
     });
+    while (mutationStartLoading) {}
     if (mutationStartError) {
       console.log(mutationStartError.graphQLErrors);
       setFailedStart(true);
+    } else {
+      refresh();
+      setStartConfirm(false);
     }
-    refresh();
-    setStartConfirm(false);
   };
 
   return (
@@ -429,7 +434,7 @@ function AppointmentCard({
         )}
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent style={{ padding: '2%', paddingTop: 0 }}>
+        <CardContent style={{ padding: "2%", paddingTop: 0 }}>
           <Grid
             container
             direction="row"
@@ -443,9 +448,19 @@ function AppointmentCard({
                 alignItems="center"
                 justify="space-between"
               >
-                <Grid item xs={4} md={3} lg={2} style={{ backgroundColor: "#EFEFEF" }}>
+                <Grid
+                  item
+                  xs={4}
+                  md={3}
+                  lg={2}
+                  style={{ backgroundColor: "#EFEFEF" }}
+                >
                   <Image
-                    src={appointment.Guide?.Avatar!==null ? `data:${appointment.Guide?.Avatar.mimetype};base64,${appointment.Guide?.Avatar.data}` : `data:${undefined};base64,${undefined}` }
+                    src={
+                      appointment.Guide?.Avatar !== null
+                        ? `data:${appointment.Guide?.Avatar.mimetype};base64,${appointment.Guide?.Avatar.data}`
+                        : `data:${undefined};base64,${undefined}`
+                    }
                     cover={true}
                   />
                 </Grid>
@@ -522,11 +537,13 @@ function AppointmentCard({
                       <Button
                         type="button"
                         fullWidth={true}
-                        style={{
-                          // backgroundColor: "#D86060",
-                          // color: "white",
-                          // padding: "3%",
-                        }}
+                        style={
+                          {
+                            // backgroundColor: "#D86060",
+                            // color: "white",
+                            // padding: "3%",
+                          }
+                        }
                         onClick={() => setConfirmDelete(true)}
                       >
                         <Grid
@@ -551,11 +568,13 @@ function AppointmentCard({
                         <Button
                           type="button"
                           fullWidth={true}
-                          style={{
-                            // backgroundColor: "#4CB85C",
-                            // color: "white",
-                            // padding: "3%",
-                          }}
+                          style={
+                            {
+                              // backgroundColor: "#4CB85C",
+                              // color: "white",
+                              // padding: "3%",
+                            }
+                          }
                           onClick={() => setChangeGuide(true)}
                         >
                           <Grid
@@ -603,11 +622,13 @@ function AppointmentCard({
                 <Button
                   type="button"
                   fullWidth={true}
-                  style={{
-                    // backgroundColor: "#D86060",
-                    // color: "#D86060",
-                    // padding: "3%",
-                  }}
+                  style={
+                    {
+                      // backgroundColor: "#D86060",
+                      // color: "#D86060",
+                      // padding: "3%",
+                    }
+                  }
                   onClick={() => setConfirmDelete(true)}
                 >
                   <Grid
@@ -637,11 +658,13 @@ function AppointmentCard({
                   <Button
                     type="button"
                     fullWidth={true}
-                    style={{
-                      // backgroundColor: "#4CB85C",
-                      // color: "white",
-                      // padding: "3%",
-                    }}
+                    style={
+                      {
+                        // backgroundColor: "#4CB85C",
+                        // color: "white",
+                        // padding: "3%",
+                      }
+                    }
                     onClick={() => setChangeGuide(true)}
                   >
                     <Grid

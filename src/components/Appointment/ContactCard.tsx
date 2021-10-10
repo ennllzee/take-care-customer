@@ -143,7 +143,7 @@ function ContactCard({
             <Star style={{color: "#FFC300"}}/>
               <Typography variant="body1">
                 {" "}
-                {user?.Rating !== undefined && user?.Rating !== 0
+                {user?.Rating !== null && user?.Rating !== 0
                   ? user?.Rating
                   : "new guide"}
               </Typography>

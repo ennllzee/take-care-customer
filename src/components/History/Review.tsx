@@ -50,7 +50,7 @@ function Review({ appointment, open, setOpen, setAlert, refresh }: ReviewProps) 
         console.log(data);
       },
     });
-  const submit = async () => {
+  const submit = () => {
     if (rate !== 0) {
       let newReview = {
         Star: rate,

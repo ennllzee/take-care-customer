@@ -103,12 +103,12 @@ function ProfilePage() {
       setAvatar(
         data.getCustomer.Avatar !== null
           ? `data:${data.getCustomer?.Avatar?.mimetype};base64,${data.getCustomer?.Avatar?.data}`
-          : undefined
+          : `data:${undefined};base64,${undefined}`
       );
       setProfile(
         data.getGuide?.Avatar !== null
           ? `data:${data.getCustomer?.Avatar?.mimetype};base64,${data.getCustomer?.Avatar?.data}`
-          : undefined
+          : `data:${undefined};base64,${undefined}`
       );
     }
     if (error) console.log(error?.graphQLErrors);
@@ -133,12 +133,12 @@ function ProfilePage() {
   const [avatar, setAvatar] = useState<any | undefined>(
     user?.Avatar !== null
       ? `data:${user?.Avatar?.mimetype};base64,${user?.Avatar?.data}`
-      : undefined
+      : `data:${undefined};base64,${undefined}`
   );
   const [profile, setProfile] = useState<any | undefined>(
     user?.Avatar !== null
       ? `data:${user?.Avatar?.mimetype};base64,${user?.Avatar?.data}`
-      : undefined
+      : `data:${undefined};base64,${undefined}`
   );
   const [edit, setEdit] = useState<boolean>(false);
 

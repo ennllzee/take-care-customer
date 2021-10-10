@@ -445,8 +445,7 @@ function AppointmentCard({
               >
                 <Grid item xs={4} md={3} lg={2} style={{ backgroundColor: "#EFEFEF" }}>
                   <Image
-                    src={appointment.Guide?.Avatar!==null ? `data:${appointment.Guide?.Avatar.mimetype};base64,${appointment.Guide?.Avatar.data}` : ""}
-                    loading={appointment.Guide?.Avatar!==null ? false : true}
+                    src={appointment.Guide?.Avatar!==null ? `data:${appointment.Guide?.Avatar.mimetype};base64,${appointment.Guide?.Avatar.data}` : `data:${undefined};base64,${undefined}` }
                     cover={true}
                   />
                 </Grid>

@@ -27,16 +27,7 @@ interface ReviewProps {
   refresh: any
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: "100vw",
-    },
-  })
-);
-
 function Review({ appointment, open, setOpen, setAlert, refresh }: ReviewProps) {
-  const classes = useStyles();
 
   const [rate, setRate] = useState<number>(0);
   const [comment, setComment] = useState<string | undefined>();
@@ -83,7 +74,6 @@ function Review({ appointment, open, setOpen, setAlert, refresh }: ReviewProps) 
       aria-describedby="alert-dialog-description"
       aria-labelledby="alert-dialog-title"
       open={open}
-      className={classes.root}
       fullWidth={true}
     >
       <DialogTitle id="alert-dialog-title">ประเมินความพึงพอใจ</DialogTitle>

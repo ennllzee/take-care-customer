@@ -80,7 +80,6 @@ function TrackingPage({ id }: TrackingPageProps) {
   );
 
   useEffect(() => {
-    console.log(loading);
     if (!loading && data) {
       setAppointment(data.getAppointment);
     }

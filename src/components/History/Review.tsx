@@ -57,10 +57,10 @@ function Review({ appointment, open, setOpen, setAlert, refresh }: ReviewProps) 
         Comment: comment,
       };
 
-      await addReview({
+      addReview({
         variables: {
-          updateAppointmentRecordId: appointment._id,
-          updateAppointmentRecordRecordinput: { ...newReview },
+          id: appointment._id,
+          reviewinput: { ...newReview },
         },
       });
 

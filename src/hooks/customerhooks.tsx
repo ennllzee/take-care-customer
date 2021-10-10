@@ -208,6 +208,8 @@ const useCustomerApi = () => {
             mimetype
             data
           }
+          Rating
+          Tips
         }
         Department {
           Name
@@ -233,6 +235,7 @@ const useCustomerApi = () => {
         Period
         CreatedAt
         UpdatedAt
+        Price
       }
     }
   `;
@@ -285,13 +288,10 @@ const useCustomerApi = () => {
 
   const UPDATE_APPOINTMENT_REVIEW = gql`
     mutation UpdateAppointmentReviewMutation(
-      $updateAppointmentReviewId: ID!
-      $updateAppointmentReviewReviewinput: ReviewInput
+      $id: ID!
+      $reviewinput: ReviewInput
     ) {
-      updateAppointmentReview(
-        _id: $updateAppointmentReviewId
-        reviewinput: $updateAppointmentReviewReviewinput
-      ) {
+      updateAppointmentReview(_id: $id, reviewinput: $reviewinput) {
         _id
       }
     }

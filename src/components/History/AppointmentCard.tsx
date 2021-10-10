@@ -235,7 +235,7 @@ function AppointmentCard({ appointment, refresh }: AppointmentCardProps) {
               <Typography variant="body1">ค่าบริการ:</Typography>
             </Grid>
             <Grid item xs={7}>
-              <Typography variant="body1">250 บาท</Typography>
+              <Typography variant="body1">{appointment.Price}</Typography>
             </Grid>
             <Grid item xs={5}>
               <Typography variant="body1" align="left">

@@ -336,15 +336,14 @@ function AppointmentCard({
                   label="รอการตอบรับจากไกด์"
                   className={classes.wait}
                 />
-              ) : new Date(
+              ) : (new Date(
                   moment(appointment.AppointTime)
                     .subtract(15, "minutes")
                     .format("LLL")
                 ) <= new Date(time) &&
                 new Date(
                   moment(appointment.AppointTime).add(1, "hours").format("LLL")
-                ) >= new Date(time) ? (
-                appointment.Status.Tag === "Guide Confirm" && (
+                ) >= new Date(time) && appointment.Status.Tag === "Guide Confirm") ? (
                   <Grid item xs={12}>
                     <Typography align="center">
                       <Button
@@ -357,14 +356,14 @@ function AppointmentCard({
                       </Button>
                     </Typography>
                   </Grid>
-                )
-              ) : appointment.Status.Tag === "Guide Confirm" &&
+              ) : (appointment.Status.Tag === "Guide Confirm" &&
                 new Date(
                   moment(appointment.AppointTime).format("DD MMMM yyyy")
-                ) >= new Date(moment(new Date()).format("DD MMMM yyyy")) &&
-                new Date(
-                  moment(appointment.AppointTime).add(1, "hours").format("LLL")
-                ) >= new Date(time) ? (
+                ) >= new Date(moment(new Date()).format("DD MMMM yyyy")) && new Date(
+                  moment(appointment.AppointTime)
+                    .subtract(15, "minutes")
+                    .format("LLL")
+                ) > new Date(time)) ? (
                 <>
                   <Chip
                     size="small"
@@ -373,10 +372,10 @@ function AppointmentCard({
                     className={classes.confirm}
                   />
                 </>
-              ) : appointment.Status.Tag === "Guide Reject" &&
+              ) : (appointment.Status.Tag === "Guide Reject" &&
                 new Date(
                   moment(appointment.AppointTime).format("DD MMMM yyyy")
-                ) > new Date(moment(new Date()).format("DD MMMM yyyy")) ? (
+                ) > new Date(moment(new Date()).format("DD MMMM yyyy"))) ? (
                 <>
                   <Chip
                     size="small"
@@ -537,13 +536,6 @@ function AppointmentCard({
                       <Button
                         type="button"
                         fullWidth={true}
-                        style={
-                          {
-                            // backgroundColor: "#D86060",
-                            // color: "white",
-                            // padding: "3%",
-                          }
-                        }
                         onClick={() => setConfirmDelete(true)}
                       >
                         <Grid

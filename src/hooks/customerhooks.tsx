@@ -433,6 +433,8 @@ const useCustomerApi = () => {
             mimetype
             data
           }
+          Tips
+          Rating
         }
         AvailableMorning
         AvailableAfternoon

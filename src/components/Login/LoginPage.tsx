@@ -126,7 +126,7 @@ function LoginPage() {
                 justify="center"
               >
                 <Grid item xs={6} md={6} lg={6}>
-                  <Image src="/logo.png" cover={true} />
+                  <Image src={`https://bn1305files.storage.live.com/y4m-VdmknM_pfPpiJERPIxlLWj2FpheMGzFF9YkvkMvoXUGDoa_GRUjjxP1JMUtB74zJzZp7BNR1038nmT8lQLMJzDaOQOBBFAl76hWq25RWFC3ml12RuYi3y-Je95YLiiaunBh8mBkWMnOy2mAlge6n5KGjIXJM0cXp6L8btV2YfaFzfPkBN6d8_D_hV9hhKG_?width=1080&height=1080&cropmode=none`} cover={true} />
                 </Grid>
                 <Grid item xs={12} md={12} lg={12} className={classes.form}>
                   <Typography

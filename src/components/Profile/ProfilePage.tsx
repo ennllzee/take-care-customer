@@ -255,7 +255,10 @@ function ProfilePage() {
           denyText="กลับ"
           submitText="ออก"
           denyAction={() => setClose(false)}
-          submitAction={() => setEdit(false)}
+          submitAction={() => {
+            setClose(false)
+            setEdit(false)
+          }}
         />
       <Backdrop
         open={

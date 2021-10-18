@@ -599,7 +599,9 @@ function InformationForm({
               </Grid>
             </form>
           ) : (
-            <CircularProgress disableShrink />
+            <Typography align="center">
+              <CircularProgress disableShrink />
+            </Typography>
           )}
         </Paper>
       </Grid>

@@ -141,7 +141,6 @@ function ProfilePage() {
       ? `data:${user?.Avatar?.mimetype};base64,${user?.Avatar?.data}`
       : `data:${undefined};base64,${undefined}`
   );
-  
 
   useEffect(() => {
     if (accessToken === null || id === null) {
@@ -192,6 +191,7 @@ function ProfilePage() {
   });
 
   const editProfile = async () => {
+    setConfirmEdit(false);
     if (
       firstName !== "" &&
       lastName !== "" &&
@@ -230,41 +230,35 @@ function ProfilePage() {
       });
       while (mutationImgLoading || mutationLoading) {}
       if (mutationImgError || mutationError) {
-        if(mutationImgError) console.log(mutationImgError.graphQLErrors)
-        if(mutationError) console.log(mutationError.graphQLErrors)
-        setFailed(true)
+        if (mutationImgError) console.log(mutationImgError.graphQLErrors);
+        if (mutationError) console.log(mutationError.graphQLErrors);
+        setFailed(true);
       } else {
         setAlert(true);
-        setConfirmEdit(false);
         setEdit(false);
       }
     } else {
       setAlertData(true);
-      setConfirmEdit(false);
     }
   };
-  const [close,setClose] = useState<boolean>(false)
+  const [close, setClose] = useState<boolean>(false);
 
   return (
     <Grid>
       <TopBar page="ข้อมูลส่วนตัว" />
       <Submit
-          submit={close}
-          title="ข้อมูลส่วนตัว"
-          text="ต้องการปิดตารางงานใช่หรือไม่? ข้อมูลที่ทำการแก้ไขจะไม่ถูกบันทึก กรุณาทำการบันทึกก่อนออกจากโหมดแก้ไข"
-          denyText="กลับ"
-          submitText="ออก"
-          denyAction={() => setClose(false)}
-          submitAction={() => {
-            setClose(false)
-            setEdit(false)
-          }}
-        />
-      <Backdrop
-        open={
-          mutationLoading || mutationImgLoading
-        }
-      >
+        submit={close}
+        title="ข้อมูลส่วนตัว"
+        text="ต้องการปิดตารางงานใช่หรือไม่? ข้อมูลที่ทำการแก้ไขจะไม่ถูกบันทึก กรุณาทำการบันทึกก่อนออกจากโหมดแก้ไข"
+        denyText="กลับ"
+        submitText="ออก"
+        denyAction={() => setClose(false)}
+        submitAction={() => {
+          setClose(false);
+          setEdit(false);
+        }}
+      />
+      <Backdrop open={mutationLoading || mutationImgLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>
       <Alert

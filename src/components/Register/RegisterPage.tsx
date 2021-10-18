@@ -104,6 +104,7 @@ function RegisterPage() {
 
   //NEEDED BACKEND
   const onSubmit = async () => {
+    setSubmit(false)
     await createCustomer({
       variables: { createdCustomerInput: { ...user, Avatar: null } },
     });
@@ -154,7 +155,6 @@ function RegisterPage() {
               {step === 4 && (
                 <RegisterSubmit
                   user={user}
-                  setUser={setUser}
                   setStep={setStep}
                   setSubmit={setSubmit}
                   displayImg={displayImg}

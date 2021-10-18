@@ -140,6 +140,7 @@ function ChangeGuide({
   };
 
   const updateGuide = async () => {
+    setConfirmSubmit(false);
     await postnewrequest({
       variables: {
         updateAppointmentRequestGuideId: appointment._id,
@@ -164,7 +165,7 @@ function ChangeGuide({
       refresh();
       setOpen(false);
     }
-    setConfirmSubmit(false);
+    
   };
 
   return (

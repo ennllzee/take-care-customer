@@ -88,6 +88,7 @@ function AddAppointment({
   const [failed, setFailed] = useState<boolean>(false);
 
   const submit = async () => {
+    setConfirm(false)
     await createAppointment({
       variables: {
         createAppointmentInput: {

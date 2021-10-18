@@ -5,6 +5,7 @@ import { Badge, Grid, IconButton, Typography } from "@material-ui/core";
 import {
   // Business,
   Event,
+  Help,
   // Help,
   History,
   Person,
@@ -57,10 +58,13 @@ function BottomBar({ page }: BottomBarProps) {
 
   const id = localStorage.getItem("_id");
 
-  const { loading, error, data, refetch } = useQuery(GET_ALLAPPOINTMENT_BY_CUSTOMER, {
-    variables: { getAllAppointmentByCustomerCustomerId: id },
-    pollInterval: 60000,
-  });
+  const { loading, error, data, refetch } = useQuery(
+    GET_ALLAPPOINTMENT_BY_CUSTOMER,
+    {
+      variables: { getAllAppointmentByCustomerCustomerId: id },
+      pollInterval: 60000,
+    }
+  );
   const [appointment, setAppointment] = useState<Appointment[]>(
     data !== undefined ? data.getAllAppointmentByCustomer : []
   );
@@ -80,8 +84,8 @@ function BottomBar({ page }: BottomBarProps) {
             <IconButton
               color="inherit"
               onClick={() => {
-                refetch()
-                history.push(`/profile&=${accessToken}`)
+                refetch();
+                history.push(`/profile&=${accessToken}`);
               }}
               className={classes.icon}
             >
@@ -95,8 +99,8 @@ function BottomBar({ page }: BottomBarProps) {
             <IconButton
               color="inherit"
               onClick={() => {
-                refetch() 
-                history.push(`/appointment&=${accessToken}`)
+                refetch();
+                history.push(`/appointment&=${accessToken}`);
               }}
               className={classes.icon}
             >
@@ -104,7 +108,7 @@ function BottomBar({ page }: BottomBarProps) {
                 <Badge
                   badgeContent={
                     appointment.filter(
-                      (a) => 
+                      (a) =>
                         new Date(
                           moment(a.AppointTime).format("DD MMMM yyyy")
                         ) >=
@@ -133,19 +137,17 @@ function BottomBar({ page }: BottomBarProps) {
             <IconButton
               color="inherit"
               onClick={() => {
-                refetch()
-                history.push(`/history&=${accessToken}`)
+                refetch();
+                history.push(`/history&=${accessToken}`);
               }}
               className={classes.icon}
             >
               <Typography>
-              <Badge
+                <Badge
                   badgeContent={
                     appointment.filter(
-                      (a) => 
-                        a.Review?.Star === null  
-                      &&
-                        a.Status.Tag === "Completed"
+                      (a) =>
+                        a.Review?.Star === null && a.Status.Tag === "Completed"
                     ).length
                   }
                   color="error"
@@ -162,13 +164,18 @@ function BottomBar({ page }: BottomBarProps) {
               onClick={() => history.push(`/hospital&information&=${accessToken}`)}
             >
               <Business />
-            </IconButton>
+            </IconButton> */}
             <IconButton
               color="inherit"
               onClick={() => history.push(`/customer&service&=${accessToken}`)}
             >
-              <Help />
-            </IconButton> */}
+              <Typography>
+                <Help />
+                {page === "Customer Service" && (
+                  <Typography style={{ fontSize: 8 }}>help</Typography>
+                )}
+              </Typography>
+            </IconButton>
           </Grid>
         </Toolbar>
       </AppBar>

@@ -53,6 +53,7 @@ function ProfileCard({ name, gmail, img }: ProfileCardProps) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const logout = async () => {
+    setConfirm(false)
     setLoading(true);
     await localStorage.clear();
     setLoading(false);

@@ -40,15 +40,15 @@ const useStyles = makeStyles((theme: Theme) =>
 function HistoryPage() {
   const classes = useStyles();
   const accessToken = localStorage.getItem("accessToken");
+  const id = localStorage.getItem("_id")
 
   useEffect(() => {
-    if (accessToken === null) {
+    if (accessToken === null || id === null) {
       history.push("/");
     }
-  }, [accessToken]);
+  }, [accessToken, id]);
 
   const { GET_ALLAPPOINTMENT_BY_CUSTOMER } = useCustomerApi();
-  const id = localStorage.getItem("_id");
 
   const { loading, error, data, refetch } = useQuery(
     GET_ALLAPPOINTMENT_BY_CUSTOMER,

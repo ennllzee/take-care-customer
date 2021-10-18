@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface RegisterSubmitProps {
   user: CustomerForm;
-  setUser: any;
   setStep: any;
   setSubmit: any;
   displayImg: any;
@@ -65,7 +64,6 @@ interface RegisterSubmitProps {
 
 function RegisterSubmit({
   user,
-  setUser,
   setStep,
   setSubmit,
   displayImg,

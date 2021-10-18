@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import useCustomerApi from "../../hooks/customerhooks";
 import Appointment from "../../models/Appointment";
 import AppointmentPage from "../Appointment/AppointmentPage";
+import CustomerServicePage from "../CustomerService/CustomerServicePage";
 import HistoryPage from "../History/HistoryPage";
 import ProfilePage from "../Profile/ProfilePage";
 import TrackingPage from "../Tracking/TrackingPage";
@@ -43,6 +44,7 @@ function Home() {
           <Route exact path={`/profile&=${accessToken}`} component={ProfilePage} />
           <Route exact path={`/appointment&=${accessToken}`} component={AppointmentPage} />
           <Route exact path={`/history&=${accessToken}`} component={HistoryPage} />
+          <Route exact path={`/customer&service&=${accessToken}`} component={CustomerServicePage} />
           {appointments?.map((a) => {
             return <Route exact path={`/tracking&=${a._id}`} component={() => <TrackingPage id={a._id}/>}/>
           })}

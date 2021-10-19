@@ -1,7 +1,7 @@
 interface ReportForm {
     Title : string
     Description : string
-    ByCustomer : string | null
+    Reporter : string | null
 }
 
 export default ReportForm

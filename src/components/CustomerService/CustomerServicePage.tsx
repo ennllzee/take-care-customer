@@ -18,6 +18,8 @@ import BottomBar from "../BottomBar/BottomBar";
 import Submit from "../Submit/Submit";
 import TopBar from "../TopBar/TopBar";
 import ReportCard from "./ReportCard";
+import { useMutation } from "@apollo/client";
+import useCustomerApi from "../../hooks/customerhooks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,11 +68,25 @@ function CustomerServicePage() {
     onLogoutSuccess: logout,
   });
 
+  const { DELETE_CUSTOMER } = useCustomerApi();
+  const [DeleteAccount] = useMutation(DELETE_CUSTOMER, {
+    onCompleted: (data) => {
+      console.log(data);
+      setDeleteAlert(true); // for success case
+    },
+    onError: (data) => {
+      console.log(data);
+      setFailed(true); // for error
+    },
+  });
+
   const deleteAccount = () => {
-    //wait for delete
     setDeleteConfirm(false);
-    setDeleteAlert(true); // for success case
-    setFailed(true); // for error
+    DeleteAccount({
+      variables: {
+        deleteCustomerId: id
+      }
+    })
   };
 
   const [open, setOpen] = useState<boolean>(false);

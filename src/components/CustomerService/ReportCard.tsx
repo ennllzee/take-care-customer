@@ -2,6 +2,8 @@ import { Paper, Grid, TextField, Button, Typography } from "@material-ui/core";
 import { useState } from "react";
 import ReportForm from "../../models/ReportForm";
 import Alert from "../Alert/Alert";
+import { useMutation } from "@apollo/client";
+import useCustomerApi from "../../hooks/customerhooks";
 
 interface ReportCardProps {
   setAlert: any;
@@ -15,18 +17,33 @@ function ReportCard({ setAlert, setOpen }: ReportCardProps) {
   const [dataAlert, setDataAlert] = useState<boolean>(false);
   const [failed, setFailed] = useState<boolean>(false);
 
+  const { CREATE_REPORT } = useCustomerApi();
+  const [sendReport] = useMutation(CREATE_REPORT, {
+    onCompleted: (data) => {
+      console.log(data);
+      setAlert(true); //if success
+      setTitle(""); //if success
+      setDetail(""); //if success
+    },
+    onError: (data) => {
+      console.log(data);
+      setFailed(true); //if error
+    },
+  });
+
   const submit = () => {
     if (title !== "" && detail !== "") {
       let newReport: ReportForm = {
         Title: title,
         Description: detail,
-        ByCustomer: id,
+        Reporter: id,
       };
       console.log(newReport); //wait for add report
-      setAlert(true); //if success
-      setTitle(""); //if success
-      setDetail(""); //if success
-      setFailed(true); //if error
+      sendReport({
+        variables: {
+          input: { ...newReport },
+        },
+      });
     } else {
       setDataAlert(true);
     }

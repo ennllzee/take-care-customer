@@ -66,23 +66,6 @@ const useCustomerApi = () => {
     mutation DELETE_CUSTOMER($deleteCustomerId: ID!) {
       deleteCustomer(_id: $deleteCustomerId) {
         _id
-        FirstName
-        LastName
-        Gender
-        DOB
-        PhoneNumber
-        Email
-        EmergencyTel
-        GoogleId
-        Avatar {
-          filename
-          mimetype
-          data
-        }
-        CongenitalDisorders
-        Role
-        CreatedAt
-        UpdatedAt
       }
     }
   `;
@@ -333,7 +316,6 @@ const useCustomerApi = () => {
             Gmail
           }
         }
-        Role
         CreatedAt
         UpdatedAt
       }

@@ -319,18 +319,21 @@ const useCustomerApi = () => {
   `;
 
   const CREATE_REPORT = gql`
-    mutation CreateReportMutation($createReportInput: ReportInput!) {
-      createReport(input: $createReportInput) {
+    mutation CreateReportMutation($input: ReportInput!) {
+      createReport(input: $input) {
         _id
         Title
         Description
-        ByCustomer {
-          _id
+        Reporter {
+          ... on Customer {
+            _id
+            FirstName
+            LastName
+            Email
+            Gmail
+          }
         }
-        ResponseText
-        ResponseByAdmin {
-          _id
-        }
+        Role
         CreatedAt
         UpdatedAt
       }

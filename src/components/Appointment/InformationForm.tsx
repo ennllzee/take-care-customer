@@ -177,14 +177,14 @@ function InformationForm({
   useEffect(() => {
     if (time !== undefined) {
       setTime(
-        new Date(
+        moment(new Date(
           date.getFullYear(),
           date.getMonth(),
           date.getDate(),
           new Date(time).getHours(),
           new Date(time).getMinutes(),
           new Date(time).getMilliseconds()
-        ).toISOString()
+        )).format()
       );
     }
   }, [date, time]);
@@ -204,6 +204,7 @@ function InformationForm({
     );
     setPeriod((event.target as HTMLInputElement).value);
     setTime(
+      moment(
       new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -211,7 +212,7 @@ function InformationForm({
         minTime,
         0,
         0
-      ).toISOString()
+      )).format()
     );
   };
 
@@ -224,8 +225,8 @@ function InformationForm({
 
   const isWrongTime = () => {
     return (
-      time > new Date(moment(date).format("YYYY-MM-DDT" + max)).toISOString() ||
-      time < new Date(moment(date).format("YYYY-MM-DDT" + min)).toISOString()
+      time > moment(new Date(moment(date).format("YYYY-MM-DDT" + max))).format() ||
+      time < moment(new Date(moment(date).format("YYYY-MM-DDT" + min))).format()
     );
   };
 
@@ -476,6 +477,7 @@ function InformationForm({
                         value={time !== undefined ? new Date(time) : null}
                         onChange={(e) => {
                           setTime(
+                            moment(
                             new Date(
                               date.getFullYear(),
                               date.getMonth(),
@@ -483,7 +485,7 @@ function InformationForm({
                               e?.getHours(),
                               e?.getMinutes(),
                               e?.getMilliseconds()
-                            ).toISOString()
+                            )).format()
                           );
                         }}
                         minutesStep={5}

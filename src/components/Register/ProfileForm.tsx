@@ -21,6 +21,7 @@ import convertToThaiDate from "../../hooks/convertToThaiDate";
 import CustomerForm from "../../models/CustomerForm";
 import Alert from "../Alert/Alert";
 import Image from "material-ui-image";
+import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -292,7 +293,7 @@ function ProfileForm({
                 <DatePicker
                   label="วันเกิด"
                   value={dob !== undefined ? new Date(dob) : null}
-                  onChange={(e) => setDOB(e?.toISOString())}
+                  onChange={(e) => setDOB(moment(e).format())}
                   openTo="year"
                   views={["year", "month", "date"]}
                   disableFuture

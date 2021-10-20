@@ -205,7 +205,7 @@ function AppointmentCard({
     await startAppointment({
       variables: {
         updateAppointmentBeginTimeId: appointment._id,
-        updateAppointmentBeginTimeBeginTime: new Date().toISOString(),
+        updateAppointmentBeginTimeBeginTime: moment(new Date()).format(),
       },
       refetchQueries: [
         {

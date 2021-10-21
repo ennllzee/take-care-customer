@@ -21,8 +21,8 @@ const StyledTableRow = withStyles((theme: Theme) =>
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     body: {
-      fontSize: 10,
-      padding: '1%'
+      fontSize: 11,
+      padding: '1%',
     },
   })
 )(TableCell);
@@ -31,8 +31,8 @@ function RecordRow({ key, record }: RecordRowProps) {
   return (
     <StyledTableRow key={key}>
       <StyledTableCell align="center">{moment(record?.At).format('H.mm น.')}</StyledTableCell>
-      <StyledTableCell align="center">{record?.Title}</StyledTableCell>
-      <StyledTableCell align="center">{record?.Description}</StyledTableCell>
+      <StyledTableCell align="left">{record?.Title}</StyledTableCell>
+      <StyledTableCell align="left">{record?.Description}</StyledTableCell>
     </StyledTableRow>
   );
 }

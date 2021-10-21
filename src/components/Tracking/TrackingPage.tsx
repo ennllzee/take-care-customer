@@ -62,7 +62,7 @@ const StyledTableCell = withStyles((theme: Theme) =>
       backgroundColor: "#7C5D92",
       color: theme.palette.common.white,
       fontSize: 12,
-      padding: "1%",
+      padding: '1%'
     },
   })
 )(TableCell);
@@ -122,7 +122,7 @@ function TrackingPage({ id }: TrackingPageProps) {
                   <AppointmentCard appointment={appointment} />
                 </Grid>
                 <Grid item xs={12} md={12} lg={12}>
-                  <TableContainer>
+                  <TableContainer >
                     <Table>
                       <colgroup>
                         <col style={{ width: "20%" }} />
@@ -140,7 +140,7 @@ function TrackingPage({ id }: TrackingPageProps) {
                           </StyledTableCell>
                         </TableRow>
                       </TableHead>
-                      <TableBody>
+                      <TableBody >
                         {appointment?.Record?.map((r, key) => {
                           return <RecordRow key={key} record={r} />;
                         })}

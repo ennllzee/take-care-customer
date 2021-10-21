@@ -13,8 +13,10 @@ RUN npm run build
 
 FROM nginx:1.12-alpine as prod
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /customers/build /usr/share/nginx/html
+COPY --from=build /customers/nginx.conf /etc/nginx/conf.d/default.conf
+
+ENV TZ Asia/Bangkok
 
 EXPOSE 80
 

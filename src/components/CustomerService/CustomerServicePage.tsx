@@ -9,7 +9,10 @@ import {
   ListItem,
   Collapse,
 } from "@material-ui/core";
-import { DeleteForever, Help } from "@material-ui/icons";
+import { 
+  // DeleteForever, 
+  Help 
+} from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { useGoogleLogout } from "react-google-login";
 import { history } from "../../helper/history";
@@ -84,9 +87,9 @@ function CustomerServicePage() {
     setDeleteConfirm(false);
     DeleteAccount({
       variables: {
-        deleteCustomerId: id
-      }
-    })
+        deleteCustomerId: id,
+      },
+    });
   };
 
   const [open, setOpen] = useState<boolean>(false);

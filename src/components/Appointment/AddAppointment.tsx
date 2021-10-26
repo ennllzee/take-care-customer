@@ -28,7 +28,7 @@ interface AddAppointmentProps {
   setOpen: any;
   setSuccess: any;
   appointments: Appointment[];
-  refresh: any
+  refresh: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -58,7 +58,7 @@ function AddAppointment({
   setOpen,
   setSuccess,
   appointments,
-  refresh
+  refresh,
 }: AddAppointmentProps) {
   const classes = useStyles();
   const [step, setStep] = useState<number>(1);
@@ -88,7 +88,7 @@ function AddAppointment({
   const [failed, setFailed] = useState<boolean>(false);
 
   const submit = async () => {
-    setConfirm(false)
+    setConfirm(false);
     await createAppointment({
       variables: {
         createAppointmentInput: {
@@ -108,17 +108,15 @@ function AddAppointment({
         },
       ],
     });
-    while(mutationLoading){
+    while (mutationLoading) {}
 
-    }
-    
     if (mutationError) {
       console.log(mutationError?.graphQLErrors);
       setFailed(true);
     } else {
-      console.log(mutationData)
+      console.log(mutationData);
       setSuccess(true);
-      refresh()
+      refresh();
       setOpen(false);
     }
   };
@@ -134,9 +132,9 @@ function AddAppointment({
       });
     }
     if (error) {
-      console.log(error?.graphQLErrors)
-      setFailed(true)
-    };
+      console.log(error?.graphQLErrors);
+      setFailed(true);
+    }
   }, [loading, data, error]);
 
   useEffect(() => {

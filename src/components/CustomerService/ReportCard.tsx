@@ -38,7 +38,6 @@ function ReportCard({ setAlert, setOpen }: ReportCardProps) {
         Description: detail,
         Reporter: id,
       };
-      console.log(newReport); //wait for add report
       sendReport({
         variables: {
           input: { ...newReport },
